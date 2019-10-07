@@ -13,7 +13,7 @@ const header = require('gulp-header');
 
 const jsFiles = [ '../js/app/**/*.js','!../js/app/compressed.js' ];
 
-const jsProdFile = '../js';
+const jsProdFile = '../../ixviewer/js';
 
 const comment = [
   '/* Created by staff of the U.S. Securities and Exchange Commission. ',
