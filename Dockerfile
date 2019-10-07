@@ -37,9 +37,14 @@ RUN rm /build/edgarrenderer/include/report.css
 RUN rm /build/edgarrenderer/include/Show.js
 RUN rm /build/edgarrenderer/setup.py
 
-# Assemble the new ix viewer files
 WORKDIR /build/ixviewer/
 
+# Remove .map references in minified code
+RUN sed -i '$d' js/lib/bootstrap.min.css
+RUN sed -i '$d' js/lib/bootstrap.min.js
+RUN sed -i '$d' js/lib/pickr.es5.min.js
+
+# Assemble the new ix viewer files
 RUN cp `find -name \*.min.js` /build/edgarrenderer/ixviewer_v2/
 RUN cp `find -name \*.min.css` /build/edgarrenderer/ixviewer_v2/
 RUN cp `find -name \*.woff` /build/edgarrenderer/ixviewer_v2/
