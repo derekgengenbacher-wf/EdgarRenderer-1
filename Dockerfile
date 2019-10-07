@@ -40,9 +40,9 @@ RUN rm /build/edgarrenderer/setup.py
 WORKDIR /build/ixviewer/
 
 # Remove .map references in minified code
-RUN sed -i '$d' js/lib/bootstrap.min.css
-RUN sed -i '$d' js/lib/bootstrap.min.js
-RUN sed -i '$d' js/lib/pickr.es5.min.js
+RUN sed -i /sourceMappingURL=/d js/lib/bootstrap.min.css
+RUN sed -i /sourceMappingURL=/d js/lib/bootstrap.min.js
+RUN sed -i /sourceMappingURL=/d js/lib/pickr.es5.min.js
 
 # Assemble the new ix viewer files
 RUN cp `find -name \*.min.js` /build/edgarrenderer/ixviewer_v2/
