@@ -176,7 +176,7 @@ var TaxonomyPages = {
               tr.appendChild(th);
 
               var td = document.createElement('td');
-              tr.appendChild('td');
+              tr.appendChild(td);
 
               var link = document.createElement('a');
               link.href = current['value'];
