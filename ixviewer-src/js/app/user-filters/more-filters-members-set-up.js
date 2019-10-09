@@ -88,7 +88,7 @@ var UserFiltersMoreFiltersMembersSetUp = {
     var elem = document.getElementById('user-filters-members');
     elem.innerHTML = '';
 
-    UserFiltersMoreFiltersMeasureSetUp.measuresOptions.forEach(function( current, index ) {
+    UserFiltersMoreFiltersMembersSetUp.membersOptions.forEach(function( current, index ) {
 
       var outerDiv = document.createElement('div');
       outerDiv.className = 'd-flex justify-content-between align-items-center w-100 px-2';
