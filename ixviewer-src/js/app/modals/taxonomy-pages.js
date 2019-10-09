@@ -166,13 +166,14 @@ var TaxonomyPages = {
             'value' : discoveredReference[0]['URI']
           }, ];
           
+          // Note: some labels above contain HTML, so label fields need to use .innerHTML
           possibleLabels.forEach(function( current, index, array ) {
             if ( current['type'] === 'link' && current['value'] ) {
               var tr = document.createElement('tr');
               table.appendChild(tr);
 
               var th = document.createElement('th');
-              th.textContent = current['label'];
+              th.innerHTML = current['label'];
               tr.appendChild(th);
 
               var td = document.createElement('td');
@@ -189,7 +190,7 @@ var TaxonomyPages = {
               table.appendChild(tr);
 
               var th = document.createElement('th');
-              th.textContent = current['label'];
+              th.innerHTML = current['label'];
               tr.appendChild(th);
 
               var td = document.createElement('td');
