@@ -203,8 +203,7 @@ var Sections = {
   populateChildCollapse : function( idToPopulate, groupType ) {
     
     var discoveredGroupType = Sections.filterGroupType(groupType);
-    
-    var listHtml = '';
+    var firstListGroup = document.getElementById(idToPopulate).getElementsByClassName('list-group')[0];
     discoveredGroupType
         .forEach(function( current, index ) {
           
@@ -235,27 +234,25 @@ var Sections = {
             
           }
           
-          // listHtml += '<small>';
-          if ( sameBaseRef ) {
-            listHtml += '<li name="'
-                + name
-                + '" contextref="'
-                + contextref
-                + '" selected-taxonomy="false" onclick="Sections.clickEvent(event, this);" onkeyup="Sections.clickEvent(event, this);" class="click list-group-item list-group-item-action d-flex align-items-center" tabindex="2">';
-          } else {
-            listHtml += '<li name="'
-                + name
-                + '" contextref="'
-                + contextref
-                + '" baseref="'
-                + baseref
-                + '" onclick="Sections.clickEvent(event, this);" onkeyup="Sections.clickEvent(event, this);" class="click list-group-item list-group-item-action d-flex align-items-center" tabindex="2">';
-            listHtml += '<i class="fas fa-external-link-alt mr-3"></i>';
+          var li = document.createElement('li');
+          li.setAttribute('name', name);
+          li.setAttribute('contextref', contextref);
+          li.setAttribute('selected-taxonomy', 'false');
+          li.onclick = 'Sections.clickEvent(event, this)';
+          li.onkeyup = 'Sections.clickEvent(event, this)';
+          li.className = 'click list-group-item list-group-item-action d-flex align-items-center';
+          li.tabIndex = 2;
+
+          if ( !sameBaseRef ) {
+            li.setAttribute('baseref', baseref);
+            var icon = document.createElement('i');
+            icon.className = 'fas fa-external-link-alt mr-3';
+            li.appendChild(icon);
           }
-          listHtml += current['shortName'];
-          listHtml += '</li>';
-          // listHtml += '</small>';
-          
+
+          li.textContent = current['shortName'];
+          firstListGroup.appendChild(li);
+
         });
     
     idToPopulate = idToPopulate.substring(1);
