@@ -44,7 +44,7 @@ var UserFiltersMoreFiltersScaleSetUp = {
       var input = document.createElement('input');
       input.className = 'form-check-input';
       input.type = 'checkbox';
-      input.tabindex = 9;
+      input.tabIndex = 9;
       input.title = 'Select/Deselect this option.';
       // index is guaranteed to be numeric by way of forEach construction
       input.onclick = 'UserFiltersMoreFiltersScale.clickEvent(event, this, ' + index + ')';

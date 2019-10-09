@@ -331,7 +331,7 @@ var FiltersValue = {
           button.setAttribute('data-toggle', 'collapse');
           button.setAttribute('data-target', '#collapse-taxonomy');
           button.textContent = 'Contract / Expand';
-          containerElement.appendchild(button);
+          containerElement.appendChild(button);
           
         } else if ( splitText.length > 1 && !showCollapse ) {
           containerElement.textContent = 'Click to see Fact';

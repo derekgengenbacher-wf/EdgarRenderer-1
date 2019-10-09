@@ -105,7 +105,7 @@ var UserFiltersMoreFiltersPeriodSetUp = {
 
       var innerDiv = document.createElement('div');
       innerDiv.className = 'form-check';
-      firstOuterDiv.appendchild(innerDiv);
+      firstOuterDiv.appendChild(innerDiv);
 
       var input = document.createElement('input');
       // index is guaranteed to be numeric by way of forEach construction
@@ -113,7 +113,7 @@ var UserFiltersMoreFiltersPeriodSetUp = {
       input.title = 'Select/Deselect all options below.';
       input.className = 'form-check-input';
       input.type = 'checkbox';
-      input.tabindex = 9;
+      input.tabIndex = 9;
       innerDiv.appendChild(input);
 
       var label = document.createElement('label');
