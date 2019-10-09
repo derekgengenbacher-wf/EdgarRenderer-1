@@ -103,6 +103,10 @@ var ModalsContinuedAt = {
       var stringToReturn = '';
       ModalsContinuedAt.getAllElements = element;
     }
+
+    // Because of the way this code is architected, we must assume `pageXHtml` variables are safe.
+    // I'm not sure where they're generated, but if they are unsafe HTML constructions then this
+    // function will produce vulnerable code, and cannot be made safe without breaking functionality
     
     TaxonomyPages
         .firstPage(
