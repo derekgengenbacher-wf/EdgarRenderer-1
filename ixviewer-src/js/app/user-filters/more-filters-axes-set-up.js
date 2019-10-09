@@ -50,7 +50,7 @@ var UserFiltersMoreFiltersAxesSetUp = {
   populate : function( ) {
 
     var elem = document.getElementById('user-filters-axis');
-    userFilterAxis.innerHTML = '';
+    elem.innerHTML = '';
 
     UserFiltersMoreFiltersAxesSetUp.axisOptions.forEach(function( current, index ) {
       var outerDiv = document.createElement('div');
