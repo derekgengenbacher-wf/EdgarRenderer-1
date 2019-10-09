@@ -164,7 +164,7 @@ var UserFiltersGeneral = {
 
       taglabel.appendChild(tagicon);
       taglabel.appendChild(tagtext);
-      taglink.appendchild(taglabel);
+      taglink.appendChild(taglabel);
 
       var taglinkcontainer = document.getElementById('current-filters-tag');
       taglinkcontainer.innerHTML = '';
@@ -189,7 +189,7 @@ var UserFiltersGeneral = {
 
       taglabel.appendChild(tagicon);
       taglabel.appendChild(tagtext);
-      taglink.appendchild(taglabel);
+      taglink.appendChild(taglabel);
 
       var taglinkcontainer = document.getElementById('current-filters-data');
       taglinkcontainer.innerHTML = '';
