@@ -47,7 +47,7 @@ var UserFiltersMoreFiltersMeasureSetUp = {
       input.tabindex = 9;
       input.title = 'Select/Deselect this option.';
       // index is guaranteed to be numeric by way of forEach construction
-      input.onclick = 'UserFiltersMoreFiltersMeasure.clickEvent(event, this, ' + index + ')'
+      input.onclick = 'UserFiltersMoreFiltersMeasure.clickEvent(event, this, ' + index + ')';
 
       label.textContent = FiltersUnitref.getMeasure(current);
 
