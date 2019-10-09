@@ -48,15 +48,34 @@ var UserFiltersMoreFiltersAxesSetUp = {
   },
   
   populate : function( ) {
-    var innerHtml = '';
+
+    var userFilterAxis = document.getElementById('user-filters-axis');
+    userFilterAxis.innerHTML = '';
+
     UserFiltersMoreFiltersAxesSetUp.axisOptions.forEach(function( current, index ) {
-      innerHtml += '<div class="d-flex justify-content-between align-items-center w-100 px-2">';
-      innerHtml += '<div class="form-check">';
-      innerHtml += '<input  onclick="UserFiltersMoreFiltersAxes.clickEvent(event, this, ' + index
-          + ')" title="Select/Deselect this option." class="form-check-input" type="checkbox" tabindex="9">';
-      innerHtml += '<label class="form-check-label">' + current['label'] + '</label>';
-      innerHtml += '</div></div>';
+      var outerDiv = document.createElement('div');
+      var innerDiv = document.createElement('div');
+      var input = document.createElement('input');
+      var label = document.createElement('label');
+
+      outerDiv.className = 'd-flex justify-content-between align-items-center w-100 px-2';
+      innerDiv.className = 'form-check';
+      input.className = 'form-check-input';
+      label.className = 'form-check-label';
+
+      input.type = 'checkbox';
+      input.tabindex = 9;
+      input.title = 'Select/Deselect this option.';
+      // index is guaranteed to be numeric by way of forEach construction
+      input.onclick = 'UserFiltersMoreFiltersAxes.clickEvent(event, this, ' + index + ')';
+
+      label.textContent = current['label'];
+
+      innerDiv.appendChild(input);
+      innerDiv.appendChild(label);
+      outerDiv.appendChild(innerDiv);
+
+      userFilterAxis.appendChild(outerDiv);
     });
-    document.getElementById('user-filters-axis').innerHTML = innerHtml;
   }
 };
