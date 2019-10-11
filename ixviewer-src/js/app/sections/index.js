@@ -199,41 +199,42 @@ var Sections = {
       Sections.populateChildCollapse(event.dataset['target'], groupType);
     }
   },
-  
+
   populateChildCollapse : function( idToPopulate, groupType ) {
-    
-    var discoveredGroupType = Sections.filterGroupType(groupType);
+
+    idToPopulate = idToPopulate.substring(1);
     var firstListGroup = document.getElementById(idToPopulate).getElementsByClassName('list-group')[0];
+    var discoveredGroupType = Sections.filterGroupType(groupType);
     discoveredGroupType
         .forEach(function( current, index ) {
-          
+
           var name = '';
           var contextref = '';
           var baseref = '';
           var sameBaseRef = true;
-          
+
           if ( current['firstAnchor'] ) {
-            
+
             name = current['firstAnchor']['name'];
             contextref = current['firstAnchor']['contextRef'];
             baseref = current['firstAnchor']['baseRef'];
             if ( current['firstAnchor']['baseRef'] ) {
-              
+
               sameBaseRef = HelpersUrl.getHTMLFileName === current['firstAnchor']['baseRef'];
             }
-            
+
           } else if ( current['uniqueAnchor'] ) {
-            
+
             name = current['uniqueAnchor']['name'];
             contextref = current['uniqueAnchor']['contextRef'];
             baseref = current['uniqueAnchor']['baseRef'];
             if ( current['uniqueAnchor']['baseRef'] ) {
-              
+
               sameBaseRef = HelpersUrl.getHTMLFileName === current['uniqueAnchor']['baseRef'];
             }
-            
+
           }
-          
+
           var li = document.createElement('li');
           li.setAttribute('name', name);
           li.setAttribute('contextref', contextref);
@@ -255,11 +256,9 @@ var Sections = {
 
         });
     
-    idToPopulate = idToPopulate.substring(1);
-    document.getElementById(idToPopulate).getElementsByClassName('list-group')[0].innerHTML = listHtml;
     $('#' + idToPopulate).collapse('show');
   },
-  
+
   emptyChildCollapse : function( idToEmpty ) {
     $('#' + idToEmpty).collapse('hide');
     document.getElementById(idToEmpty).getElementsByClassName('list-group')[0].innerHTML = '';
