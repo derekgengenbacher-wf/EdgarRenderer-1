@@ -239,8 +239,8 @@ var Sections = {
           li.setAttribute('name', name);
           li.setAttribute('contextref', contextref);
           li.setAttribute('selected-taxonomy', 'false');
-          li.onclick = 'Sections.clickEvent(event, this)';
-          li.onkeyup = 'Sections.clickEvent(event, this)';
+          li.setAttribute('onclick', 'Sections.clickEvent(event, this)');
+          li.setAttribute('onkeyup','Sections.clickEvent(event, this)');
           li.className = 'click list-group-item list-group-item-action d-flex align-items-center';
           li.tabIndex = 2;
 
@@ -255,7 +255,7 @@ var Sections = {
           firstListGroup.appendChild(li);
 
         });
-    
+
     $('#' + idToPopulate).collapse('show');
   },
 
