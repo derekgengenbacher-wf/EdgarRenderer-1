@@ -45,7 +45,7 @@ var UserFiltersMoreFiltersMeasureSetUp = {
       input.tabIndex = 9;
       input.title = 'Select/Deselect this option.';
       // index is guaranteed to be numeric by way of forEach construction
-      input.onclick = 'UserFiltersMoreFiltersMeasure.clickEvent(event, this, ' + index + ')';
+      input.setAttribute('onclick','UserFiltersMoreFiltersMeasure.clickEvent(event, this, ' + index + ')');
       innerDiv.appendChild(input);
 
       var label = document.createElement('label');

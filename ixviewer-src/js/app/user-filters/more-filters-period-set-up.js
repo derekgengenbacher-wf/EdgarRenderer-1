@@ -109,7 +109,7 @@ var UserFiltersMoreFiltersPeriodSetUp = {
 
       var input = document.createElement('input');
       // index is guaranteed to be numeric by way of forEach construction
-      input.onclick = 'UserFiltersMoreFiltersPeriod.parentClick(event, this, ' + index + ')';
+      input.setAttribute('onclick','UserFiltersMoreFiltersPeriod.parentClick(event, this, ' + index + ')');
       input.title = 'Select/Deselect all options below.';
       input.className = 'form-check-input';
       input.type = 'checkbox';
@@ -148,7 +148,7 @@ var UserFiltersMoreFiltersPeriodSetUp = {
 
         var optionInput = document.createElement('input');
         // nestedIndex is guaranteed to be numeric by way of forEach construction
-        optionInput.onclick = 'UserFiltersMoreFiltersPeriod.childClick(event, this, ' + index + ', ' + nestedIndex + ')';
+        optionInput.setAttribute('onclick','UserFiltersMoreFiltersPeriod.childClick(event, this, ' + index + ', ' + nestedIndex + ')');
         optionInput.title = 'Select/Deselect this option.';
         optionInput.className = 'form-check-input';
         optionInput.type = 'checkbox';
