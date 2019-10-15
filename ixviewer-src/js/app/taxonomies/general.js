@@ -243,8 +243,9 @@ var TaxonomiesGeneral = {
 
     var badgeContent = TaxonomiesGeneral.getTaxonomyBadge(element);
     if (badgeContent) {
-      var textNode = document.createTextNode(badgeContent);
-      containerDiv.appendChild(textNode);
+      var badgeNode = document.createElement('div');
+      badgeNode.innerHTML = badgeContent;
+      containerDiv.appendChild(badgeNode.firstChild);
     }
 
     var outerP = document.createElement('p');
