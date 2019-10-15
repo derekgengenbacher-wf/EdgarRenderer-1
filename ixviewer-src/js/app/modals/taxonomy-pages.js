@@ -77,7 +77,7 @@ var TaxonomyPages = {
         tr.appendChild(td);
 
         var div = document.createElement('div');
-        div.textContent = current['value'];
+        div.innerHTML = current['value'];
         td.appendChild(div);
 
         if ( current['label'] !== 'Fact' ) {
