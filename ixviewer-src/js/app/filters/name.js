@@ -168,31 +168,31 @@ var FiltersName = {
       
       if ( foundTagInformation && foundTagInformation[0] && foundTagInformation[0]['lang'] ) {
         
-        var containerElement = document.createElement('div');
+        var containerElem = document.createElement('div');
         
         Object.keys(foundTagInformation[0]['lang']).forEach(
             function( current, index ) {
               if ( foundTagInformation[0]['lang'][current]['role']
                   && foundTagInformation[0]['lang'][current]['role']['label'] ) {
                 if ( Object.keys(foundTagInformation[0]['lang']).length === 1 ) {
-                  containerElement.appendChild(document.createTextNode(
+                  containerElem.appendChild(document.createTextNode(
                     foundTagInformation[0]['lang'][current]['role']['label']));
                 } else {
                   var span = document.createElement('span');
                   span.className = 'font-weight-bold';
                   span.textContent = current.toUpperCase();
-                  containerElement.appendChild(span);
-                  containerElement.appendChild(document.createTextNode(
+                  containerElem.appendChild(span);
+                  containerElem.appendChild(document.createTextNode(
                     foundTagInformation[0]['lang'][current]['role']['label']));
                   
                   if ( index < Object.keys(foundTagInformation[0]['lang']).length ) {
-                    containerElement.appendChild(document.createElement('br'));
+                    containerElem.appendChild(document.createElement('br'));
                   }
                 }
               }
               
             });
-        return containerElement.innerHTML;
+        return containerElem.innerHTML;
         
       }
       return null;

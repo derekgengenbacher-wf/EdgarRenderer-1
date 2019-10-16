@@ -164,6 +164,7 @@ var UserFiltersMoreFiltersPeriodSetUp = {
       });
 
       parentDiv.appendChild(firstOuterDiv);
+      parentDiv.appendChild(optionDiv);
     });
   }
 
