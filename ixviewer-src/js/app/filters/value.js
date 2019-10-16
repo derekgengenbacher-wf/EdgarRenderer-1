@@ -322,7 +322,7 @@ var FiltersValue = {
           var div = document.createElement('div');
           div.className = 'collapse d-block collapse-modal-partial';
           div.id = 'collapse-taxonomy';
-          div.textContent = element.textContent;  // unsure whether this should contain HTML
+          div.innerHTML = element.innerHTML;
           containerElement.appendChild(div);
 
           var button = document.createElement('button');
