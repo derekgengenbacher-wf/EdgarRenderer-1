@@ -287,13 +287,12 @@ var ModalsFormInformation = {
       var table = document.createElement('table');
       possibleLabels.forEach(function( current, index, array ) {
 
+        var tr = document.createElement('tr');
+        tr.setAttribute('colspan', 8);  // colspan on a tr element isn't a thing, but reproducing anyway...
+        table.appendChild(tr);
+
         if ( current instanceof Array ) {
-          var tr = document.createElement('tr');
-          tr.setAttribute('colspan', 8);  // colspan on a tr element isn't a thing, but reproducing anyway... 
-          table.appendChild(tr);
-
           current.forEach(function( nestedCurrent, nestedIndex ) {
-
             var th = document.createElement('th');
             th.setAttribute('colspan', 2);
             th.textContent = nestedCurrent['label'];
@@ -309,9 +308,6 @@ var ModalsFormInformation = {
 
             } else if ( nestedCurrent['values'] ) {
 
-              var tr = document.createElement('tr');
-              table.appendChild(tr);
-
               nestedCurrent['values'].forEach(function( finalCurrent, finalIndex ) {
                 var td = document.createElement('td');
                 td.setAttribute('data-name', nestedCurrent['label']+ '-' + finalIndex);
@@ -324,9 +320,6 @@ var ModalsFormInformation = {
         } else {
           if ( current['value'] ) {
             
-            var tr = document.createElement('tr');
-            table.appendChild(tr);
-
             var th = document.createElement('th');
             th.setAttribute('colspan', 1);
             th.textContent = current['label'];
@@ -457,7 +450,7 @@ var ModalsFormInformation = {
       possibleLabels.forEach(function( current, index, array ) {
 
         var tr = document.createElement('tr');
-        table.appehdChild(tr);
+        table.appendChild(tr);
         
         if ( current['bold'] ) {
           var th1 = document.createElement('th');
