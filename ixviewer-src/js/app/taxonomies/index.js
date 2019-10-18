@@ -312,7 +312,6 @@ var Taxonomies = {
 
     // Note: this code is *identical* to the code in taxonomies/general.js. The same comments
     // apply.
-
     var containerElem = document.createElement('div');
 
     var popoverDiv = document.createElement('div');
@@ -331,7 +330,7 @@ var Taxonomies = {
 
     var firstInnerDiv = document.createElement('div');
     firstInnerDiv.className = 'text-center text-popover-clamp-2 py-1';
-    firstInnerDiv.textContent = FiltersValue.getFormattedValue(element);
+    firstInnerDiv.innerHTML = FiltersValue.getFormattedValue(element);
     popoverDiv.appendChild(firstInnerDiv);
 
     var secondInnerDiv = document.createElement('div');

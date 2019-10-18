@@ -56,7 +56,7 @@ var TaxonomiesGeneral = {
 
     var firstInnerDiv = document.createElement('div');
     firstInnerDiv.className = 'text-center text-popover-clamp-2 py-1';
-    firstInnerDiv.textContent = FiltersValue.getFormattedValue(element);
+    firstInnerDiv.innerHTML = FiltersValue.getFormattedValue(element);
     popoverDiv.appendChild(firstInnerDiv);
 
     var secondInnerDiv = document.createElement('div');
@@ -237,7 +237,7 @@ var TaxonomiesGeneral = {
     var innerP = document.createElement('p');
     innerP.className = 'mb-1 font-weight-bold';
     if (labelContent) {
-      innerP.textContent = labelContent;
+      innerP.innerHTML = labelContent;
     }
     containerDiv.appendChild(innerP);
 
@@ -255,7 +255,7 @@ var TaxonomiesGeneral = {
 
     var outerSmall = document.createElement('small');
     outerSmall.className = 'mb-1';
-    outerSmall.textContent = FiltersValue.getFormattedValue(element, false);
+    outerSmall.innerHTML = FiltersValue.getFormattedValue(element, false);
     taxonomyLink.appendChild(outerSmall);
 
     return containerElem.innerHTML;
