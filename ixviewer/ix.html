@@ -6,58 +6,22 @@
 <meta
   name="viewport"
   content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<!-- Check Browser, as well as Hostname and set JS, CSS, Favicon path based on that-->
-<script>
-  (function( ) {
-    var hostName = window.location.hostname;
-    
-    var browserAccepted = function( ) {
-      
-      var ie7 = navigator.appVersion.indexOf("MSIE 7");
-      var ie8 = navigator.appVersion.indexOf("MSIE 8");
-      var ie9 = navigator.appVersion.indexOf("MSIE 9");
-      var userAgent = window.navigator.userAgent.toLowerCase();
-      if ( (ie7 > 0) || (ie8 > 0) || (ie9 > 0) ) {
-        return false;
-      }
-      return true;
-    }();
-    
-    var pathToLibs = './js';
-    if ( hostName === 'www-test.sec.gov' || hostName === 'www.sec.gov' ) {
-      pathToLibs = './ixviewer/js';
-    }
-    if ( browserAccepted ) {
-      
-      // favicon
-      document.write('<link rel="shortcut icon" type="image/x-icon" href=' + pathToLibs + '/image/favicon.ico>');
-      
-      // css
-      document.write('<link rel="stylesheet" href=' + pathToLibs + '/lib/bootstrap.min.css>');
-      document.write('<link rel="stylesheet" href=' + pathToLibs + '/lib/fontawesome/css/all.min.css>');
-      document.write('<link rel="stylesheet" href=' + pathToLibs + '/lib/pickr.min.css>');
-      document.write('<link rel="stylesheet" href=' + pathToLibs + '/css/app.css>');
-      
-      // js
-      document.write('<script type="text/javascript" src=' + pathToLibs + '/lib/jquery-3.3.1.slim.min.js><\/script>');
-      document.write('<script type="text/javascript" src=' + pathToLibs + '/lib/popper.min.js><\/script>');
-      document.write('<script type="text/javascript" src=' + pathToLibs + '/lib/bootstrap.min.js><\/script>');
-      document.write('<script type="text/javascript" src=' + pathToLibs + '/lib/moment.js><\/script>');
-      document.write('<script type="text/javascript" src=' + pathToLibs + '/lib/pickr.es5.min.js><\/script>');
-      
-      var date = new Date();
-      var todaysDate = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
-      document.write('<script type = "text/javascript" defer=true src=' + pathToLibs + '/production.min.js?d='
-          + todaysDate + '><\/script>');
-    } else {
-      // user us on a browser that we do not support
-      var currentUrl = window.location.href.split('?')[0];
-      var browserError = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
-      browserError += '/browser-error.html?url=' + encodeURIComponent(window.location.href);
-      window.location.href = browserError;
-    }
-  })();
-</script>
+
+<link type="image/x-icon" rel="shortcut icon" href="./favicon.ico">
+
+<link type="text/css" rel="stylesheet" href="./bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="./all.min.css">
+<link type="text/css" rel="stylesheet" href="./pickr.min.css">
+<link type="text/css" rel="stylesheet" href="./app.css">
+
+<script type="text/javascript" src="./jquery-3.3.1.slim.min.js"></script>
+<script type="text/javascript" src="./popper.min.js"></script>
+<script type="text/javascript" src="./bootstrap.min.js"></script>
+<script type="text/javascript" src="./moment.js"></script>
+<script type="text/javascript" src="./pickr.es5.min.js"></script>
+  
+<script type="text/javascript" defer=true src="./production.min.js"></script>
+
 <title>Inline XBRL Viewer</title>
 </head>
 <body>
