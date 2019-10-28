@@ -13,7 +13,7 @@ var UserFiltersTagsRadios = {
     // 1 = Standard Only
     // 2 = Custom Only
     
-    var radioValue = parseInt(element.value);
+    var radioValue = parseInt(element.querySelector('input[name="tags-radios"]:checked').value);
     UserFiltersState.setTagsRadio(radioValue);
     UserFiltersState.filterUpdates();
   }

@@ -16,7 +16,7 @@ var UserFiltersDataRadios = {
     // 4 = Negatives Only
     // 5 = Additional Items Only
     
-    var radioValue = parseInt(element.value);
+    var radioValue = parseInt(element.querySelector('input[name="data-radios"]:checked').value);
     UserFiltersState.setDataRadios(radioValue);
     UserFiltersState.filterUpdates();
   }
