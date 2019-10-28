@@ -47,6 +47,7 @@ RUN cp `find -name \*.map` /build/edgarrenderer/ixviewer_v1/
 RUN cp `find -name \*.png` /build/edgarrenderer/ixviewer_v1/
 
 RUN cp ix.html /build/edgarrenderer/ixviewer_v1/
+RUN cp ix_softlink.html /build/edgarrenderer/ixviewer_v1/
 
 WORKDIR /build/ixviewer/
 
