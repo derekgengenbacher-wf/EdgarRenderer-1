@@ -3710,6 +3710,19 @@ var App_About = {
       }
     }
   },
+
+  // Escapes html special chars
+  //
+  // https://stackoverflow.com/a/6234804
+  escapeHtml : function (unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+  },
+
   copyToClipboard : function( ) {
     
     var clipboardText = '';
@@ -3821,15 +3834,15 @@ var App_About = {
     
     // myWindow.document.write("<html><head><title>Copy
     // All</title></head><body><textarea id='popTxtArea' rows='25'
-    // cols='50'>"+clipboardText+"</textarea></body></html>");
+    // cols='50'>"+this.escapeHtml(clipboardText)+"</textarea></body></html>");
     
     if ( $.browser.msie ) {
       myWindow.document.write("<html><head><title>Copy All</title></head>"
-          + "<body><textarea id='popTxtArea' rows='25' cols='50' style='width:98.7%'>" + clipboardText
+          + "<body><textarea id='popTxtArea' rows='25' cols='50' style='width:98.7%'>" + this.escapeHtml(clipboardText)
           + "</textarea></body></html>");
     } else {
       myWindow.document.write("<html><head><title>Copy All</title></head>"
-          + "<body><textarea id='popTxtArea' rows='25' cols='50'>" + clipboardText + "</textarea></body></html>");
+          + "<body><textarea id='popTxtArea' rows='25' cols='50'>" + this.escapeHtml(clipboardText)+ "</textarea></body></html>");
     }
     
     myWindow.focus();

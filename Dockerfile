@@ -25,6 +25,7 @@ RUN npm run start
 WORKDIR /build/
 
 RUN mkdir /build/edgarrenderer/
+RUN mkdir /build/edgarrenderer/ixviewer_v1/
 RUN mkdir /build/edgarrenderer/ixviewer_v2/
 
 RUN cp -r /build/conf/ /build/edgarrenderer/conf/
@@ -37,14 +38,25 @@ RUN rm /build/edgarrenderer/include/report.css
 RUN rm /build/edgarrenderer/include/Show.js
 RUN rm /build/edgarrenderer/setup.py
 
+# Assemble ixviewer-v1 files
+WORKDIR /build/ixviewer-v1
+
+RUN cp `find -name \*.css` /build/edgarrenderer/ixviewer_v1/
+RUN cp `find -name \*.js` /build/edgarrenderer/ixviewer_v1/
+RUN cp `find -name \*.map` /build/edgarrenderer/ixviewer_v1/
+RUN cp `find -name \*.png` /build/edgarrenderer/ixviewer_v1/
+
+RUN cp ix.html /build/edgarrenderer/ixviewer_v1/
+RUN cp ix_softlink.html /build/edgarrenderer/ixviewer_v1/
+
 WORKDIR /build/ixviewer/
 
-# Remove .map references in minified code
+# Remove .map references in minified code for ixviewer-v2
 RUN sed -i /sourceMappingURL=/d js/lib/bootstrap.min.css
 RUN sed -i /sourceMappingURL=/d js/lib/bootstrap.min.js
 RUN sed -i /sourceMappingURL=/d js/lib/pickr.es5.min.js
 
-# Assemble the new ix viewer files
+# Assemble ixviewer-v2 files
 RUN cp `find -name \*.min.js` /build/edgarrenderer/ixviewer_v2/
 RUN cp `find -name \*.min.css` /build/edgarrenderer/ixviewer_v2/
 RUN cp `find -name \*.woff` /build/edgarrenderer/ixviewer_v2/
