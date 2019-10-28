@@ -43,6 +43,7 @@ WORKDIR /build/ixviewer-v1
 
 RUN cp `find -name \*.css` /build/edgarrenderer/ixviewer_v1/
 RUN cp `find -name \*.js` /build/edgarrenderer/ixviewer_v1/
+RUN cp `find -name \*.map` /build/edgarrenderer/ixviewer_v1/
 RUN cp `find -name \*.png` /build/edgarrenderer/ixviewer_v1/
 
 RUN cp ix.html /build/edgarrenderer/ixviewer_v1/
