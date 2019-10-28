@@ -1,4 +1,3 @@
-// Created by Derek Mother Fucking Gengenbacher because the SEC is absolutely terrible at its job
 
 'use strict';
 
