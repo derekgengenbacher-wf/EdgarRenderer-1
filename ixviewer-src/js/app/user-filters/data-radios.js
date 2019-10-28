@@ -8,7 +8,7 @@
 var UserFiltersDataRadios = {
   
   clickEvent : function( event, element ) {
-    
+
     // 0 = All
     // 1 = Amounts Only
     // 2 = Text Only
@@ -16,7 +16,7 @@ var UserFiltersDataRadios = {
     // 4 = Negatives Only
     // 5 = Additional Items Only
     
-    var radioValue = parseInt(element.querySelector('input[name="data-radios"]:checked').value);
+    var radioValue = parseInt(element.value);
     UserFiltersState.setDataRadios(radioValue);
     UserFiltersState.filterUpdates();
   }
