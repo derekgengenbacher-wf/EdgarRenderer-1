@@ -8,7 +8,7 @@
 var UserFiltersTagsRadios = {
   
   clickEvent : function( event, element ) {
-    
+
     // 0 = All
     // 1 = Standard Only
     // 2 = Custom Only

@@ -19,7 +19,7 @@
 <script type="text/javascript" src="./bootstrap.min.js"></script>
 <script type="text/javascript" src="./moment.js"></script>
 <script type="text/javascript" src="./pickr.es5.min.js"></script>
-  
+
 <script type="text/javascript" defer=true src="./production.min.js"></script>
 
 <title>Inline XBRL Viewer</title>
@@ -48,8 +48,6 @@
             data-test="menu-dropdown-link"
             class="nav-link dropdown-toggle click disabled"
             role="button"
-            onclick="FormInformation.init(event, this);"
-            onkeyup="FormInformation.init(event, this);"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
@@ -64,8 +62,6 @@
               id="menu-dropdown-information"
               data-test="menu-dropdown-information"
               class="dropdown-item click"
-              onclick="ModalsFormInformation.clickEvent(event, this)"
-              onkeyup="ModalsFormInformation.clickEvent(event, this)"
               tabindex="1">Information</a>
             <a
               id="form-information-instance"
@@ -89,15 +85,11 @@
               id="menu-dropdown-settings"
               data-test="menu-dropdown-settings"
               class="dropdown-item click"
-              onclick="ModalsSettings.clickEvent(event, this);"
-              onkeyup="ModalsSettings.clickEvent(event, this);"
               tabindex="1">Settings</a>
             <a
               id="form-information-help"
               data-test="form-information-help"
               class="dropdown-item click"
-              onclick="Help.toggle(event, this)"
-              onkeyup="Help.toggle(event, this)"
               tabindex="1">Help</a>
             <span
               id="form-information-version"
@@ -110,8 +102,6 @@
             id="sections-dropdown-link"
             data-test="sections-dropdown-link"
             class="nav-link click disabled meta-required"
-            onclick="Sections.toggle(event, this);"
-            onkeyup="Sections.toggle(event, this);"
             tabindex="2"
             accesskey="2">
             <i class="fas fa-layer-group"></i>
@@ -123,7 +113,6 @@
           <form
             id="global-search-form"
             data-test="global-search-form"
-            onsubmit="Search.submit(event, this); return false;"
             class="my-2 my-lg-0 input-group disabled"
             novalidate>
             <div class="input-group-prepend">
@@ -291,8 +280,8 @@
               tabindex="4">
             <div class="input-group-append">
               <button
+                id="search-btn-clear"
                 data-name="global-search-clear"
-                onclick="Search.clear(event, this);"
                 class="btn btn-outline-light disabled"
                 type="button"
                 tabindex="5">
@@ -327,8 +316,8 @@
           </a>
           <div class="dropdown-menu">
             <form
+              id="nav-filter-dropdown"
               data-name="data-dropdown"
-              onchange="UserFiltersDataRadios.clickEvent(event, this)"
               class="px-2">
               <div class="form-check">
                 <input
@@ -432,8 +421,8 @@
           </a>
           <div class="dropdown-menu">
             <form
+              id="nav-filter-tags-dropdown"
               data-name="tags-dropdown"
-              onchange="UserFiltersTagsRadios.clickEvent(event, this)"
               class="px-2">
               <div class="form-check">
                 <input
@@ -485,7 +474,6 @@
             href="#"
             id="nav-filter-more"
             data-test="nav-filter-more"
-            onclick="UserFiltersGeneral.moreFiltersClickEvent(event, this);"
             class="nav-link dropdown-toggle disabled click"
             role="button"
             data-toggle="dropdown"
@@ -670,7 +658,7 @@
                     <div class="d-flex justify-content-between align-items-center w-100 px-2">
                       <div class="form-check">
                         <input
-                          onclick="UserFiltersMoreFiltersBalances.clickEvent(event, this, 0)"
+                          id="user-filters-balances-debit"
                           title="Select/Deselect this option."
                           class="form-check-input"
                           type="checkbox"
@@ -681,7 +669,7 @@
                     <div class="d-flex justify-content-between align-items-center w-100 px-2">
                       <div class="form-check">
                         <input
-                          onclick="UserFiltersMoreFiltersBalances.clickEvent(event, this, 1)"
+                          id="user-filters-balances-credit"
                           title="Select/Deselect this option."
                           class="form-check-input"
                           type="checkbox"
@@ -700,9 +688,9 @@
           data-test="current-filters-reset"
           class="nav-item d-none my-auto ml-1">
           <a
+            id="current-filters-reset-all"
             href="#"
             data-name="current-filters-reset"
-            onclick="UserFiltersDropdown.resetAll();"
             class="nav-link dropdown-toggle text-danger disabled click"
             tabindex="11"
             accesskey="7">
@@ -738,8 +726,6 @@
             id="facts-menu"
             data-test="facts-menu"
             class="nav-link click"
-            onclick="TaxonomiesMenu.toggle(event, this);"
-            onkeyup="TaxonomiesMenu.toggle(event, this);"
             tabindex="13"
             accesskey="9">
             Facts
@@ -774,16 +760,15 @@
       <div class="mb-2">
         <span class="lead">Tagged Sections</span>
         <a
+          id="sections-menu-toggle"
           class="float-right click color-inherit"
-          tabindex="2"
-          onclick="Sections.toggle(event, this);"
-          onkeyup="Sections.toggle(event, this);">
+          tabindex="2">
           <i class="fas fa-times-circle mt-2"></i>
         </a>
       </div>
       <form
+        id="sections-menu-search-submit"
         data-name="sections-menu-search"
-        onsubmit="SectionsSearch.submit(event, this); return false;"
         class="my-2 my-lg-0 input-group"
         novalidate>
         <div
@@ -837,8 +822,8 @@
           tabindex="2">
         <div class="input-group-append">
           <button
+            id="section-menu-search-btn-clear"
             data-name="sections-menu-search-clear"
-            onclick="SectionsSearch.clear(event, this);"
             class="btn btn-sec"
             type="button"
             tabindex="2">
@@ -980,8 +965,7 @@
         <a
           id="help-menu-close"
           data-test="help-menu-close"
-          class="float-right click"
-          onclick="Help.toggle(event, this)">
+          class="float-right click">
           <i class="fas fa-times-circle mt-2"></i>
         </a>
       </div>
@@ -1308,9 +1292,9 @@
         <div class="mb-2">
           <span class="lead">Facts</span>
           <a
+            id="taxonomy-menu-secondary-toggle"
             data-test="taxonomy-secondary-toggle"
-            class="float-right click"
-            onclick="TaxonomiesMenu.toggle(event, this);">
+            class="float-right click">
             <i class="fas fa-times-circle mt-2"></i>
           </a>
         </div>
@@ -1321,7 +1305,6 @@
           <div class="form-group">
             <select
               id="taxonomies-menu-page-select"
-              onchange="Pagination.goToPage(event,this);"
               class="form-control"
               aria-label="Quickly jump to a page in the Fact Menu."
               tabindex="13">
@@ -1336,7 +1319,7 @@
       id="back-to-top"
       class="d-none">
       <button
-        onclick="Scroll.toTop();"
+        id="back-to-top-btn"
         type="button"
         class="btn btn-sm btn-primary">
         <i class="fas fa-arrow-up"></i>
@@ -1363,16 +1346,14 @@
           class="fas fa-arrows-alt m-1 drag-icon"
           tabindex="14"></i>
         <i
+          id="dialog-box-copy-content"
           title="Click to Copy all Dialog Box Content."
-          onclick="Modals.copyContent(event,this,'form-information-modal-carousel','form-information-copy-paste')"
-          onkeyup="Modals.copyContent(event,this,'form-information-modal-carousel','form-information-copy-paste')"
           class="fas fa-copy m-1 click"
           tabindex="14"></i>
         <i
+          id="dialog-box-close"
           data-name="Form Information Modal"
           title="Click to Close this Dialog Box."
-          onclick="Modals.close(event,this)"
-          onkeyup="Modals.close(event,this)"
           class="fas fa-times m-1 click"
           tabindex="14"></i>
       </div>
@@ -1385,9 +1366,8 @@
         class="form-group d-none">
         <label>Copy and Paste Below Content.</label>
         <a
+          id="dialog-content-copy-content"
           class="float-right click color-inherit"
-          onclick="Modals.copyContent(event,this,'form-information-modal-carousel','form-information-copy-paste')"
-          onkeyup="Modals.copyContent(event,this,'form-information-modal-carousel','form-information-copy-paste')"
           tabindex="14">
           <i class="fas fa-times-circle mt-2"></i>
         </a>
@@ -1488,9 +1468,9 @@
           class="fas fa-arrows-alt m-1 drag-icon"
           tabindex="15"></i>
         <i
+          id="settings-modal-close"
           data-name="Settings Modal"
           title="Click to Close this Dialog Box."
-          onclick="Modals.close(event,this)"
           class="fas fa-times m-1 click"
           tabindex="15"></i>
       </div>
@@ -1504,7 +1484,6 @@
           <select
             id="scroll-position-select"
             class="col-sm-8 form-control"
-            onchange="ModalsSettings.scrollPosition(event, this.value);">
             <option value="start">Top</option>
             <option value="center">Center</option>
           </select> <small class="form-text text-muted">Selecting a fact from the Sections Menu or
@@ -1579,32 +1558,24 @@
           class="fas fa-arrows-alt m-1 drag-icon"
           tabindex="16"></i>
         <i
-          onclick="Pagination.goToTaxonomy(event, this)"
-          onkeyup="Pagination.goToTaxonomy(event, this)"
           id="taxonomy-modal-jump"
           title="Click to see this in the Facts sidebar."
           class="fas fa-directions m-1 click"
           tabindex="16"></i>
         <i
-          onclick="Modals.copyContent(event,this,'taxonomy-modal-carousel','taxonomy-copy-paste')"
-          onkeyup="Modals.copyContent(event,this,'taxonomy-modal-carousel','taxonomy-copy-paste')"
+          id="taxonomy-modal-copy-content"
           class="fas fa-copy m-1 click"
           tabindex="16"></i>
         <i
           id="taxonomy-modal-compress"
-          onclick="Modals.expandToggle(event, this, 'taxonomy-modal', 'taxonomy-modal-expand', 'taxonomy-modal-compress');"
-          onkeyup="Modals.expandToggle(event, this,'taxonomy-modal', 'taxonomy-modal-expand', 'taxonomy-modal-compress');"
           class="fas fa-compress m-1 click d-none"
           tabindex="16"></i>
         <i
           id="taxonomy-modal-expand"
-          onclick="Modals.expandToggle(event, this,'taxonomy-modal', 'taxonomy-modal-expand', 'taxonomy-modal-compress');"
-          onkeyup="Modals.expandToggle(event, this,'taxonomy-modal', 'taxonomy-modal-expand', 'taxonomy-modal-compress');"
           class="fas fa-expand m-1 click"
           tabindex="16"></i>
         <i
-          onclick="Modals.close(event,this);"
-          onkeyup="Modals.close(event,this);"
+          id="taxonomy-modal-close"
           class="fas fa-times m-1 click"
           tabindex="16"></i>
       </div>
@@ -1620,9 +1591,8 @@
         class="form-group d-none">
         <label>Copy and Paste Below Content.</label>
         <a
+          id="taxonomy-copy-content"
           class="float-right click color-inherit"
-          onclick="Modals.copyContent(event,this,'taxonomy-modal-carousel','taxonomy-copy-paste')"
-          onkeyup="Modals.copyContent(event,this,'taxonomy-modal-carousel','taxonomy-copy-paste')"
           tabindex="16">
           <i class="fas fa-times-circle mt-2"></i>
         </a>
@@ -1722,28 +1692,21 @@
           title="Click and drag to move this Dialog Box."
           class="fas fa-arrows-alt m-1 drag-icon"></i>
         <i
-          onclick="Pagination.goToTaxonomy(event, this)"
-          onkeyup="Pagination.goToTaxonomy(event, this)"
-          id="nested-taxonomy-modal-jump"
+          id="taxonomy-nested-modal-jump"
           title="Click to see this in the Facts sidebar."
           class="fas fa-directions m-1 click"
           tabindex="16"></i>
         <i
-          onclick="Modals.copyContent(event,this,'modal-taxonomy-nested-content-carousel','taxonomy-nested-copy-paste')"
-          onkeyup="Modals.copyContent(event,this,'modal-taxonomy-nested-content-carousel','taxonomy-nested-copy-paste')"
+          id="taxonomy-nested-modal-copy-content"
           class="fas fa-copy m-1 click"></i>
         <i
           id="taxonomy-nested-modal-compress"
-          onclick="Modals.expandToggle(event, this,'taxonomy-nested-modal', 'taxonomy-nested-modal-expand', 'taxonomy-nested-modal-compress');"
-          onkeyup="Modals.expandToggle(event, this,'taxonomy-nested-modal', 'taxonomy-nested-modal-expand', 'taxonomy-nested-modal-compress');"
           class="fas fa-compress m-1 click d-none"></i>
         <i
           id="taxonomy-nested-modal-expand"
-          onclick="Modals.expandToggle(event, this,'taxonomy-nested-modal', 'taxonomy-nested-modal-expand', 'taxonomy-nested-modal-compress');"
-          onkeyup="Modals.expandToggle(event, this,'taxonomy-nested-modal', 'taxonomy-nested-modal-expand', 'taxonomy-nested-modal-compress');"
           class="fas fa-expand m-1 click"></i>
         <i
-          onclick="Modals.close(this);"
+          id="taxonomy-nested-moodal-close"
           class="fas fa-times m-1 click"></i>
       </div>
     </div>
@@ -1784,9 +1747,8 @@
         class="form-group d-none">
         <label>Copy and Paste Below Content.</label>
         <a
+          id="taxonomy-nested-copy-content"
           class="float-right click color-inherit"
-          onclick="Modals.copyContent(event,this,'modal-taxonomy-nested-content-carousel','taxonomy-nested-copy-paste')"
-          onkeyup="Modals.copyContent(event,this,'modal-taxonomy-nested-content-carousel','taxonomy-nested-copy-paste')"
           tabindex="14">
           <i class="fas fa-times-circle mt-2"></i>
         </a>

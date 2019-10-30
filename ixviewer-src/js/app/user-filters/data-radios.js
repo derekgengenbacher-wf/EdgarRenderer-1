@@ -8,7 +8,7 @@
 var UserFiltersDataRadios = {
   
   clickEvent : function( event, element ) {
-    
+
     // 0 = All
     // 1 = Amounts Only
     // 2 = Text Only
