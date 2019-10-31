@@ -81,4 +81,8 @@ ARG BUILD_ARTIFACTS_AUDIT=/audit/*
 RUN mkdir /audit/
 RUN pip freeze > /audit/pip.lock
 
-FROM scratch
+FROM drydock-prod.workiva.net/workiva/wf_arelle:latest-release AS wf-arelle-test-consumption
+COPY --from=build /build/dist/*.tar.gz /test.tar.gz
+USER root
+RUN pip install /test.tar.gz
+USER nobody
