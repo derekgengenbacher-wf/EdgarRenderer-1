@@ -68,7 +68,7 @@ $(document).ready(function() {
         .on('click', function(e) {Pagination.goToTaxonomy(e.originalEvent, e.delegateTarget)})
         .on('keyup', function(e) {Pagination.goToTaxonomy(e.originalEvent, e.delegateTarget)});
 
-    // onCLick functions
+    // onClick functions
     $('#back-to-top-btn')
         .on('click', function() {Scroll.toTop()});
     $('#current-filters-reset-all')
@@ -107,4 +107,8 @@ $(document).ready(function() {
         .on('submit', function(e) {Search.submit(e.originalEvent, e.delegateTarget); return false;});
     $('#sections-menu-search-submit')
         .on('submit', function(e) {SectionsSearch.submit(e.originalEvent, e.delegateTarget); return false;});
+
+    // onScroll functions
+    $('#dynamic-xbrl-form')
+        .on('scroll', function(e) {Pagination.goToPage(e.originalEvent, e.delegateTarget);});
 });
