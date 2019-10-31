@@ -98,7 +98,7 @@ $(document).ready(function() {
     $('#nav-filter-tags-dropdown')
         .on('change', function(e) {UserFiltersTagsRadios.clickEvent(e.originalEvent, e.delegateTarget)});
     $('#scroll-position-select')
-        .on('change', function(e) {ModalsSettings.scrollPosition(e.originalEvent, e.delegateTarget);});
+        .on('change', function(e) {ModalsSettings.scrollPosition(e.originalEvent, e.delegateTarget)});
     $('#taxonomies-menu-page-select')
         .on('change', function(e) {Pagination.goToPage(e.originalEvent, e.delegateTarget);});
 
@@ -110,5 +110,5 @@ $(document).ready(function() {
 
     // onScroll functions
     $('#dynamic-xbrl-form')
-        .on('scroll', function(e) {Pagination.goToPage(e.originalEvent, e.delegateTarget);});
+        .on('scroll', function(e) {Scroll.scroll(e.originalEvent, e.delegateTarget)});
 });
