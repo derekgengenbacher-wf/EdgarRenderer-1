@@ -68,7 +68,7 @@ $(document).ready(function() {
         .on('click', function(e) {Pagination.goToTaxonomy(e.originalEvent, e.delegateTarget)})
         .on('keyup', function(e) {Pagination.goToTaxonomy(e.originalEvent, e.delegateTarget)});
 
-    // onCLick functions
+    // onClick functions
     $('#back-to-top-btn')
         .on('click', function() {Scroll.toTop()});
     $('#current-filters-reset-all')
@@ -98,7 +98,7 @@ $(document).ready(function() {
     $('#nav-filter-tags-dropdown')
         .on('change', function(e) {UserFiltersTagsRadios.clickEvent(e.originalEvent, e.delegateTarget)});
     $('#scroll-position-select')
-        .on('change', function(e) {ModalsSettings.scrollPosition(e.originalEvent, e.delegateTarget);});
+        .on('change', function(e) {ModalsSettings.scrollPosition(e.originalEvent, e.delegateTarget)});
     $('#taxonomies-menu-page-select')
         .on('change', function(e) {Pagination.goToPage(e.originalEvent, e.delegateTarget);});
 
@@ -107,4 +107,8 @@ $(document).ready(function() {
         .on('submit', function(e) {Search.submit(e.originalEvent, e.delegateTarget); return false;});
     $('#sections-menu-search-submit')
         .on('submit', function(e) {SectionsSearch.submit(e.originalEvent, e.delegateTarget); return false;});
+
+    // onScroll functions
+    $('#dynamic-xbrl-form')
+        .on('scroll', function(e) {Scroll.scroll(e.originalEvent, e.delegateTarget)});
 });
