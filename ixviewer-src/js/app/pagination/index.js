@@ -299,7 +299,7 @@ var Pagination = {
     lastLi.appendChild(lastLink);
 
     var lastIcon = document.createElement('i');
-    lastIcon.className = 'fas fa-lg fa-angle-right';
+    lastIcon.className = 'fas fa-lg fa-angle-double-right';
     lastLink.appendChild(lastIcon);
 
     return outerDiv;
