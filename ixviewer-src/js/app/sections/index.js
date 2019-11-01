@@ -203,7 +203,8 @@ var Sections = {
   populateChildCollapse : function( idToPopulate, groupType ) {
 
     idToPopulate = idToPopulate.substring(1);
-    var firstListGroup = document.createElement('div');
+    var firstListGroup = document.getElementById(idToPopulate).getElementsByClassName('list-group')[0];
+    firstListGroup.innerHTML = '';
     var discoveredGroupType = Sections.filterGroupType(groupType);
     discoveredGroupType
         .forEach(function( current, index ) {
@@ -255,7 +256,6 @@ var Sections = {
           firstListGroup.appendChild(li);
 
         });
-    document.getElementById(idToPopulate).getElementsByClassName('list-group')[0].innerHTML = firstListGroup.innerHTML;
     $('#' + idToPopulate).collapse('show');
   },
 
