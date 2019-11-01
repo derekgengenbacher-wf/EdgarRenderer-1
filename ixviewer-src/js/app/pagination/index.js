@@ -51,19 +51,21 @@ var Pagination = {
     paginationControls.innerHTML = '';
     paginationControls.appendChild(Pagination.getControlsTemplate());
 
-    var listHtml = '';
-    
     var beginAt = ((currentPage - 1) * Constants.getPaginationPerPage);
     var endAt = beginAt + Constants.getPaginationPerPage;
     
     document.querySelector(Pagination.getPaginationControlsSelector + ' .pagination-info').innerHTML = currentPage
         + ' of ' + Pagination.getTotalPages;
+
+    var paginationSelectorElement = document.querySelector(Pagination.getPaginationSelector);
+    paginationSelectorElement.innerHTML = '';
     
     var arrayForPage = Pagination.getArray.slice(beginAt, endAt);
     arrayForPage.forEach(function( current ) {
-      listHtml += TaxonomiesGeneral.getTaxonomyListTemplate(current, Pagination.getModalAction);
+      paginationSelectorElement.appendChild(
+          TaxonomiesGeneral.getTaxonomyListTemplate(current, Pagination.getModalAction)
+        );
     });
-    document.querySelector(Pagination.getPaginationSelector).innerHTML = listHtml;
   },
   
   firstPage : function( ) {
