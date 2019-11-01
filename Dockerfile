@@ -82,7 +82,12 @@ RUN mkdir /audit/
 RUN pip freeze > /audit/pip.lock
 
 FROM drydock-prod.workiva.net/workiva/wf_arelle:latest-release AS wf-arelle-test-consumption
-COPY --from=build /build/dist/*.tar.gz /test.tar.gz
 USER root
+ARG BUILD_ID
+RUN apt update && \
+    apt full-upgrade -y && \
+    apt autoremove -y && \
+    apt clean all
+COPY --from=build /build/dist/*.tar.gz /test.tar.gz
 RUN pip install /test.tar.gz
 USER nobody
