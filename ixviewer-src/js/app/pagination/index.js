@@ -316,11 +316,11 @@ var Pagination = {
     option.textContent = 'Select a Page';
     pageSelect.appendChild(option);
 
-    for ( var i = 0; i < Pagination.getTotalPages; i++ ) {
+    for ( var i = 1; i <= Pagination.getTotalPages; i++ ) {
       option = document.createElement('option');
-      option.value = i+1;
-      option.textContent = 'Page ' + (i+1);
-      if ( (i + 1) === Pagination.getCurrentPage ) {
+      option.value = i;
+      option.textContent = 'Page ' + i;
+      if ( i === Pagination.getCurrentPage ) {
         option.setAttribute('selected', '');
       }
       pageSelect.appendChild(option);
