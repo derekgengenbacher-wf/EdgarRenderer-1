@@ -198,7 +198,7 @@ var Pagination = {
     prevTaxonomyLink.className = 'page-link';
     prevTaxonomyLink.tabIndex = 13;
     prevTaxonomyLink.addEventListener('click', function(e) {
-      Pagination.prevTaxonomyiousTaxonomy(e, this);
+      Pagination.previousTaxonomy(e, this);
       Pagination.firstPage();
     });
     prevTaxonomyLi.appendChild(prevTaxonomyLink);
