@@ -112,9 +112,7 @@ var Sections = {
       document.getElementById(parentId).classList.remove('d-none');
       var collapseButton = document.querySelector('#' + parentId + ' button');
       
-      // TODO(ojensen): verify that groupType functions as expected in the closure
-      //collapseButton.setAttribute('onClick', 'Sections.prepareChildCollapse(this, "' + groupType + '");');
-      collapseButton.addEventListener('click', function(e) { Sections.prepareChildCollapse(this, groupType)});
+      collapseButton.addEventListener('click', function(e) {Sections.prepareChildCollapse(this, groupType)});
       
       document.getElementById(badgeId).textContent = discoveredGroupType.length;
     }
