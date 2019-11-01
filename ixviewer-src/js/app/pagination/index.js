@@ -318,7 +318,6 @@ var Pagination = {
 
     for ( var i = 0; i < Pagination.getTotalPages; i++ ) {
       option = document.createElement('option');
-      option.setAttribute('selected', '');
       option.value = i+1;
       option.textContent = 'Page ' + (i+1);
       if ( (i + 1) === Pagination.getCurrentPage ) {
