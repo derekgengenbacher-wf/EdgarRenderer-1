@@ -219,7 +219,7 @@ var Pagination = {
     });
     nextTaxonomyLi.appendChild(nextTaxonomyLink);
 
-    var paginationDiv = document.createelement('div');
+    var paginationDiv = document.createElement('div');
     paginationDiv.className = 'pagination-info';
     outerDiv.appendChild(paginationDiv);
 
