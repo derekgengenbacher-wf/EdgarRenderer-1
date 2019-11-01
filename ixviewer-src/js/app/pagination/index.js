@@ -182,7 +182,7 @@ var Pagination = {
     outerDiv.className = 'w-100 d-flex justify-content-between py-2 px-1';
 
     var pageItemDiv = document.createElement('div');
-    outerDiv.appendchild(pageItemDiv);
+    outerDiv.appendChild(pageItemDiv);
 
     var paginationTaxonomyUl = document.createElement('ul');
     paginationTaxonomyUl.className = 'pagination pagination-sm mb-0';
