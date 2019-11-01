@@ -239,8 +239,8 @@ var Sections = {
           li.setAttribute('name', name);
           li.setAttribute('contextref', contextref);
           li.setAttribute('selected-taxonomy', 'false');
-          li.setAttribute('onclick', 'Sections.clickEvent(event, this)');
-          li.setAttribute('onkeyup','Sections.clickEvent(event, this)');
+          li.addEventListener('click', function(e) {Sections.clickEvent(e, this)});
+          li.addEventListener('keyup', function(e) {Sections.clickEvent(e, this)});
           li.className = 'click list-group-item list-group-item-action d-flex align-items-center';
           li.tabIndex = 2;
 
