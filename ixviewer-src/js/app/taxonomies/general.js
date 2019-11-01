@@ -216,12 +216,12 @@ var TaxonomiesGeneral = {
     taxonomyLink.setAttribute('selected-taxonomy', element.getAttribute('selected-taxonomy'));
     taxonomyLink.setAttribute('contextref', element.getAttribute('contextref'));
     taxonomyLink.setAttribute('name', element.getAttribute('name'));
-    taxonomyLink.setAttribute('onclick', 'TaxonomiesGeneral.goTo(event, this, ' + modalAction + ');');
+    taxonomyLink.addEventListener('click', function(e) {TaxonomiesGeneral.goTo(e, this, modalAction)});
 
     var elementId = element.getAttribute('id');
     if ( elementId ) {
       taxonomyLink.setAttribute('data-id', elementId);
-      taxonomyLink.setAttribute('onkeyup','TaxonomiesGeneral.goTo(event, this, ' + modalAction + ');');
+      taxonomyLink.addEventListener('keyup', function(e) {TaxonomiesGeneral.goTo(e, this, modalAction)});
       taxonomyLink.className = 'click list-group-item list-group-item-action flex-column align-items-start px-2 py-2 w-100';
       taxonomyLink.tabIndex = 13;
     } else {
