@@ -62,7 +62,6 @@ var Links = {
           
           var link = document.createElement('a');
           link.className = 'dropdown-item';
-          link.textContent = current;
 
           if ( current !== HelpersUrl.getHTMLFileName ) {
             link.addEventListener('click', function(e) {
@@ -79,6 +78,7 @@ var Links = {
             icon.className = 'fa fa-bookmark';
             link.appendChild(icon);
           }
+          link.appendChild(document.createTextNode(current));
 
           dropdownContent.appendChild(link);
         });
