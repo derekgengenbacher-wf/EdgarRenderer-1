@@ -65,7 +65,9 @@ var Links = {
           link.textContent = current;
 
           if ( current !== HelpersUrl.getHTMLFileName ) {
-            link.onclick = 'Links.clickEventInternal(event, this)';
+            link.addEventListener('click', function(e) {
+              Links.clickEventInternal(e, this);
+            });
             link.href = current;
             link.setAttribute('data-link', current);
           } else {
@@ -77,7 +79,6 @@ var Links = {
             icon.className = 'fa fa-bookmark';
             link.appendChild(icon);
           }
-          link.appendChild(document.createTextNode(current));
 
           dropdownContent.appendChild(link);
         });
