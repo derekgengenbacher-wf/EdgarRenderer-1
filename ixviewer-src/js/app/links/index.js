@@ -55,6 +55,7 @@ var Links = {
     // to the current page. This has been fixed.
 
     var dropdownContent = document.getElementById('links-dropdown-content');
+    dropdownContent.innerHTML = '';
 
     Constants.getMetaSourceDocuments
         .forEach(function( current ) {
