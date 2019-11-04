@@ -186,7 +186,7 @@ var Pagination = {
 
     var paginationTaxonomyUl = document.createElement('ul');
     paginationTaxonomyUl.className = 'pagination pagination-sm mb-0';
-    outerDiv.appendChild(paginationTaxonomyUl);
+    pageItemDiv.appendChild(paginationTaxonomyUl);
 
     var prevTaxonomyLi = document.createElement('li');
     prevTaxonomyLi.className = 'page-item';
@@ -224,7 +224,7 @@ var Pagination = {
     outerDiv.appendChild(paginationDiv);
 
     var nav = document.createElement('nav');
-    paginationDiv.appendChild(nav);
+    outerDiv.appendChild(nav);
 
     var paginationUl = document.createElement('ul');
     paginationUl.className = 'pagination pagination-sm mb-0';
