@@ -33,3 +33,9 @@ To use this plugin securely without leaving any xbrl files on a server (such as 
 
 
 Further notes on usage are in the [__init__.py module comments](https://github.com/Arelle/EdgarRenderer/blob/edgr183/__init__.py).
+
+# Testing
+
+#### Docker Image
+
+The build of this library now produces a docker image. The docker image is meant for testing purposes. The docker image is just wf_arelle with the library from the build installed
