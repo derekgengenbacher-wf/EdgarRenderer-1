@@ -113,7 +113,7 @@ var ModalsNested = {
     ModalsNested.getAllElementIDs
         .forEach(function( current, index ) {
           var element = ModalsNested.getElementById(current);
-          
+
           var carouselItem = document.createElement('div');
           carouselItem.className = 'carousel-item';
 
@@ -121,9 +121,11 @@ var ModalsNested = {
           carouselContent.className = 'carousel-content';
           carouselItem.appendChild(carouselContent);
 
+          var label = element instanceof Array ? element[0].getAttribute([ 'name' ]) : element.getAttribute([ 'name' ]);
+
           var innerP = document.createElement('p');
-          p.className = 'text-center font-weight-bold';
-          p.textContent = FiltersName.getLabel(element[0].getAttribute([ 'name' ]));
+          innerP.className = 'text-center font-weight-bold';
+          innerP.textContent = FiltersName.getLabel(label);
           carouselItem.appendChild(innerP);
 
           nestedLabelCarousel.appendChild(carouselItem);
