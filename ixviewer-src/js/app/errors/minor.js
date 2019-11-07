@@ -9,7 +9,7 @@ var ErrorsMinor = {
   
   unknownError : function( ) {
     var messageToUser = 'An Error has occured within the Inline XBRL Viewer.';
-    var ec = document.getElementbyId('error-container');
+    var ec = document.getElementById('error-container');
     var div = document.createElement('div');
     div.className = 'alert-height alert alert-warning alert-dismissable show mb-0';
     div.textContent = messageToUser;
@@ -27,7 +27,7 @@ var ErrorsMinor = {
   
   browserSuggestion : function( ) {
     var messageToUser = 'Using <a target="_blank" href="https://www.google.com/chrome/">Google Chrome</a> can help alleviate some of these performance issues.';
-    var ec = document.getElementbyId('error-container');
+    var ec = document.getElementById('error-container');
     var div = document.createElement('div');
     div.className = 'alert-height alert alert-warning alert-dismissable show mb-0';
     div.textContent = messageToUser;
@@ -45,7 +45,7 @@ var ErrorsMinor = {
   
   factNotFound : function( ) {
     var messageToUser = 'Inline XBRL can not locate the requested fact.';
-    var ec = document.getElementbyId('error-container');
+    var ec = document.getElementById('error-container');
     var div = document.createElement('div');
     div.className = 'alert-height alert alert-warning alert-dismissable show mb-0';
     div.textContent = messageToUser;
@@ -63,7 +63,7 @@ var ErrorsMinor = {
   
   continuedAt : function( ) {
     var messageToUser = 'Inline XBRL HTML Form is missing data to complete this action. This functionality has been removed.';
-    var ec = document.getElementbyId('error-container');
+    var ec = document.getElementById('error-container');
     var div = document.createElement('div');
     div.className = 'alert-height alert alert-warning alert-dismissable show mb-0';
     div.textContent = messageToUser;
@@ -82,7 +82,7 @@ var ErrorsMinor = {
   fileSize : function( ) {
     var messageToUser = 'Inline XBRL HTML Form is over ' + Constants.fileSizeError[1]
         + ', performance may be affected.';
-    var ec = document.getElementbyId('error-container');
+    var ec = document.getElementById('error-container');
     var div = document.createElement('div');
     div.className = 'alert-height alert alert-warning alert-dismissable show mb-0';
     div.textContent = messageToUser;
@@ -105,7 +105,7 @@ var ErrorsMinor = {
   metaLinksNotFound : function( fileName ) {
     
     var messageToUser = 'Inline XBRL viewing features are minimal because no supporting file was found.';
-    var ec = document.getElementbyId('error-container');
+    var ec = document.getElementById('error-container');
     var div = document.createElement('div');
     div.className = 'alert-height alert alert-warning alert-dismissable show mb-0';
     div.textContent = messageToUser;
@@ -124,7 +124,7 @@ var ErrorsMinor = {
   metaLinksInstance : function( fileName ) {
     
     var messageToUser = 'Inline XBRL viewing features are minimal because supporting file is not correct.';
-    var ec = document.getElementbyId('error-container');
+    var ec = document.getElementById('error-container');
     var div = document.createElement('div');
     div.className = 'alert-height alert alert-warning alert-dismissable show mb-0';
     div.textContent = messageToUser;
@@ -143,7 +143,7 @@ var ErrorsMinor = {
   metaLinksVersion : function( ) {
     
     var messageToUser = 'File found was not a MetaLinks version 2.0+ file.';
-    var ec = document.getElementbyId('error-container');
+    var ec = document.getElementById('error-container');
     var div = document.createElement('div');
     div.className = 'alert-height alert alert-warning alert-dismissable show mb-0';
     div.textContent = messageToUser;
@@ -162,7 +162,7 @@ var ErrorsMinor = {
   factNotActive : function( ) {
     
     var messageToUser = 'This fact is not apart of your active filter(s) and is not present in the Fact Menu.';
-    var ec = document.getElementbyId('error-container');
+    var ec = document.getElementById('error-container');
     var div = document.createElement('div');
     div.className = 'alert-height alert alert-warning alert-dismissable show mb-0';
     div.textContent = messageToUser;
