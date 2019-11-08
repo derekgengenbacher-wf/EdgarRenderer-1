@@ -85,7 +85,7 @@ $(document).ready(function() {
         .on('click', function(e) {Modals.close(e.originalEvent, e.delegateTarget)});
     $('#taxonomy-menu-secondary-toggle')
         .on('click', function(e) {TaxonomiesMenu.toggle(e.originalEvent, e.delegateTarget)});
-    $('#taxonomy-nested-moodal-close')
+    $('#taxonomy-nested-modal-close')
         .on('click', function(e) {Modals.close(e.delegateTarget)});
     $('#user-filters-balances-credit')
         .on('click', function(e) {UserFiltersMoreFiltersBalances.clickEvent(e.originalEvent, e.delegateTarget, 1)});
