@@ -164,7 +164,7 @@ var ModalsNested = {
     
     TaxonomiesGeneral.selectedTaxonomy(ModalsNested.getElementById(ModalsNested.getAllElementIDs[0]));
     
-    document.getElementById('nested-taxonomy-modal-jump').setAttribute('data-id', ModalsNested.getAllElementIDs[0]);
+    document.getElementById('taxonomy-nested-modal-jump').setAttribute('data-id', ModalsNested.getAllElementIDs[0]);
     
     Modals.renderCarouselIndicators('modal-taxonomy-nested-content-carousel',
         'taxonomy-nested-modal-carousel-indicators', ModalsNested.carouselInformation);
@@ -177,7 +177,7 @@ var ModalsNested = {
         function( event ) {
           
           // we add something...
-          document.getElementById('nested-taxonomy-modal-jump').setAttribute('data-id',
+          document.getElementById('taxonomy-nested-modal-jump').setAttribute('data-id',
               ModalsNested.getAllElementIDs[event['to']]);
           
           // we hide the copy & paste area
