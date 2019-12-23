@@ -45,7 +45,10 @@ var Modals = {
     foundDialogsArray.forEach(function( current ) {
       
       current.classList.remove('expand-modal');
-      document.getElementById('taxonomy-modal-expand').classList.remove('d-none');
+      var viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+      if ( viewPortWidth >= 576 ) {
+        document.getElementById('taxonomy-modal-expand').classList.remove('d-none');
+      }
       document.getElementById('taxonomy-modal-compress').classList.add('d-none');
       
       current.classList.add('d-none');
@@ -140,15 +143,6 @@ var Modals = {
     var xElement = 0;
     var yElement = 0;
     
-    document.onmousemove = dragElement;
-    document.onmouseup = destroyDrag;
-    
-    element.onmousedown = function( ) {
-      // not a fan of having all these .parentNode
-      drag(this.parentNode.parentNode.parentNode);
-      return false;
-    };
-    
     function drag( element ) {
       selected = element;
       xElement = (xPosition - selected.offsetLeft) + (selected.clientWidth / 2);
@@ -169,6 +163,15 @@ var Modals = {
     function destroyDrag( ) {
       selected = null;
     }
+    
+    document.onmousemove = dragElement;
+    document.onmouseup = destroyDrag;
+    
+    element.onmousedown = function( ) {
+      // not a fan of having all these .parentNode
+      drag(this.parentNode.parentNode.parentNode);
+      return false;
+    };
     
   }
 

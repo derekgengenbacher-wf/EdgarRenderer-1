@@ -134,7 +134,7 @@ var ModalsFormInformation = {
           'label' : 'Document Type',
           'value' : document.getElementById('dynamic-xbrl-form').querySelector('[name="dei:DocumentType"]') ? document
               .getElementById('dynamic-xbrl-form').querySelector('[name="dei:DocumentType"]').textContent
-			  : 'Not Available.'
+              : 'Not Available.'
         },
         {
           'label' : 'Period End Date',
@@ -162,8 +162,7 @@ var ModalsFormInformation = {
           'value' : document.getElementById('dynamic-xbrl-form').querySelector('[name="dei:AmendmentFlag"]') ? document
               .getElementById('dynamic-xbrl-form').querySelector('[name="dei:AmendmentFlag"]').textContent
               : 'Not Available.'
-        },
-    ];
+        } ];
     
     var table = document.createElement('table');
     possibleLabels.forEach(function( current, index, array ) {
@@ -207,7 +206,7 @@ var ModalsFormInformation = {
           }, {
             'label' : 'Inline Version',
             'value' : Constants.getMetaVersion
-          }, ],
+          } ],
           [ {
             'label' : 'Tags'
           }, {
@@ -216,7 +215,7 @@ var ModalsFormInformation = {
             'label' : 'Custom'
           }, {
             'label' : 'Total'
-          }, ],
+          } ],
           
           [ {
             'label' : 'Primary',
@@ -280,8 +279,8 @@ var ModalsFormInformation = {
                 (totalStandard > 0) ? Math.round((totalCustom / total) * 100) + '%' : '0%',
                 
                 total ]
-          } ],
-      
+          } ]
+
       ];
       
       var table = document.createElement('table');
@@ -383,9 +382,8 @@ var ModalsFormInformation = {
           'values' : (Constants.getMetaDocuments('definitionLink') && Constants.getMetaDocuments('definitionLink')['local']) ? Constants
               .getMetaDocuments('definitionLink')['local']
               : [ 'Not Available.' ]
-        
-        },
-    ];
+
+        } ];
 
     // Note: the original version of this code produces invalid HTML (with two nested TRs) when there
     // is more than one value. I don't know what the developer intended, but I will assume that they

@@ -142,7 +142,7 @@ var ErrorsMinor = {
   
   metaLinksVersion : function( ) {
     
-    var messageToUser = 'File found was not a MetaLinks version 2.0+ file.';
+    var messageToUser = 'File found was not a MetaLinks version 2.0 file or higher.';
     var ec = document.getElementById('error-container');
     var div = document.createElement('div');
     div.className = 'alert-height alert alert-warning alert-dismissable show mb-0';
@@ -176,6 +176,6 @@ var ErrorsMinor = {
     div.appendChild(btn);
     ec.appendChild(div);
     Errors.updateMainContainerHeight();
-  },
+  }
 
 };

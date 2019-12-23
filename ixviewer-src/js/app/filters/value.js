@@ -231,6 +231,10 @@ var FiltersValue = {
             return FiltersNumber.numberFormatting(element, FiltersDate.durMonth(element));
             break;
           }
+ case 'durweek' : {
+            return FiltersNumber.numberFormatting(element, FiltersDate.durWeek(element));
+            break;
+          }
           case 'durday' : {
             return FiltersNumber.numberFormatting(element, FiltersDate.durDay(element));
             break;
@@ -311,35 +315,32 @@ var FiltersValue = {
       
       if ( element.hasAttribute('xsi:nil') && (element.getAttribute('xsi:nil') === true) ) {
         return 'nil';
-      } else {
-        
-        var splitText = element.innerText.split(/(\r\n|\n|\r)/gm);
-        var containerElement = document.createElement('div');
-        var dataToReturn = '';
-        if ( splitText.length > 1 && showCollapse ) {
-          // we show accordion
-
-          var div = document.createElement('div');
-          div.className = 'collapse d-block collapse-modal-partial';
-          div.id = 'collapse-taxonomy';
-          div.innerHTML = element.innerHTML;
-          containerElement.appendChild(div);
-
-          var button = document.createElement('button');
-          button.className = 'btn btn-primary btn-sm btn-block mt-1';
-          button.type = 'button';
-          button.setAttribute('data-toggle', 'collapse');
-          button.setAttribute('data-target', '#collapse-taxonomy');
-          button.textContent = 'Contract / Expand';
-          containerElement.appendChild(button);
-          
-        } else if ( splitText.length > 1 && !showCollapse ) {
-          containerElement.textContent = 'Click to see Fact';
-        } else {
-          containerElement.textContent = element.textContent; // innerText is not cross-browser
-        }
-        return FiltersNumber.numberFormatting(element, containerElement.innerHTML);
       }
+      
+      var splitText = element.innerText.split(/(\r\n|\n|\r)/gm);
+      var containerElement = document.createElement('div');
+      if ( splitText.length > 1 && showCollapse ) {
+        // we show accordion
+        var div = document.createElement('div');
+        div.className = 'collapse d-block collapse-modal-partial';
+        div.id = 'collapse-taxonomy';
+        div.innerHTML = element.innerHTML;
+        containerElement.appendChild(div);
+
+        var button = document.createElement('button');
+        button.className = 'btn btn-primary btn-sm btn-block mt-1';
+        button.type = 'button';
+        button.setAttribute('data-toggle', 'collapse');
+        button.setAttribute('data-target', '#collapse-taxonomy');
+        button.textContent = 'Contract / Expand';
+        containerElement.appendChild(button);
+
+      } else if ( splitText.length > 1 && !showCollapse ) {
+        containerElement.textContent = 'Click to see Fact';
+      } else {
+        containerElement.textContent = element.textContent; // innerText is not cross-browser
+      }
+      return FiltersNumber.numberFormatting(element, containerElement.innerHTML);
     }
     
   },
@@ -397,7 +398,6 @@ var FiltersValue = {
       for ( var i = 0; i < element['children'].length; i++ ) {
         FiltersValue.recursivelyFixHTMLTemp(element['children'][i]);
       }
-    } else {
     }
   },
   
@@ -412,7 +412,6 @@ var FiltersValue = {
       for ( var i = 0; i < element['children'].length; i++ ) {
         FiltersValue.recursivelyFixHTML(element['children'][i]);
       }
-    } else {
     }
   }
 

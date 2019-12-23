@@ -101,6 +101,8 @@ $(document).ready(function() {
         .on('change', function(e) {ModalsSettings.scrollPosition(e.originalEvent, e.delegateTarget)});
     $('#taxonomies-menu-page-select')
         .on('change', function(e) {Pagination.goToPage(e.originalEvent, e.delegateTarget);});
+    $('#hover-option-select')
+        .on('change', function(e) {ModalsSettings.hoverOption(e.originalEvent, e.delegateTarget);})
 
     // onSubmit functions
     $('#global-search-form')
