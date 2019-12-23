@@ -338,7 +338,8 @@ var FiltersValue = {
       } else if ( splitText.length > 1 && !showCollapse ) {
         containerElement.textContent = 'Click to see Fact';
       } else {
-        containerElement.textContent = element.textContent; // innerText is not cross-browser
+        // innerText is not cross-browser
+        containerElement.textContent = element.textContent;
       }
       return FiltersNumber.numberFormatting(element, containerElement.innerHTML);
     }

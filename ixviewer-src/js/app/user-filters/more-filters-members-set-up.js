@@ -95,7 +95,7 @@ var UserFiltersMoreFiltersMembersSetUp = {
       input.type = 'checkbox';
       input.tabIndex = 9;
       input.title = 'Select/Deselect this option.';
-      input.addEventListener('click', function(e) {UserFiltersMoreFiltersMembers.clickEvent(e, this, index)});
+      input.addEventListener('click', function(e) { UserFiltersMoreFiltersMembers.clickEvent(e, e.delegateTarget, index); });
       innerDiv.appendChild(input);
 
       var label = document.createElement('label');

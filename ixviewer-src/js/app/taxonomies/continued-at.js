@@ -30,12 +30,12 @@ var TaxonomiesContinuedAt = {
         
       }
 
-      current.addEventListener('mouseenter', function(e) {TaxonomiesContinuedAt.enterElement(this)});
-      current.addEventListener('mouseleave', function(e) {TaxonomiesContinuedAt.leaveElement(this)});
+      current.addEventListener('mouseenter', function(e) { TaxonomiesContinuedAt.enterElement(e.delegateTarget); });
+      current.addEventListener('mouseleave', function(e) { TaxonomiesContinuedAt.leaveElement(e.delegateTarget); });
       current.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        ModalsContinuedAt.clickEvent(this);
+        ModalsContinuedAt.clickEvent(e.delegateTarget);
       });
 
     });
@@ -45,12 +45,12 @@ var TaxonomiesContinuedAt = {
   addContinuedAtFunctionalityToSpecificElement : function( element ) {
     element.removeAttribute('enabled-taxonomy');
     element.setAttribute('continued-taxonomy', true);
-    element.addEventListener('mouseenter', function(e) {TaxonomiesContinuedAt.enterElement(this)});
-    element.addEventListener('mouseleave', function(e) {TaxonomiesContinuedAt.leaveElement(this)});
+    element.addEventListener('mouseenter', function(e) { TaxonomiesContinuedAt.enterElement(e.delegateTarget); });
+    element.addEventListener('mouseleave', function(e) { TaxonomiesContinuedAt.leaveElement(e.delegateTarget); });
     element.addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
-      ModalsContinuedAt.clickEvent(this);
+      ModalsContinuedAt.clickEvent(e.delegateTarget);
     });
   },
   

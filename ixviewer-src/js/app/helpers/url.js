@@ -51,7 +51,7 @@ var HelpersUrl = {
             && Constants.getMetaSourceDocuments.indexOf(urlParams['doc-file']) >= 0 ) {
           element.setAttribute('data-link', urlParams['doc-file']);
           element.setAttribute('href', urlParams['doc-file']);
-          element.addEventListener('click', function(e) {Links.clickEventInternal(e, this)});
+          element.addEventListener('click', function(e) { Links.clickEventInternal(e, e.delegateTarget); });
         } else {
           HelpersUrl.makeAbsoluteUrlUnlessSimpleAnchorTag(element);
         }
@@ -62,7 +62,7 @@ var HelpersUrl = {
               && Constants.getMetaSourceDocuments.indexOf(element.getAttribute(attribute).split('#')[0]) >= 0 ) {
             element.setAttribute('data-link', element.getAttribute(attribute));
             element.setAttribute('href', element.getAttribute(attribute));
-            element.addEventListener('click', function(e) {Links.clickEventInternal(e, this)});
+            element.addEventListener('click', function(e) { Links.clickEventInternal(e, e.delegateTarget); });
           }
         } else {
           var index = Constants.getMetaSourceDocuments.indexOf(element.getAttribute(attribute));
@@ -70,7 +70,7 @@ var HelpersUrl = {
             // here we add the necessary attributes for multi-form
             element.setAttribute('data-link', Constants.getMetaSourceDocuments[index]);
             element.setAttribute('href', Constants.getMetaSourceDocuments[index]);
-            element.addEventListener('click', function(e) {Links.clickEventInternal(e, this)});
+            element.addEventListener('click', function(e) { Links.clickEventInternal(e, e.delegateTarget); });
           } else {
             HelpersUrl.makeAbsoluteUrlUnlessSimpleAnchorTag(element);
           }

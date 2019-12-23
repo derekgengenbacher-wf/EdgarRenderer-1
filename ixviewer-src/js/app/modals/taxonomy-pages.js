@@ -81,7 +81,7 @@ var TaxonomyPages = {
         td.appendChild(div);
 
         if ( current['label'] !== 'Fact' ) {
-          div.className = 'w-100 word-break'
+          div.className = 'w-100 word-break';
         }
         
       }

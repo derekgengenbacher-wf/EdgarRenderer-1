@@ -16,7 +16,7 @@ var ErrorsMinor = {
     var btn = document.createElement('button');
     btn.className = 'close';
     btn.setAttribute('data-dismiss', 'alert');
-    btn.addEventListener('click', function(e) {Errors.updateMainContainerHeight(true)});
+    btn.addEventListener('click', function(e) { Errors.updateMainContainerHeight(e.delegateTarget); });
     var icon = document.createElement('i');
     icon.className = 'fas fa-times';
     btn.appendChild(icon);
@@ -34,7 +34,7 @@ var ErrorsMinor = {
     var btn = document.createElement('button');
     btn.className = 'close';
     btn.setAttribute('data-dismiss', 'alert');
-    btn.addEventListener('click', function(e) {Errors.updateMainContainerHeight(true)});
+    btn.addEventListener('click', function(e) { Errors.updateMainContainerHeight(e.delegateTarget); });
     var icon = document.createElement('i');
     icon.className = 'fas fa-times';
     btn.appendChild(icon);
@@ -52,7 +52,7 @@ var ErrorsMinor = {
     var btn = document.createElement('button');
     btn.className = 'close';
     btn.setAttribute('data-dismiss', 'alert');
-    btn.addEventListener('click', function(e) {Errors.updateMainContainerHeight(true)});
+    btn.addEventListener('click', function(e) { Errors.updateMainContainerHeight(e.delegateTarget); });
     var icon = document.createElement('i');
     icon.className = 'fas fa-times';
     btn.appendChild(icon);
@@ -70,7 +70,7 @@ var ErrorsMinor = {
     var btn = document.createElement('button');
     btn.className = 'close';
     btn.setAttribute('data-dismiss', 'alert');
-    btn.addEventListener('click', function(e) {Errors.updateMainContainerHeight(true)});
+    btn.addEventListener('click', function(e) { Errors.updateMainContainerHeight(e.delegateTarget); });
     var icon = document.createElement('i');
     icon.className = 'fas fa-times';
     btn.appendChild(icon);
@@ -89,7 +89,7 @@ var ErrorsMinor = {
     var btn = document.createElement('button');
     btn.className = 'close';
     btn.setAttribute('data-dismiss', 'alert');
-    btn.addEventListener('click', function(e) {Errors.updateMainContainerHeight(true)});
+    btn.addEventListener('click', function(e) { Errors.updateMainContainerHeight(e.delegateTarget); });
     var icon = document.createElement('i');
     icon.className = 'fas fa-times';
     btn.appendChild(icon);
@@ -112,7 +112,7 @@ var ErrorsMinor = {
     var btn = document.createElement('button');
     btn.className = 'close';
     btn.setAttribute('data-dismiss', 'alert');
-    btn.addEventListener('click', function(e) {Errors.updateMainContainerHeight(true)});
+    btn.addEventListener('click', function(e) { Errors.updateMainContainerHeight(e.delegateTarget); });
     var icon = document.createElement('i');
     icon.className = 'fas fa-times';
     btn.appendChild(icon);
@@ -131,7 +131,7 @@ var ErrorsMinor = {
     var btn = document.createElement('button');
     btn.className = 'close';
     btn.setAttribute('data-dismiss', 'alert');
-    btn.addEventListener('click', function(e) {Errors.updateMainContainerHeight(true)});
+    btn.addEventListener('click', function(e) { Errors.updateMainContainerHeight(e.delegateTarget); });
     var icon = document.createElement('i');
     icon.className = 'fas fa-times';
     btn.appendChild(icon);
@@ -150,7 +150,7 @@ var ErrorsMinor = {
     var btn = document.createElement('button');
     btn.className = 'close';
     btn.setAttribute('data-dismiss', 'alert');
-    btn.addEventListener('click', function(e) {Errors.updateMainContainerHeight(true)});
+    btn.addEventListener('click', function(e) { Errors.updateMainContainerHeight(e.delegateTarget); });
     var icon = document.createElement('i');
     icon.className = 'fas fa-times';
     btn.appendChild(icon);
@@ -169,7 +169,7 @@ var ErrorsMinor = {
     var btn = document.createElement('button');
     btn.className = 'close';
     btn.setAttribute('data-dismiss', 'alert');
-    btn.addEventListener('click', function(e) {Errors.updateMainContainerHeight(true)});
+    btn.addEventListener('click', function(e) { Errors.updateMainContainerHeight(e.delegateTarget); });
     var icon = document.createElement('i');
     icon.className = 'fas fa-times';
     btn.appendChild(icon);

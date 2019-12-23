@@ -198,7 +198,7 @@ var Pagination = {
     prevTaxonomyLink.className = 'page-link';
     prevTaxonomyLink.tabIndex = 13;
     prevTaxonomyLink.addEventListener('click', function(e) {
-      Pagination.previousTaxonomy(e, this);
+      Pagination.previousTaxonomy(e, e.delegateTarget);
       Pagination.firstPage();
     });
     prevTaxonomyLi.appendChild(prevTaxonomyLink);
@@ -214,8 +214,9 @@ var Pagination = {
     nextTaxonomyLink.className = 'page-link';
     nextTaxonomyLink.tabIndex = 13;
     nextTaxonomyLink.addEventListener('click', function(e) {
-      Pagination.nextTaxonomy(e, this);
-      Pagination.firstPage();   // firstPage? seems odd.
+      Pagination.nextTaxonomy(e, e.delegateTarget);
+      // firstPage? seems odd.
+      Pagination.firstPage();
     });
     nextTaxonomyLi.appendChild(nextTaxonomyLink);
 

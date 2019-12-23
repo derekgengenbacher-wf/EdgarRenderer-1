@@ -13,13 +13,14 @@ var Modals = {
     indicator.innerHTML = '';
     
     carouselInformation.forEach(function( current, index ) {
-      var activeSlide = (index === 0) ? 'active' : ''
+      var activeSlide = (index === 0) ? 'active' : '';
       var li = document.createElement('li');
       li.setAttribute('data-target', '#' + carouselId);
       li.setAttribute('data-slide-to', index);
       li.className = activeSlide;
       li.title = current['dialog-title'];
-      li.href = '#';  // LI elements do not have HREF attributes, but reproducing...
+      // LI elements do not have HREF attributes, but reproducing...
+      li.href = '#';
       li.tabIndex = 14;
       indicator.appendChild(li);
     });

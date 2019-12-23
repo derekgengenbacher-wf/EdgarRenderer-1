@@ -287,7 +287,8 @@ var ModalsFormInformation = {
       possibleLabels.forEach(function( current, index, array ) {
 
         var tr = document.createElement('tr');
-        tr.setAttribute('colspan', 8);  // colspan on a tr element isn't a thing, but reproducing anyway...
+        // colspan on a tr element isn't a thing, but reproducing anyway...
+        tr.setAttribute('colspan', 8);
         table.appendChild(tr);
 
         if ( current instanceof Array ) {

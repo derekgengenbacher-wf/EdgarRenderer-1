@@ -54,7 +54,7 @@ WORKDIR /build/ixviewer/
 # Remove .map references in minified code for ixviewer-v2
 RUN sed -i /sourceMappingURL=/d js/lib/bootstrap.min.css
 RUN sed -i /sourceMappingURL=/d js/lib/bootstrap.min.js
-RUN sed -i /sourceMappingURL=/d js/lib/pickr.es5.min.js
+RUN sed -i /sourceMappingURL=/d js/lib/vanilla-picker.min.js
 
 # Assemble ixviewer-v2 files
 RUN cp `find -name \*.min.js` /build/edgarrenderer/ixviewer_v2/

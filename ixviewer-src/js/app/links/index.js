@@ -65,7 +65,7 @@ var Links = {
 
           if ( current !== HelpersUrl.getHTMLFileName ) {
             link.addEventListener('click', function(e) {
-              Links.clickEventInternal(e, this);
+              Links.clickEventInternal(e, e.delegateTarget);
             });
             link.href = current;
             link.setAttribute('data-link', current);
