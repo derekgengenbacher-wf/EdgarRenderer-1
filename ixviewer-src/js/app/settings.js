@@ -147,10 +147,10 @@ function setCustomCSS( ) {
     });
     document.querySelector(current['selector'] + ' .picker_done button').innerText = 'Save';
     document.querySelector(current['selector'] + ' .picker_cancel button').innerText = 'Reset';
-    document.querySelector(current['selector'] + ' .picker_cancel button').onclick = function( ) {
+    document.querySelector(current['selector'] + ' .picker_cancel button').addEventListener('click', function(e) {
       localStorage.setItem(current['storage'], current['reset']);
       picker.setColor(current['reset']);
       setCustomCSS();
-    };
+    });
   });
 })();
