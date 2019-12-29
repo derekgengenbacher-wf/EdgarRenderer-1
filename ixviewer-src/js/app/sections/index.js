@@ -113,7 +113,7 @@ var Sections = {
       document.getElementById(parentId).classList.remove('d-none');
       var collapseButton = document.querySelector('#' + parentId + ' button');
       
-      collapseButton.addEventListener('click', function(e) { Sections.prepareChildCollapse(e.delegateTarget, groupType); });
+      collapseButton.addEventListener('click', function(e) { Sections.prepareChildCollapse(this, groupType); });
       
       document.getElementById(badgeId).textContent = discoveredGroupType.length;
     }
@@ -240,8 +240,8 @@ var Sections = {
           li.setAttribute('name', name);
           li.setAttribute('contextref', contextref);
           li.setAttribute('selected-taxonomy', 'false');
-          li.addEventListener('click', function(e) { Sections.clickEvent(e, e.delegateTarget); });
-          li.addEventListener('keyup', function(e) { Sections.clickEvent(e, e.delegateTarget); });
+          li.addEventListener('click', function(e) { Sections.clickEvent(e, this); });
+          li.addEventListener('keyup', function(e) { Sections.clickEvent(e, this); });
           li.className = 'click list-group-item list-group-item-action d-flex align-items-center';
           li.tabIndex = 2;
 

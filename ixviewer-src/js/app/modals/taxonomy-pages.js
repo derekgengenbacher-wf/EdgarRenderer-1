@@ -277,7 +277,7 @@ var TaxonomyPages = {
         tr.appendChild(th);
 
         var td = document.createElement('td');
-        td.textContent = current['value'];
+        td.innerHTML = current['value'];
         tr.appendChild(td);
       }
     });

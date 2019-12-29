@@ -108,7 +108,7 @@ var UserFiltersMoreFiltersPeriodSetUp = {
       firstOuterDiv.appendChild(innerDiv);
 
       var input = document.createElement('input');
-      input.addEventListener('click', function(e) { UserFiltersMoreFiltersPeriod.parentClick(e, e.delegateTarget, index); });
+      input.addEventListener('click', function(e) { UserFiltersMoreFiltersPeriod.parentClick(e, this, index); });
       input.title = 'Select/Deselect all options below.';
       input.className = 'form-check-input';
       input.type = 'checkbox';
@@ -147,7 +147,7 @@ var UserFiltersMoreFiltersPeriodSetUp = {
         optionInnerDiv.className = 'form-check';
 
         var optionInput = document.createElement('input');
-        optionInput.addEventListener('click', function(e) { UserFiltersMoreFiltersPeriod.childClick(e, e.delegateTarget, index, nestedIndex); });
+        optionInput.addEventListener('click', function(e) { UserFiltersMoreFiltersPeriod.childClick(e, this, index, nestedIndex); });
         optionInput.title = 'Select/Deselect this option.';
         optionInput.className = 'form-check-input';
         optionInput.type = 'checkbox';
