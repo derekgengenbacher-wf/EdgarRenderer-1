@@ -51,7 +51,9 @@ var HelpersUrl = {
             && Constants.getMetaSourceDocuments.indexOf(urlParams['doc-file']) >= 0 ) {
           element.setAttribute('data-link', urlParams['doc-file']);
           element.setAttribute('href', urlParams['doc-file']);
-          element.addEventListener('click', function(e) {Links.clickEventInternal(e, this)});
+          element.addEventListener('click', function(e) { Links.clickEventInternal(e, this); });
+        } else {
+          HelpersUrl.makeAbsoluteUrlUnlessSimpleAnchorTag(element);
         }
       } else {
         if ( url.hash ) {
@@ -60,7 +62,7 @@ var HelpersUrl = {
               && Constants.getMetaSourceDocuments.indexOf(element.getAttribute(attribute).split('#')[0]) >= 0 ) {
             element.setAttribute('data-link', element.getAttribute(attribute));
             element.setAttribute('href', element.getAttribute(attribute));
-            element.addEventListener('click', function(e) {Links.clickEventInternal(e, this)});
+            element.addEventListener('click', function(e) { Links.clickEventInternal(e, this); });
           }
         } else {
           var index = Constants.getMetaSourceDocuments.indexOf(element.getAttribute(attribute));
@@ -68,7 +70,7 @@ var HelpersUrl = {
             // here we add the necessary attributes for multi-form
             element.setAttribute('data-link', Constants.getMetaSourceDocuments[index]);
             element.setAttribute('href', Constants.getMetaSourceDocuments[index]);
-            element.addEventListener('click', function(e) {Links.clickEventInternal(e, this)});
+            element.addEventListener('click', function(e) { Links.clickEventInternal(e, this); });
           } else {
             HelpersUrl.makeAbsoluteUrlUnlessSimpleAnchorTag(element);
           }
@@ -80,12 +82,7 @@ var HelpersUrl = {
   },
   
   returnURLParamsAsObject : function( url ) {
-    
-    // var url =
-    // "&doc=../DisplayDocument.do%3Fstep%3DdocOnly%26accessionNumber%3D0000350001-19-102670%26interpretedFormat%3Dtrue%26redline%3Dtrue%26filename%3Da4q18doc10k.htm&metalinks=../DisplayDocument.do%3Fstep%3DdocOnly%26accessionNumber%3D0000350001-19-102670%26interpretedFormat%3Dtrue%26redline%3Dtrue%26filename%3DMetaLinks.json";
-    // var url =
-    // "xbrl=true&doc=../DisplayDocument.do?step=docOnly&accessionNumber=0001314612-19-000089&interpretedFormat=true&redline=true&filename=a4q18doc10k.htm&metalinks=../DisplayDocument.do?step=docOnly&accessionNumber=0001314612-19-000089&interpretedFormat=true&redline=true&filename=MetaLinks.json";
-    var urlSplit = url.split(/doc=|file=|metalinks=|xbrl=true|xbrl=false/).filter(function( e ) {
+      var urlSplit = url.split(/doc=|file=|metalinks=|xbrl=true|xbrl=false/).filter(function( e ) {
       return e;
     });
     
@@ -95,7 +92,7 @@ var HelpersUrl = {
           if ( lastChar === '&' ) {
             current = current.slice(0, -1);
           }
-          if ( current.slice(-4) === '.htm' ) {
+          if (( current.slice(-4) === '.htm') || (current.slice(-4) === '.html' )){
             current = decodeURIComponent(current);
             var docFile = current.split('filename=')[1] ? current.split('filename=')[1] : current.substring(current
                 .lastIndexOf('/') + 1);
@@ -105,7 +102,7 @@ var HelpersUrl = {
             };
           } else if ( current.slice(-5) === '.json' ) {
             current = decodeURIComponent(current);
-            current = current.replace('interpretedFormat=true', 'interpretedFormat=false')
+            current = current.replace('interpretedFormat=true', 'interpretedFormat=false');
             return {
               'metalinks' : current,
               'metalinks-file' : 'MetaLinks.json'
@@ -155,7 +152,7 @@ var HelpersUrl = {
     // here we check for cors
     var tempUrl = new ParsedUrl(url.search.substring(1).replace(/doc=|file=/, ''));
     var tempUrlHost = tempUrl.protocol + '//' + tempUrl.host;
-    var host = window.location.protocol + '//' + window.location.host;
+    var host = url.protocol + '//' + url.host;
     if ( tempUrlHost !== host ) {
       ErrorsMajor.cors(tempUrl);
       return false;
@@ -166,6 +163,8 @@ var HelpersUrl = {
     if ( url.search ) {
       
       HelpersUrl.getAllParams = HelpersUrl.returnURLParamsAsObject(url.search.substring(1));
+      HelpersUrl.getAllParams.hostName = window.location.hostname;
+      
       if ( HelpersUrl.getAllParams.hasOwnProperty('metalinks') ) {
         HelpersUrl.getExternalMeta = decodeURIComponent(HelpersUrl.getAllParams['metalinks']);
         HelpersUrl.getExternalMeta = HelpersUrl.getExternalMeta.replace('interpretedFormat=true',

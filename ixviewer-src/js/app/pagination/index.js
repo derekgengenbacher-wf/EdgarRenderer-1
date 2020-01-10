@@ -215,7 +215,8 @@ var Pagination = {
     nextTaxonomyLink.tabIndex = 13;
     nextTaxonomyLink.addEventListener('click', function(e) {
       Pagination.nextTaxonomy(e, this);
-      Pagination.firstPage();   // firstPage? seems odd.
+      // firstPage? seems odd.
+      Pagination.firstPage();
     });
     nextTaxonomyLi.appendChild(nextTaxonomyLink);
 

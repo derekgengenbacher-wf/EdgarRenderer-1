@@ -11,8 +11,9 @@ var UserFiltersMoreFiltersPeriodSetUp = {
   periodsOptions : [ ],
   
   setPeriods : function( callback ) {
-    
-    var nameSpace = '';
+    // we set <period> as a possible html tag, because older inline files don't
+    // follow the <namespace:period> consistency.
+    var nameSpace = 'period,';
     for ( var ns in Constants.getHTMLAttributes ) {
       
       if ( Constants.getHTMLAttributes[ns] === 'http://www.xbrl.org/2003/instance' ) {
@@ -21,7 +22,6 @@ var UserFiltersMoreFiltersPeriodSetUp = {
     }
     
     if ( nameSpace ) {
-      
       nameSpace = nameSpace.substring(0, nameSpace.length - 1);
       
       var foundPeriods = document.getElementById('dynamic-xbrl-form').querySelectorAll(nameSpace);
@@ -108,7 +108,7 @@ var UserFiltersMoreFiltersPeriodSetUp = {
       firstOuterDiv.appendChild(innerDiv);
 
       var input = document.createElement('input');
-      input.addEventListener('click', function(e) {UserFiltersMoreFiltersPeriod.parentClick(e, this, index)});
+      input.addEventListener('click', function(e) { UserFiltersMoreFiltersPeriod.parentClick(e, this, index); });
       input.title = 'Select/Deselect all options below.';
       input.className = 'form-check-input';
       input.type = 'checkbox';
@@ -123,7 +123,8 @@ var UserFiltersMoreFiltersPeriodSetUp = {
       // index is guaranteed to be numeric by way of forEach construction
       accordionLink.href = '#period-filters-accordion-' + index;
       accordionLink.setAttribute('data-toggle', 'collapse');
-      accordionLink.tabIndex = 9; // two elements with the same tab-index? likely a UI bug
+      // two elements with the same tab-index? likely a UI bug
+      accordionLink.tabIndex = 9;
       accordionLink.textContent = current['year'];
       label.appendChild(accordionLink);
 
@@ -146,11 +147,12 @@ var UserFiltersMoreFiltersPeriodSetUp = {
         optionInnerDiv.className = 'form-check';
 
         var optionInput = document.createElement('input');
-        optionInput.addEventListener('click', function(e) {UserFiltersMoreFiltersPeriod.childClick(e, this, index, nestedIndex)});
+        optionInput.addEventListener('click', function(e) { UserFiltersMoreFiltersPeriod.childClick(e, this, index, nestedIndex); });
         optionInput.title = 'Select/Deselect this option.';
         optionInput.className = 'form-check-input';
         optionInput.type = 'checkbox';
-        optionInput.tabIndex = 9; // same tabIndex as the other elements above
+        // same tabIndex as the other elements above
+        optionInput.tabIndex = 9;
         optionInnerDiv.appendChild(optionInput);
 
         var optionLabel = document.createElement('label');

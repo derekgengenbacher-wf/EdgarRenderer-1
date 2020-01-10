@@ -71,7 +71,7 @@ var TaxonomiesGeneral = {
     
     $(element).popover({
       'placement' : 'auto',
-      'template' : containerElem.innerHTML,
+      'template' : containerElem.innerHTML
     // 'container' : 'element'
     });
     $(element).popover('show');
@@ -134,9 +134,8 @@ var TaxonomiesGeneral = {
     var element = document.getElementById('dynamic-xbrl-form').querySelector('[id="' + id + '"]');
     if ( element.hasAttribute('continued-main-taxonomy') && element.getAttribute('continued-main-taxonomy') === 'true' ) {
       return ModalsNested.dynamicallyFindContinuedTaxonomies(element, [ ]);
-    } else {
-      return element;
     }
+    return element;
     
   },
   
@@ -215,12 +214,12 @@ var TaxonomiesGeneral = {
     taxonomyLink.setAttribute('selected-taxonomy', element.getAttribute('selected-taxonomy'));
     taxonomyLink.setAttribute('contextref', element.getAttribute('contextref'));
     taxonomyLink.setAttribute('name', element.getAttribute('name'));
-    taxonomyLink.addEventListener('click', function(e) {TaxonomiesGeneral.goTo(e, this, modalAction)});
+    taxonomyLink.addEventListener('click', function(e) { TaxonomiesGeneral.goTo(e, this, modalAction); });
 
     var elementId = element.getAttribute('id');
     if ( elementId ) {
       taxonomyLink.setAttribute('data-id', elementId);
-      taxonomyLink.addEventListener('keyup', function(e) {TaxonomiesGeneral.goTo(e, this, modalAction)});
+      taxonomyLink.addEventListener('keyup', function(e) { TaxonomiesGeneral.goTo(e, this, modalAction); });
       taxonomyLink.className = 'click list-group-item list-group-item-action flex-column align-items-start px-2 py-2 w-100';
       taxonomyLink.tabIndex = 13;
     } else {
@@ -308,9 +307,8 @@ var TaxonomiesGeneral = {
     }
     if ( element && element.parentNode ) {
       return TaxonomiesGeneral.isParentNodeHidden(element.parentNode);
-    } else {
-      return false;
     }
+    return false;
     
   },
   
