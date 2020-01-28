@@ -10,7 +10,7 @@ domestic copyright protection. 17 U.S.C. 105.
 End user support is by e-mail direct to SEC at: [StructuredData@sec.gov]
 (mailto:StructuredData@sec.gov).
 
-This is a preview of EDGAR release 19.3.a.u2 planned to be in production December 9, 2019.
+This is EDGAR release 20.1 in production January 27, 2020.
 
 Developer issue management is by the Jira Edgar Renderer project: https://arelle.atlassian.net/projects/ER
 
@@ -29,9 +29,3 @@ To use this plugin securely without leaving any xbrl files on a server (such as 
 
 
 Further notes on usage are in the [__init__.py module comments](https://github.com/Arelle/EdgarRenderer/blob/edgr183/__init__.py).
-
-# Testing
-
-#### Docker Image
-
-The build of this library now produces a docker image. The docker image is meant for testing purposes. The docker image is just wf_arelle with the library from the build installed
