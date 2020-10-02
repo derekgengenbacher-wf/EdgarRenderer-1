@@ -97,8 +97,6 @@ var UserFiltersState = {
       
       Taxonomies.updateTaxonomyCount(Object.keys(UserFiltersState.getUserSearch).length === 2);
       var endPerformance = performance.now();
-      console.debug('UserFiltersState.filterUpdates() completed in: ' + (endPerformance - startPerformance).toFixed(2)
-          + '(ms).');
     });
     
   },

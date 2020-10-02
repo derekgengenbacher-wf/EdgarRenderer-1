@@ -18,8 +18,6 @@ var AjaxMeta = {
             var response = JSON.parse(event['target']['response']);
             AjaxMeta.setInstance(response, event['target']['responseURL'], function( result ) {
               var endPerformance = performance.now();
-              console
-                  .debug('AjaxMeta.init() completed in: ' + (endPerformance - startPerformance).toFixed(2) + '(ms).');
               callback(result);
             });
           } else {
@@ -28,7 +26,6 @@ var AjaxMeta = {
             
             ErrorsMinor.metaLinksNotFound(event['target']['responseURL']);
             var endPerformance = performance.now();
-            console.debug('AjaxMeta.init() completed in: ' + (endPerformance - startPerformance).toFixed(2) + '(ms).');
             callback(false);
           }
         }
@@ -38,7 +35,6 @@ var AjaxMeta = {
       xhr.send();
     } else {
       var endPerformance = performance.now();
-      console.debug('AjaxMeta.init() completed in: ' + (endPerformance - startPerformance).toFixed(2) + '(ms).');
       callback(false);
     }
   },

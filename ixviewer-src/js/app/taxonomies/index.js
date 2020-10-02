@@ -228,8 +228,6 @@ var Taxonomies = {
     
     Taxonomies.updateTaxonomyCount(null, true);
     var endPerformance = performance.now();
-    console.debug('Taxonomies.addEventAttributes() completed in: ' + (endPerformance - startPerformance).toFixed(2)
-        + '(ms).');
   },
   
   setFilterAttributes : function( element ) {
