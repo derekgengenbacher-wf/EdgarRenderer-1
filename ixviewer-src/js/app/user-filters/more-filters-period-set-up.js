@@ -6,54 +6,54 @@
 'use strict';
 
 var UserFiltersMoreFiltersPeriodSetUp = {
-  filtersSet : false,
-  
-  periodsOptions : [ ],
-  
-  setPeriods : function( callback ) {
+  filtersSet: false,
+
+  periodsOptions: [],
+
+  setPeriods: function (callback) {
     // we set <period> as a possible html tag, because older inline files don't
     // follow the <namespace:period> consistency.
     var nameSpace = 'period,';
-    for ( var ns in Constants.getHTMLAttributes ) {
-      
-      if ( Constants.getHTMLAttributes[ns] === 'http://www.xbrl.org/2003/instance' ) {
+    for (var ns in Constants.getHTMLAttributes) {
+
+      if (Constants.getHTMLAttributes[ns] === 'http://www.xbrl.org/2003/instance') {
         nameSpace += ns.split(':')[1] + '\\:period,';
       }
     }
-    
-    if ( nameSpace ) {
+
+    if (nameSpace) {
       nameSpace = nameSpace.substring(0, nameSpace.length - 1);
-      
+
       var foundPeriods = document.getElementById('dynamic-xbrl-form').querySelectorAll(nameSpace);
-      
+
       var foundPeriodsArray = Array.prototype.slice.call(foundPeriods);
-      foundPeriodsArray.forEach(function( current ) {
-        
+      foundPeriodsArray.forEach(function (current) {
+
         var periodDate = FiltersContextref.getPeriod(current.parentElement.getAttribute('id'));
         var contextRef = current.parentElement.getAttribute('id');
-        var periodYear = moment(periodDate, [ 'MM/DD/YYYY', 'As of MM/DD/YYYY' ]).year();
-        
-        var yearExists = UserFiltersMoreFiltersPeriodSetUp.periodsOptions.filter(function( element, index ) {
-          if ( element['year'] === periodYear ) {
+        var periodYear = moment(periodDate, ['MM/DD/YYYY', 'As of MM/DD/YYYY']).year();
+
+        var yearExists = UserFiltersMoreFiltersPeriodSetUp.periodsOptions.filter(function (element, index) {
+          if (element['year'] === periodYear) {
             return element;
           }
         });
-        
-        if ( yearExists.length > 0 ) {
-          UserFiltersMoreFiltersPeriodSetUp.periodsOptions.forEach(function( nestedCurrent ) {
-            if ( nestedCurrent['year'] === periodYear ) {
-              
+
+        if (yearExists.length > 0) {
+          UserFiltersMoreFiltersPeriodSetUp.periodsOptions.forEach(function (nestedCurrent) {
+            if (nestedCurrent['year'] === periodYear) {
+
               var addNewOption = true;
-              nestedCurrent['options'].forEach(function( finalCurrent, finalIndex, finalArray ) {
-                if ( finalCurrent['instanceDate'] === periodDate ) {
+              nestedCurrent['options'].forEach(function (finalCurrent, finalIndex, finalArray) {
+                if (finalCurrent['instanceDate'] === periodDate) {
                   finalCurrent['contextref'].push(contextRef);
                   addNewOption = false;
                 }
               });
-              if ( addNewOption ) {
+              if (addNewOption) {
                 var tempOptions = {
-                  'contextref' : [ contextRef ],
-                  'instanceDate' : periodDate
+                  'contextref': [contextRef],
+                  'instanceDate': periodDate
                 };
                 nestedCurrent['options'].push(tempOptions);
               }
@@ -61,41 +61,41 @@ var UserFiltersMoreFiltersPeriodSetUp = {
           });
         } else {
           var tempObj = {
-            'year' : periodYear,
-            'options' : [ {
-              'contextref' : [ contextRef ],
-              'instanceDate' : periodDate
-            } ]
+            'year': periodYear,
+            'options': [{
+              'contextref': [contextRef],
+              'instanceDate': periodDate
+            }]
           };
           UserFiltersMoreFiltersPeriodSetUp.periodsOptions.push(tempObj);
         }
       });
     }
     var filtersPeriodsCount = 0;
-    UserFiltersMoreFiltersPeriodSetUp.periodsOptions.forEach(function( current ) {
+    UserFiltersMoreFiltersPeriodSetUp.periodsOptions.forEach(function (current) {
       filtersPeriodsCount += current['options'].length;
     });
-    
+
     document.getElementById('filters-periods-count').innerText = filtersPeriodsCount;
-    
-    UserFiltersMoreFiltersPeriodSetUp.periodsOptions = UserFiltersMoreFiltersPeriodSetUp.periodsOptions.sort(function(
-        first, second ) {
-      if ( first['year'] > second['year'] ) {
+
+    UserFiltersMoreFiltersPeriodSetUp.periodsOptions = UserFiltersMoreFiltersPeriodSetUp.periodsOptions.sort(function (
+      first, second) {
+      if (first['year'] > second['year']) {
         return -1;
       }
-      if ( first['year'] < second['year'] ) {
+      if (first['year'] < second['year']) {
         return 1;
       }
       return 0;
     });
-    
+
     UserFiltersMoreFiltersPeriodSetUp.populateParentCollapse('user-filters-periods',
-        UserFiltersMoreFiltersPeriodSetUp.periodsOptions);
-    
+      UserFiltersMoreFiltersPeriodSetUp.periodsOptions);
+
     callback();
   },
-  
-  populateParentCollapse : function( parentId, arrayOfInfo ) {
+
+  populateParentCollapse: function (parentId, arrayOfInfo) {
     var parentDiv = document.querySelector('#' + parentId + ' .list-group');
     parentDiv.innerHTML = '';
     arrayOfInfo.forEach(function( current, index ) {

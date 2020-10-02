@@ -7,6 +7,8 @@
 
 var ModalsFormInformation = {
   
+  currentSlide : 0,
+  
   carouselInformation : [ {
     'dialog-title' : 'Company and Document'
   }, {
@@ -44,6 +46,8 @@ var ModalsFormInformation = {
         .on(
             'slide.bs.carousel',
             function( event ) {
+              
+              ModalsFormInformation.currentSlide = event['to'] + 1;
               var previousActiveIndicator = event['from'];
               var newActiveIndicator = event['to'];
               document.getElementById('form-information-carousel-indicators').querySelector(
@@ -54,32 +58,43 @@ var ModalsFormInformation = {
             });
   },
   
+  focusOnContent : function( ) {
+    
+    document.getElementById('form-information-modal-carousel-page-' + ModalsFormInformation.currentSlide).focus();
+  },
+  
   keyboardEvents : function( event ) {
     
     var key = event.keyCode ? event.keyCode : event.which;
     
     if ( key === 49 || key === 97 ) {
       $('#form-information-modal-carousel').carousel(0);
+      ModalsFormInformation.focusOnContent();
       return false;
     }
     if ( key === 50 || key === 98 ) {
       $('#form-information-modal-carousel').carousel(1);
+      ModalsFormInformation.focusOnContent();
       return false;
     }
     if ( key === 51 || key === 99 ) {
       $('#form-information-modal-carousel').carousel(2);
+      ModalsFormInformation.focusOnContent();
       return false;
     }
     if ( key === 52 || key === 100 ) {
       $('#form-information-modal-carousel').carousel(3);
+      ModalsFormInformation.focusOnContent();
       return false;
     }
     if ( key === 37 ) {
       $('#form-information-modal-carousel').carousel('prev');
+      ModalsFormInformation.focusOnContent();
       return false;
     }
     if ( key === 39 ) {
       $('#form-information-modal-carousel').carousel('next');
+      ModalsFormInformation.focusOnContent();
       return false;
     }
     
@@ -285,13 +300,13 @@ var ModalsFormInformation = {
       
       var table = document.createElement('table');
       possibleLabels.forEach(function( current, index, array ) {
-
         var tr = document.createElement('tr');
-        // colspan on a tr element isn't a thing, but reproducing anyway...
         tr.setAttribute('colspan', 8);
+        // colspan on a tr element isn't a thing, but reproducing anyway...
         table.appendChild(tr);
-
+        
         if ( current instanceof Array ) {
+          
           current.forEach(function( nestedCurrent, nestedIndex ) {
             var th = document.createElement('th');
             th.setAttribute('colspan', 2);
@@ -299,7 +314,6 @@ var ModalsFormInformation = {
             tr.appendChild(th);
             
             if ( nestedCurrent['value'] ) {
-
               var td = document.createElement('td');
               td.setAttribute('data-name', nestedCurrent['label']);
               td.setAttribute('colspan', 2);
@@ -307,19 +321,19 @@ var ModalsFormInformation = {
               tr.appendChild(td);
 
             } else if ( nestedCurrent['values'] ) {
-
               nestedCurrent['values'].forEach(function( finalCurrent, finalIndex ) {
                 var td = document.createElement('td');
-                td.setAttribute('data-name', nestedCurrent['label']+ '-' + finalIndex);
+                td.setAttribute('data-name', nestedCurrent['label'] + '-' + finalIndex);
                 td.setAttribute('colspan', 1);
                 td.textContent = finalCurrent;
                 tr.appendChild(td);
               });
+
             }
           });
+          
         } else {
           if ( current['value'] ) {
-            
             var th = document.createElement('th');
             th.setAttribute('colspan', 1);
             th.textContent = current['label'];
@@ -386,17 +400,15 @@ var ModalsFormInformation = {
 
         } ];
 
-    // Note: the original version of this code produces invalid HTML (with two nested TRs) when there
-    // is more than one value. I don't know what the developer intended, but I will assume that they
-    // meant to take a new row whenever opening a new TR.
-
     var table = document.createElement('td');
     possibleLabels.forEach(function( current, index, array ) {
       if ( current['values'] ) {
         var tr = document.createElement('tr');
+        tr.className = "reboot";
         table.appendChild(tr);
-
+        
         var th = document.createElement('th');
+        th.className = "reboot";
         th.textContent = current['label'];
         tr.appendChild(th);
         
@@ -406,12 +418,15 @@ var ModalsFormInformation = {
             td.setAttribute('data-name', current['label'] + '-' + nestedIndex);
             td.textContent = nestedCurrent;
             tr.appendChild(td);
+
           } else {
-            // I'm taking a new top-level TR even though the original code doesn't, see note above.
+            
             tr = document.createElement('tr');
+            tr.className = "reboot";
             table.appendChild(tr);
             tr.appendChild(document.createElement('td'));
             var td = document.createElement('td');
+            td.className = "reboot";
             td.setAttribute('data-name', current['label'] + '-' + nestedIndex);
             td.textContent = nestedCurrent;
             tr.appendChild(td);
@@ -420,7 +435,9 @@ var ModalsFormInformation = {
         });
       } else {
         var tr = document.createElement('tr');
+        tr.className = "reboot";
         var th = document.createElement('th');
+        th.className = "reboot";
         th.textContent = current['label'];
         table.appendChild(tr);
       }
@@ -445,19 +462,21 @@ var ModalsFormInformation = {
         };
         possibleLabels.push(temp);
       });
+
       var table = document.createElement('table');
       possibleLabels.forEach(function( current, index, array ) {
-
         var tr = document.createElement('tr');
+        tr.className = "reboot";
         table.appendChild(tr);
-        
         if ( current['bold'] ) {
           var th1 = document.createElement('th');
           th1.textContent = current['label'];
+          th1.className = "reboot";
           tr.appendChild(th1);
-
+          
           var th2 = document.createElement('th');
           th2.textContent = current['value'];
+          th2.className = "reboot";
           tr.appendChild(th2);
           
         } else if ( current['value'] ) {

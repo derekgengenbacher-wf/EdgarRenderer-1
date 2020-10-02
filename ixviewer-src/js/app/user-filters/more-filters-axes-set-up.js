@@ -6,49 +6,48 @@
 'use strict';
 
 var UserFiltersMoreFiltersAxesSetUp = {
-  filtersSet : false,
-  
-  axisOptions : [ ],
-  
-  setAxes : function( callback ) {
+  filtersSet: false,
+
+  axisOptions: [],
+
+  setAxes: function (callback) {
     var foundDimensions = document.getElementById('dynamic-xbrl-form').querySelectorAll('[dimension*="Axis"]');
     var foundDimensionsArray = Array.prototype.slice.call(foundDimensions);
-    
-    foundDimensionsArray.forEach(function( current ) {
+
+    foundDimensionsArray.forEach(function (current) {
       var tempObject = {
-        'name' : current.getAttribute('dimension'),
-        'label' : current.getAttribute('dimension').split(':')[1].replace(/([A-Z])/g, ' $1').trim().slice(0, -5)
+        'name': current.getAttribute('dimension'),
+        'label': current.getAttribute('dimension').split(':')[1].replace(/([A-Z])/g, ' $1').trim().slice(0, -5)
       };
-      
-      var axisExists = UserFiltersMoreFiltersAxesSetUp.axisOptions.filter(function( element ) {
+
+      var axisExists = UserFiltersMoreFiltersAxesSetUp.axisOptions.filter(function (element) {
         return element['name'] === tempObject['name'];
       });
-      
-      if ( axisExists.length === 0 ) {
+
+      if (axisExists.length === 0) {
         UserFiltersMoreFiltersAxesSetUp.axisOptions.push(tempObject);
-        
+
       }
-      
+
     });
-    UserFiltersMoreFiltersAxesSetUp.axisOptions.sort(function( first, second ) {
-      if ( first['label'] > second['label'] ) {
+    UserFiltersMoreFiltersAxesSetUp.axisOptions.sort(function (first, second) {
+      if (first['label'] > second['label']) {
         return 1;
       }
-      if ( first['label'] < second['label'] ) {
+      if (first['label'] < second['label']) {
         return -1;
       }
       return 0;
     });
-    
+
     document.getElementById('filters-axis-count').innerText = UserFiltersMoreFiltersAxesSetUp.axisOptions.length;
-    
+
     UserFiltersMoreFiltersAxesSetUp.populate();
-    
+
     callback();
   },
-  
-  populate : function( ) {
 
+  populate : function( ) {
     var elem = document.getElementById('user-filters-axis');
     elem.innerHTML = '';
 

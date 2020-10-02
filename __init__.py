@@ -137,7 +137,7 @@ Required if running under Java (using runtime.exec) on Windows, suggested always
     (to prevent matlib crash under runtime.exe with Java)
         
 """
-VERSION = '3.20.2'
+VERSION = '3.20.3'
 
 from collections import defaultdict
 from arelle import PythonUtil  # define 2.x or 3.x string types
@@ -463,7 +463,8 @@ class EdgarRenderer(Cntlr.Cntlr):
 
         # Excel XSLT is optional, but do report if you can't find it.
         #setResourceFile('excelXslt', options.excelXslt, 'INVALID_CONFIG_EXCELXSLT')  
-        options.excelXslt = setResourceFile('excelXslt', options.excelXslt, "Cannot find excel xslt {}")
+        # if options.excelXslt is "True" from web interface, it has no no string value, e.g., &excelXslt (looks like True here)
+        options.excelXslt = setResourceFile('excelXslt', "" if options.excelXslt == True else options.excelXslt, "Cannot find excel xslt {}")
 
         # logMessageTextFile is optional resources file for messages text (SEC format)
         options.logMessageTextFile = setResourceFile('logMessageTextFile', options.logMessageTextFile, "Cannot find logMessageTextFile {}")
@@ -688,7 +689,7 @@ class EdgarRenderer(Cntlr.Cntlr):
             self.createdFolders.extend(options.daemonCreatedFolders)
             del options.daemonCreatedFolders # don't pass to any subsequent independent filing if any
         mdlMgr = cntlr.modelManager
-        self.validatedForEFM = ("esma" in mdlMgr.disclosureSystem.names or # prevent EFM validation messages for "esma" validations
+        self.validatedForEFM = ("esef" in mdlMgr.disclosureSystem.names or # prevent EFM validation messages for "esef" validations
                                 (not cntlr.hasGui and mdlMgr.validateDisclosureSystem and getattr(mdlMgr.disclosureSystem, "EFMplugin", False))
                                 )
         self.instanceSummaryList = []
@@ -1207,8 +1208,14 @@ def edgarRendererFilingEnd(cntlr, options, filesource, filing, *args, **kwargs):
 def edgarRendererGuiViewMenuExtender(cntlr, viewMenu, *args, **kwargs):
     # persist menu selections for showing filing data and tables menu
     from tkinter import Menu, BooleanVar # must only import if GUI present (no tkinter on GUI-less servers)
+    erViewMenu = Menu(cntlr.menubar, tearoff=0)
+    viewMenu.add_cascade(label=_("Edgar Renderer"), menu=erViewMenu, underline=0)
     def setShowFilingData(self, *args):
         cntlr.config["edgarRendererShowFilingData"] = cntlr.showFilingData.get()
+        cntlr.saveConfig()
+        erViewMenu.entryconfig("Show Redlining", state="normal" if cntlr.showFilingData.get() else "disabled")
+    def setRedlineMode(self, *args):
+        cntlr.config["edgarRendererRedlineMode"] = cntlr.redlineMode.get()
         cntlr.saveConfig()
     def setShowTablesMenu(self, *args):
         cntlr.config["edgarRendererShowTablesMenu"] = cntlr.showTablesMenu.get()
@@ -1216,11 +1223,13 @@ def edgarRendererGuiViewMenuExtender(cntlr, viewMenu, *args, **kwargs):
     def setValidateBeforeRendering(self, *args):
         cntlr.config["edgarRendererValidateBeforeRendering"] = cntlr.showTablesMenu.get()
         cntlr.saveConfig()
-    erViewMenu = Menu(cntlr.menubar, tearoff=0)
-    viewMenu.add_cascade(label=_("Edgar Renderer"), menu=erViewMenu, underline=0)
     cntlr.showFilingData = BooleanVar(value=cntlr.config.get("edgarRendererShowFilingData", True))
     cntlr.showFilingData.trace("w", setShowFilingData)
     erViewMenu.add_checkbutton(label=_("Show Filing Data"), underline=0, variable=cntlr.showFilingData, onvalue=True, offvalue=False)
+    cntlr.redlineMode = BooleanVar(value=cntlr.config.get("edgarRendererRedlineMode", True))
+    cntlr.redlineMode.trace("w", setRedlineMode)
+    erViewMenu.add_checkbutton(label=_("Show Redlining"), underline=0, variable=cntlr.redlineMode, onvalue=True, offvalue=False, 
+                                        state="normal" if cntlr.showFilingData.get() else "disabled")
     cntlr.showTablesMenu = BooleanVar(value=cntlr.config.get("edgarRendererShowTablesMenu", True))
     cntlr.showTablesMenu.trace("w", setShowTablesMenu)
     erViewMenu.add_checkbutton(label=_("Show Tables Menu"), underline=0, variable=cntlr.showTablesMenu, onvalue=True, offvalue=False)
@@ -1236,10 +1245,24 @@ def edgarRendererGuiStartLogging(modelXbrl, mappedUri, normalizedUri, filepath, 
 
 def edgarRendererGuiRun(cntlr, modelXbrl, attach, *args, **kwargs):
     """ run EdgarRenderer using GUI interactions for a single instance or testcases """
-    if cntlr.hasGui:
+    if cntlr.hasGui and modelXbrl.modelDocument:
         from arelle.ValidateFilingText import referencedFiles
         parameters = modelXbrl.modelManager.formulaOptions.parameterValues
         _combinedReports = not cntlr.showTablesMenu.get() # use mustard menu
+        if "summaryXslt" in parameters and "reportXslt" in parameters:
+            _reportXslt = parameters["reportXslt"][1]
+            _summaryXslt = parameters["summaryXslt"][1]
+            if "ixRedline" in parameters and parameters["ixRedline"][1] == "true":
+                _ixRedline = "?redline=true"
+            else:
+                _ixRedline = ""
+        else:
+            _reportXslt =  ('InstanceReport.xslt', 'InstanceReportTable.xslt')[_combinedReports]
+            _summaryXslt = ('Summarize.xslt', '')[_combinedReports] # no FilingSummary.htm for Rall.htm production  
+            if cntlr.redlineMode.get():
+                _ixRedline = "?redline=true"
+            else:
+                _ixRedline = ""
         isNonEFMorGFMinline = (not getattr(cntlr.modelManager.disclosureSystem, "EFMplugin", False) and
                                modelXbrl.modelDocument.type in (ModelDocument.Type.INLINEXBRL, ModelDocument.Type.INLINEXBRLDOCUMENTSET))
         # may use GUI mode to process a single instance or test suite
@@ -1276,11 +1299,9 @@ def edgarRendererGuiRun(cntlr, modelXbrl, attach, *args, **kwargs):
             noReportOutput = None if cntlr.showFilingData.get() else True,
             reportInZip = None,
             resourcesFolder = None,
-            reportXslt = (parameters["reportXslt"][1] if "reportXslt" in parameters else
-                          ('InstanceReport.xslt', 'InstanceReportTable.xslt')[_combinedReports]),
+            reportXslt = _reportXslt,
             reportXsltDissem = parameters["reportXsltDissem"][1] if "reportXsltDissem" in parameters else None,
-            summaryXslt = (parameters["summaryXslt"][1] if "summaryXslt" in parameters else
-                           ('Summarize.xslt', '')[_combinedReports]), # no FilingSummary.htm for Rall.htm production
+            summaryXslt = _summaryXslt,
             summaryXsltDissem = parameters["summaryXslt"][1] if "summaryXslt" in parameters else None,
             renderingLogsXslt = ('RenderingLogs.xslt', None)[_combinedReports],
             excelXslt = ('InstanceReport_XmlWorkbook.xslt', None)[_combinedReports],
@@ -1416,7 +1437,7 @@ def edgarRendererGuiRun(cntlr, modelXbrl, attach, *args, **kwargs):
                             break
                 if not openingUrl: # open SEC Mustard Menu
                     openingUrl = ("FilingSummary.htm", "Rall.htm")[_combinedReports]
-                webbrowser.open(url="{}/{}".format(_localhost, openingUrl))
+                webbrowser.open(url="{}/{}{}".format(_localhost, openingUrl, _ixRedline))
 
 def testcaseVariationExpectedSeverity(modelTestcaseVariation, *args, **kwargs):
     # allow severity to appear on any variation sub-element (such as result)

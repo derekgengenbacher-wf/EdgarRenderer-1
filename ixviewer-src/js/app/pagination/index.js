@@ -6,6 +6,7 @@
 'use strict';
 
 var Pagination = {
+  
   init : function( paginaitonContent, selectorForPaginationControls, selectorForPaginationContent, modalAction ) {
     Pagination.reset();
     Pagination.getModalAction = modalAction;
@@ -47,25 +48,34 @@ var Pagination = {
   getTotalPages : 0,
   
   getPaginationTemplate : function( currentPage ) {
-    var paginationControls = document.querySelector(Pagination.getPaginationControlsSelector);
-    paginationControls.innerHTML = '';
-    paginationControls.appendChild(Pagination.getControlsTemplate());
 
+    while (document.querySelector(Pagination.getPaginationControlsSelector).firstChild) {
+      document.querySelector(Pagination.getPaginationControlsSelector).firstChild.remove();
+    }
+    
+    var divElement = document.createElement('div');
+    divElement.setAttribute('class', 'reboot w-100 d-flex justify-content-between py-2 px-1');
+    divElement.appendChild(Pagination.getPrevNextControls());
+    divElement.appendChild(Pagination.getPaginationInfo());
+    divElement.appendChild(Pagination.getPageControls());
+    document.querySelector(Pagination.getPaginationControlsSelector).appendChild(divElement);
+    
+    var elementToReturn = document.createDocumentFragment();
     var beginAt = ((currentPage - 1) * Constants.getPaginationPerPage);
     var endAt = beginAt + Constants.getPaginationPerPage;
     
-    document.querySelector(Pagination.getPaginationControlsSelector + ' .pagination-info').innerHTML = currentPage
-        + ' of ' + Pagination.getTotalPages;
-
-    var paginationSelectorElement = document.querySelector(Pagination.getPaginationSelector);
-    paginationSelectorElement.innerHTML = '';
-    
     var arrayForPage = Pagination.getArray.slice(beginAt, endAt);
     arrayForPage.forEach(function( current ) {
-      paginationSelectorElement.appendChild(
-          TaxonomiesGeneral.getTaxonomyListTemplate(current, Pagination.getModalAction)
-        );
+      elementToReturn.appendChild(TaxonomiesGeneral.getTaxonomyListTemplate(current, Pagination.getModalAction));
     });
+    while (document.querySelector(Pagination.getPaginationSelector).firstChild) {
+      document.querySelector(Pagination.getPaginationSelector).firstChild.remove();
+    }
+    
+    document.querySelector(Pagination.getPaginationSelector).setAttribute('style', 'height: calc(100vh - 200px);');
+    
+    document.querySelector(Pagination.getPaginationSelector).appendChild(elementToReturn);
+    Pagination.setPageSelect();
   },
   
   firstPage : function( ) {
@@ -169,160 +179,260 @@ var Pagination = {
     }
   },
   
+  getPrevNextControls : function( ) {
+    var elementToReturn = document.createDocumentFragment();
+    
+    var divElement = document.createElement('div');
+    divElement.setAttribute('class', 'reboot');
+    
+    var ulElement = document.createElement('ul');
+    ulElement.setAttribute('class', 'reboot pagination pagination-sm mb-0');
+    
+    var previousTaxonomyLiElement = document.createElement('li');
+    previousTaxonomyLiElement.setAttribute('class', 'reboot page-item');
+    
+    var previousTaxonomyAElement = document.createElement('a');
+    previousTaxonomyAElement.setAttribute('class', 'reboot page-link text-body');
+    previousTaxonomyAElement.setAttribute('href', '#');
+    previousTaxonomyAElement.setAttribute('onclick', 'Pagination.previousTaxonomy(event, this);');
+    previousTaxonomyAElement.setAttribute('tabindex', 13);
+    
+    var previousTaxonomyContent = document.createTextNode('Prev');
+    
+    previousTaxonomyAElement.appendChild(previousTaxonomyContent);
+    previousTaxonomyLiElement.appendChild(previousTaxonomyAElement);
+    ulElement.appendChild(previousTaxonomyLiElement);
+    
+    var nextTaxonomyLiElement = document.createElement('li');
+    nextTaxonomyLiElement.setAttribute('class', 'reboot page-item');
+    
+    var nextTaxonomyAElement = document.createElement('a');
+    nextTaxonomyAElement.setAttribute('class', 'reboot page-link text-body');
+    nextTaxonomyAElement.setAttribute('href', '#');
+    nextTaxonomyAElement.setAttribute('onclick', 'Pagination.nextTaxonomy(event, this);');
+    nextTaxonomyAElement.setAttribute('tabindex', 13);
+    
+    var nextTaxonomyContent = document.createTextNode('Next');
+    
+    nextTaxonomyAElement.appendChild(nextTaxonomyContent);
+    nextTaxonomyLiElement.appendChild(nextTaxonomyAElement);
+    ulElement.appendChild(nextTaxonomyLiElement);
+    divElement.appendChild(ulElement);
+    
+    elementToReturn.appendChild(divElement);
+    
+    return elementToReturn;
+  },
+  
+  getPaginationInfo : function( ) {
+    var elementToReturn = document.createDocumentFragment();
+    
+    var paginationInfoDivElement = document.createElement('div');
+    paginationInfoDivElement.setAttribute('class', 'reboot pagination-info text-body');
+    
+    var paginationInfoDivContent = document.createTextNode(Pagination.getCurrentPage + ' of '
+        + Pagination.getTotalPages);
+    paginationInfoDivElement.appendChild(paginationInfoDivContent);
+    
+    elementToReturn.appendChild(paginationInfoDivElement);
+    
+    return elementToReturn;
+  },
+  
+  getPageControls : function( ) {
+    var firstPage = (Pagination.getCurrentPage === 1) ? 'disabled' : '';
+    var previousPage = (Pagination.getCurrentPage - 1 <= 0) ? 'disabled' : '';
+    var nextPage = (Pagination.getCurrentPage + 1 > Pagination.getTotalPages) ? 'disabled' : '';
+    var lastPage = (Pagination.getCurrentPage === Pagination.getTotalPages) ? 'disabled' : '';
+    
+    var elementToReturn = document.createDocumentFragment();
+    
+    var navElement = document.createElement('nav');
+    navElement.setAttribute('class', 'reboot');
+    
+    var ulElement = document.createElement('ul');
+    ulElement.setAttribute('class', 'reboot pagination pagination-sm mb-0');
+    
+    var firstPageLiElement = document.createElement('li');
+    firstPageLiElement.setAttribute('class', 'reboot page-item ' + firstPage);
+    
+    var firstPageAElement = document.createElement('a');
+    firstPageAElement.setAttribute('class', 'reboot page-link text-body');
+    firstPageAElement.setAttribute('href', '#');
+    firstPageAElement.setAttribute('onclick', 'Pagination.firstPage();');
+    firstPageAElement.setAttribute('tabindex', 13);
+    
+    var firstPageContent = document.createElement('i');
+    firstPageContent.setAttribute('class', 'reboot fas fa-lg fa-angle-double-left');
+    
+    firstPageAElement.appendChild(firstPageContent);
+    firstPageLiElement.appendChild(firstPageAElement);
+    ulElement.appendChild(firstPageLiElement);
+    
+    var previousPageLiElement = document.createElement('li');
+    previousPageLiElement.setAttribute('class', 'reboot page-item ' + previousPage);
+    
+    var previousPageAElement = document.createElement('a');
+    previousPageAElement.setAttribute('class', 'reboot page-link text-body');
+    previousPageAElement.setAttribute('href', '#');
+    previousPageAElement.setAttribute('onclick', 'Pagination.previousPage();');
+    previousPageAElement.setAttribute('tabindex', 13);
+    
+    var previousPageContent = document.createElement('i');
+    previousPageContent.setAttribute('class', 'reboot fas fa-lg fa-angle-left');
+    
+    previousPageAElement.appendChild(previousPageContent);
+    previousPageLiElement.appendChild(previousPageAElement);
+    ulElement.appendChild(previousPageLiElement);
+    
+    var nextPageLiElement = document.createElement('li');
+    nextPageLiElement.setAttribute('class', 'reboot page-item ' + nextPage);
+    
+    var nextPageAElement = document.createElement('a');
+    nextPageAElement.setAttribute('class', 'reboot page-link text-body');
+    nextPageAElement.setAttribute('href', '#');
+    nextPageAElement.setAttribute('onclick', 'Pagination.nextPage();');
+    nextPageAElement.setAttribute('tabindex', 13);
+    
+    var nextPageContent = document.createElement('i');
+    nextPageContent.setAttribute('class', 'reboot fas fa-lg fa-angle-right');
+    
+    nextPageAElement.appendChild(nextPageContent);
+    nextPageLiElement.appendChild(nextPageAElement);
+    ulElement.appendChild(nextPageLiElement);
+    
+    var lastPageLiElement = document.createElement('li');
+    lastPageLiElement.setAttribute('class', 'reboot page-item ' + lastPage);
+    
+    var lastPageAElement = document.createElement('a');
+    lastPageAElement.setAttribute('class', 'reboot page-link text-body');
+    lastPageAElement.setAttribute('href', '#');
+    lastPageAElement.setAttribute('onclick', 'Pagination.lastPage();');
+    lastPageAElement.setAttribute('tabindex', 13);
+    
+    var lastPageContent = document.createElement('i');
+    lastPageContent.setAttribute('class', 'reboot fas fa-lg fa-angle-double-right');
+    
+    lastPageAElement.appendChild(lastPageContent);
+    lastPageLiElement.appendChild(lastPageAElement);
+    ulElement.appendChild(lastPageLiElement);
+    
+    navElement.appendChild(ulElement);
+    elementToReturn.appendChild(navElement);
+    return elementToReturn;
+    
+  },
+  
   getControlsTemplate : function( ) {
     
     var firstPage = (Pagination.getCurrentPage === 1) ? 'disabled' : '';
     var previousPage = (Pagination.getCurrentPage - 1 <= 0) ? 'disabled' : '';
     var nextPage = (Pagination.getCurrentPage + 1 > Pagination.getTotalPages) ? 'disabled' : '';
     var lastPage = (Pagination.getCurrentPage === Pagination.getTotalPages) ? 'disabled' : '';
+
+    var elementToReturn = document.createDocumentFragment();
     
     Pagination.setPageSelect();
-
-    var outerDiv = document.createElement('div');
-    outerDiv.className = 'w-100 d-flex justify-content-between py-2 px-1';
-
-    var pageItemDiv = document.createElement('div');
-    outerDiv.appendChild(pageItemDiv);
-
-    var paginationTaxonomyUl = document.createElement('ul');
-    paginationTaxonomyUl.className = 'pagination pagination-sm mb-0';
-    pageItemDiv.appendChild(paginationTaxonomyUl);
-
-    var prevTaxonomyLi = document.createElement('li');
-    prevTaxonomyLi.className = 'page-item';
-    paginationTaxonomyUl.appendChild(prevTaxonomyLi);
-
-    var prevTaxonomyLink = document.createElement('a');
-    prevTaxonomyLink.textContent = 'Prev';
-    prevTaxonomyLink.href = '#';
-    prevTaxonomyLink.className = 'page-link';
-    prevTaxonomyLink.tabIndex = 13;
-    prevTaxonomyLink.addEventListener('click', function(e) {
-      Pagination.previousTaxonomy(e, this);
-      Pagination.firstPage();
-    });
-    prevTaxonomyLi.appendChild(prevTaxonomyLink);
-
-    var nextTaxonomyLi = document.createElement('li');
-    nextTaxonomyLi.className = 'page-item';
-    paginationTaxonomyUl.appendChild(nextTaxonomyLi);
-
-    var nextTaxonomyLink = document.createElement('a');
-    nextTaxonomyLink.textContent = 'Next';
-    nextTaxonomyLink.href = '#';
-    nextTaxonomyLink.setAttribute('data-test', 'next-taxonomy');
-    nextTaxonomyLink.className = 'page-link';
-    nextTaxonomyLink.tabIndex = 13;
-    nextTaxonomyLink.addEventListener('click', function(e) {
-      Pagination.nextTaxonomy(e, this);
-      // firstPage? seems odd.
-      Pagination.firstPage();
-    });
-    nextTaxonomyLi.appendChild(nextTaxonomyLink);
-
-    var paginationDiv = document.createElement('div');
-    paginationDiv.className = 'pagination-info';
-    outerDiv.appendChild(paginationDiv);
-
-    var nav = document.createElement('nav');
-    outerDiv.appendChild(nav);
-
-    var paginationUl = document.createElement('ul');
-    paginationUl.className = 'pagination pagination-sm mb-0';
-    nav.appendChild(paginationUl);
-
-    // first
-    var firstLi = document.createElement('li');
-    firstLi.className = 'page-item ' + firstPage;
-    paginationUl.appendChild(firstLi);
-
-    var firstLink = document.createElement('a');
-    firstLink.href = '#';
-    firstLink.className = 'page-link';
-    firstLink.tabIndex = 13;
-    firstLink.addEventListener('click', function(e) {
-      Pagination.firstPage();
-    });
-    firstLi.appendChild(firstLink);
-
-    var firstIcon = document.createElement('i');
-    firstIcon.className = 'fas fa-lg fa-angle-double-left';
-    firstLink.appendChild(firstIcon);
-
-    // previous
-    var previousLi = document.createElement('li');
-    previousLi.className = 'page-item ' + previousPage;
-    paginationUl.appendChild(previousLi);
-
-    var previousLink = document.createElement('a');
-    previousLink.href = '#';
-    previousLink.className = 'page-link';
-    previousLink.tabIndex = 13;
-    previousLink.addEventListener('click', function(e) {
-      Pagination.previousPage();
-    });
-    previousLi.appendChild(previousLink);
-
-    var previousIcon = document.createElement('i');
-    previousIcon.className = 'fas fa-lg fa-angle-left';
-    previousLink.appendChild(previousIcon);
-
-    // next
-    var nextLi = document.createElement('li');
-    nextLi.className = 'page-item ' + nextPage;
-    paginationUl.appendChild(nextLi);
-
-    var nextLink = document.createElement('a');
-    nextLink.href = '#';
-    nextLink.className = 'page-link';
-    nextLink.tabIndex = 13;
-    nextLink.addEventListener('click', function(e) {
-      Pagination.nextPage();
-    });
-    nextLi.appendChild(nextLink);
-
-    var nextIcon = document.createElement('i');
-    nextIcon.className = 'fas fa-lg fa-angle-right';
-    nextLink.appendChild(nextIcon);
-
-    // last
-    var lastLi = document.createElement('li');
-    lastLi.className = 'page-item ' + lastPage;
-    paginationUl.appendChild(lastLi);
-
-    var lastLink = document.createElement('a');
-    lastLink.href = '#';
-    lastLink.className = 'page-link';
-    lastLink.tabIndex = 13;
-    lastLink.addEventListener('click', function(e) {
-      Pagination.lastPage();
-    });
-    lastLi.appendChild(lastLink);
-
-    var lastIcon = document.createElement('i');
-    lastIcon.className = 'fas fa-lg fa-angle-double-right';
-    lastLink.appendChild(lastIcon);
-
-    return outerDiv;
     
+    var divElement = document.createElement('div');
+    divElement.setAttribute('class', 'reboot w-100 d-flex justify-content-between py-2 px-1');
+    
+    var divNestedElement = document.createElement('div');
+    divNestedElement.setAttribute('class', 'reboot');
+    
+    var divNestedElement = document.createElement('div');
+    divNestedElement.setAttribute('class', 'reboot');
+    
+    var navElement = document.createElement('nav');
+    navElement.setAttribute('class', 'reboot');
+    
+    var ulElement = document.createElement('ul');
+    ulElement.setAttribute('class', 'reboot pagination pagination-sm mb-0');
+    
+    var firstPageLiElement = document.createElement('li');
+    firstPageLiElement.setAttribute('class', 'reboot page-item ' + firstPage);
+    
+    var firstPageAElement = document.createElement('a');
+    firstPageAElement.setAttribute('class', 'reboot page-link text-body');
+    firstPageAElement.setAttribute('href', '#');
+    firstPageAElement.setAttribute('onclick', 'Pagination.firstPage();');
+    firstPageAElement.setAttribute('tabindex', 13);
+    
+    var firstPageContent = document.createElement('i');
+    firstPageContent.setAttribute('class', 'reboot fas fa-lg fa-angle-double-left');
+    
+    firstPageAElement.appendChild(firstPageContent);
+    firstPageLiElement.appendChild(firstPageAElement);
+    ulElement.appendChild(firstPageLiElement);
+    
+    var previousPageLiElement = document.createElement('li');
+    previousPageLiElement.setAttribute('class', 'reboot page-item ' + previousPage);
+    
+    var previousPageAElement = document.createElement('a');
+    previousPageAElement.setAttribute('class', 'reboot page-link text-body');
+    previousPageAElement.setAttribute('href', '#');
+    previousPageAElement.setAttribute('onclick', 'Pagination.previousPage();');
+    previousPageAElement.setAttribute('tabindex', 13);
+    
+    var previousPageContent = document.createElement('i');
+    previousPageContent.setAttribute('class', 'reboot fas fa-lg fa-angle-left');
+    
+    previousPageAElement.appendChild(previousPageContent);
+    previousPageLiElement.appendChild(previousPageAElement);
+    ulElement.appendChild(previousPageLiElement);
+    
+    var nextPageLiElement = document.createElement('li');
+    nextPageLiElement.setAttribute('class', 'reboot page-item ' + nextPage);
+    
+    var nextPageAElement = document.createElement('a');
+    nextPageAElement.setAttribute('class', 'reboot page-link text-body');
+    nextPageAElement.setAttribute('href', '#');
+    nextPageAElement.setAttribute('onclick', 'Pagination.nextPage();');
+    nextPageAElement.setAttribute('tabindex', 13);
+    
+    var nextPageContent = document.createElement('i');
+    nextPageContent.setAttribute('class', 'reboot fas fa-lg fa-angle-right');
+    
+    nextPageAElement.appendChild(nextPageContent);
+    nextPageLiElement.appendChild(nextPageAElement);
+    ulElement.appendChild(nextPageLiElement);
+    
+    var lastPageLiElement = document.createElement('li');
+    lastPageLiElement.setAttribute('class', 'reboot page-item ' + lastPage);
+    
+    var lastPageAElement = document.createElement('a');
+    lastPageAElement.setAttribute('class', 'reboot page-link text-body');
+    lastPageAElement.setAttribute('href', '#');
+    lastPageAElement.setAttribute('onclick', 'Pagination.lastPage();');
+    lastPageAElement.setAttribute('tabindex', 13);
+    
+    var lastPageContent = document.createElement('i');
+    lastPageContent.setAttribute('class', 'reboot fas fa-lg fa-angle-double-right');
+    
+    lastPageAElement.appendChild(lastPageContent);
+    lastPageLiElement.appendChild(lastPageAElement);
+    ulElement.appendChild(lastPageLiElement);
+    
+    divNestedElement.appendChild(ulElement);
+    divElement.appendChild(divNestedElement);
+    
+    elementToReturn.appendChild(divElement);
+    
+    return elementToReturn;
+
   },
   
   setPageSelect : function( ) {
-
-    var pageSelect = document.getElementById('taxonomies-menu-page-select');
-    pageSelect.innerHTML = '';
-
-    var option = document.createElement('option');
-    option.value = 'null';
-    option.textContent = 'Select a Page';
-    pageSelect.appendChild(option);
-
-    for ( var i = 1; i <= Pagination.getTotalPages; i++ ) {
-      option = document.createElement('option');
-      option.value = i;
-      option.textContent = 'Page ' + i;
-      if ( i === Pagination.getCurrentPage ) {
-        option.setAttribute('selected', '');
+    var pageSelectHTML = '<option value="null">Select a Page</option>';
+    
+    for ( var i = 0; i < Pagination.getTotalPages; i++ ) {
+      if ( (i + 1) === Pagination.getCurrentPage ) {
+        
+        pageSelectHTML += '<option class="reboot" selected value="' + (i + 1) + '">Page ' + (i + 1) + '</option>';
+        
+      } else {
+        pageSelectHTML += '<option class="reboot" value="' + (i + 1) + '">Page ' + (i + 1) + '</option>';
+        
       }
       pageSelect.appendChild(option);
     }
@@ -337,6 +447,12 @@ var Pagination = {
   },
   
   goToTaxonomy : function( event, element ) {
+    
+    if ( event.keyCode && !(event.keyCode === 13 || event.keyCode === 32) ) {
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
     
     if ( element && element.hasAttribute('data-id') ) {
       

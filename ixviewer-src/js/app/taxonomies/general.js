@@ -68,7 +68,7 @@ var TaxonomiesGeneral = {
     innerP.className = 'text-center p-2';
     innerP.textContent = 'Click for additional information.';
     popoverDiv.appendChild(innerP);
-    
+
     $(element).popover({
       'placement' : 'auto',
       'template' : containerElem.innerHTML
@@ -203,63 +203,74 @@ var TaxonomiesGeneral = {
   
   getTaxonomyListTemplate : function( elementID, modalAction ) {
 
-    // Note that the original produced broken tags with unballanced quotes.
-    // I've done my best to work out what the developers intended, and written that.
-    // This has also been refactored to return an element (to allow for non-inline event listeners)
-
+    var template = '';
+    var elementToReturn = document.createDocumentFragment();
+    
     var element = TaxonomiesGeneral.getTaxonomyById(elementID);
     element = (element instanceof Array) ? element[0] : element;
-
-    var taxonomyLink = document.createElement('a');
-    taxonomyLink.setAttribute('selected-taxonomy', element.getAttribute('selected-taxonomy'));
-    taxonomyLink.setAttribute('contextref', element.getAttribute('contextref'));
-    taxonomyLink.setAttribute('name', element.getAttribute('name'));
-    taxonomyLink.addEventListener('click', function(e) { TaxonomiesGeneral.goTo(e, this, modalAction); });
-
-    var elementId = element.getAttribute('id');
-    if ( elementId ) {
-      taxonomyLink.setAttribute('data-id', elementId);
-      taxonomyLink.addEventListener('keyup', function(e) { TaxonomiesGeneral.goTo(e, this, modalAction); });
-      taxonomyLink.className = 'click list-group-item list-group-item-action flex-column align-items-start px-2 py-2 w-100';
-      taxonomyLink.tabIndex = 13;
+    
+    // if ( element.getAttribute('id') ) {
+    var aElement = document.createElement('a');
+    aElement
+        .setAttribute('class',
+            'reboot text-body border-bottom click text-decoration-none click list-group-item list-group-item-action px-0 py-0');
+    aElement.setAttribute('selected-taxonomy', element.getAttribute('selected-taxonomy'));
+    aElement.setAttribute('contextref', element.getAttribute('contextref'));
+    aElement.setAttribute('name', element.getAttribute('name'));
+    if ( element.hasAttribute('id') ) {
+      aElement.setAttribute('data-id', element.getAttribute('id'));
+    }
+    aElement.setAttribute('onclick', 'TaxonomiesGeneral.goTo(event, this, ' + modalAction + ')');
+    aElement.setAttribute('onkeyup', 'TaxonomiesGeneral.goTo(event, this, ' + modalAction + ')');
+    aElement.setAttribute('tabindex', 13);
+    
+    var divElement = document.createElement('div');
+    divElement.setAttribute('class', 'd-flex w-100 justify-content-between');
+    
+    var pElement = document.createElement('p');
+    pElement.setAttribute('class', 'mb-1 font-weight-bold');
+    
+    var pElementContent = document.createTextNode((FiltersName.getLabel(element.getAttribute('name')) || ''));
+    pElement.appendChild(pElementContent);
+    
+    divElement.appendChild(pElement);
+    divElement.appendChild(TaxonomiesGeneral.getTaxonomyBadge(element) || document.createTextNode(''));
+    
+    var pElement = document.createElement('p');
+    pElement.setAttribute('class', 'mb-1');
+    
+    var pElementContent = document.createTextNode(FiltersContextref.getPeriod(element.getAttribute('contextref')));
+    pElement.appendChild(pElementContent);
+    
+    var smallElement = document.createElement('small');
+    smallElement.setAttribute('class', 'mb-1');
+    
+    var smallElementContent;
+    
+    if ( element instanceof Array ) {
+      
+      smallElementContent = document.createTextNode('Click to see Fact.');
+    } else if ( element.hasAttribute('text-block-taxonomy') || ConstantsFunctions.setModalFactAsTextBlock(element) ) {
+      
+      smallElementContent = document.createTextNode('Click to see Fact.');
     } else {
-      taxonomyLink.className = 'click list-group-item list-group-item-action flex-column align-items-start px-2 py-2';
+      
+      smallElementContent = document.createTextNode(FiltersValue.getFormattedValue(element, true));
     }
-
-    var containerDiv = document.createElement('div');
-    containerDiv.className = 'd-flex w-100 justify-content-between';
-    taxonomyLink.appendChild(containerDiv);
-
-    var labelContent = FiltersName.getLabel(element.getAttribute('name'));
-    var innerP = document.createElement('p');
-    innerP.className = 'mb-1 font-weight-bold';
-    if (labelContent) {
-      innerP.innerHTML = labelContent;
-    }
-    containerDiv.appendChild(innerP);
-
-    var badgeContent = TaxonomiesGeneral.getTaxonomyBadge(element);
-    if (badgeContent) {
-      var badgeNode = document.createElement('div');
-      badgeNode.innerHTML = badgeContent;
-      containerDiv.appendChild(badgeNode.firstChild);
-    }
-
-    var outerP = document.createElement('p');
-    outerP.className = 'mb-1';
-    outerP.textContent = FiltersContextref.getPeriod(element.getAttribute('contextref'));
-    taxonomyLink.appendChild(outerP);
-
-    var outerSmall = document.createElement('small');
-    outerSmall.className = 'mb-1';
-    outerSmall.innerHTML = FiltersValue.getFormattedValue(element, false);
-    taxonomyLink.appendChild(outerSmall);
-
-    return taxonomyLink;
+    
+    smallElement.appendChild(smallElementContent);
+    
+    aElement.appendChild(divElement);
+    aElement.appendChild(pElement);
+    aElement.appendChild(smallElement);
+    elementToReturn.appendChild(aElement);
+    
+    return elementToReturn;
   },
   
   getTaxonomyBadge : function( element ) {
     
+    var elementToReturn = document.createDocumentFragment();
     var label = '';
     var title = '';
     
@@ -295,8 +306,17 @@ var TaxonomiesGeneral = {
     }
     
     if ( label ) {
-      // `title` and `label` are hard-coded values and are thus safe.
-      return '<span><span title="' + title + '" class="m-1 badge badge-dark">' + label + '</span></span>';
+      var spanElement = document.createElement('span');
+      var spanNestedElement = document.createElement('span');
+      spanNestedElement.setAttribute('title', title);
+      spanNestedElement.setAttribute('class', 'm-1 badge badge-dark');
+      
+      var spanNestedElementContent = document.createTextNode(label);
+      
+      spanNestedElement.appendChild(spanNestedElementContent);
+      spanElement.appendChild(spanNestedElement);
+      elementToReturn.appendChild(spanElement);
+      return elementToReturn;
     }
     return;
   },

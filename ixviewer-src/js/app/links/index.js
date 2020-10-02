@@ -51,37 +51,35 @@ var Links = {
   
   populate : function( ) {
     
-    // Note: the original version of this function fails to actually close the link if it points
-    // to the current page. This has been fixed.
-
     var dropdownContent = document.getElementById('links-dropdown-content');
-    dropdownContent.innerHTML = '';
-
-    Constants.getMetaSourceDocuments
-        .forEach(function( current ) {
-          
-          var link = document.createElement('a');
-          link.className = 'dropdown-item';
-
-          if ( current !== HelpersUrl.getHTMLFileName ) {
-            link.addEventListener('click', function(e) {
-              Links.clickEventInternal(e, this);
-            });
-            link.href = current;
-            link.setAttribute('data-link', current);
-          } else {
-            link.href = '#';
-            link.setAttribute('aria-disabled', 'true');
-
-            var icon = document.createElement('i');
-            icon.title = 'Current Form';
-            icon.className = 'fa fa-bookmark';
-            link.appendChild(icon);
-          }
-          link.appendChild(document.createTextNode(current));
-
-          dropdownContent.appendChild(link);
-        });
+    // first we empty the dropdown element
+    while (dropdownContent.firstChild) {
+      dropdownContent.firstChild.remove();
+    }
+    
+    Constants.getMetaSourceDocuments.forEach(function( current ) {
+      var link = document.createElement('a');
+      link.setAttribute('class', 'reboot dropdown-item');
+      if ( current !== HelpersUrl.getHTMLFileName ) {
+        
+        link.setAttribute('onclick', 'Links.clickEventInternal(event, this)');
+        link.setAttribute('href', current);
+        link.setAttribute('data-link', current);
+        
+      } else {
+        link.setAttribute('href', '#');
+        link.setAttribute('aria-disabled', 'true');
+        
+        var icon = document.createElement('i');
+        icon.setAttribute('title', 'Current Form');
+        icon.setAttribute('class', 'reboot fa fa-bookmark mr-1');
+        link.prepend(icon);
+      }
+      link.appendChild(document.createTextNode(current));
+      dropdownContent.appendChild(link);
+      
+    });
+    
   }
 
 };

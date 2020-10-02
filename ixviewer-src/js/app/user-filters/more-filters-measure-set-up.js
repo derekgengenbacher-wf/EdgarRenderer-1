@@ -6,26 +6,26 @@
 'use strict';
 
 var UserFiltersMoreFiltersMeasureSetUp = {
-  filtersSet : false,
-  
-  measuresOptions : [ ],
-  
-  setMeasures : function( callback ) {
+  filtersSet: false,
+
+  measuresOptions: [],
+
+  setMeasures: function (callback) {
     var foundMeasures = document.getElementById('dynamic-xbrl-form').querySelectorAll('[unitref]');
     var foundMeasuresArray = Array.prototype.slice.call(foundMeasures);
-    
-    UserFiltersMoreFiltersMeasureSetUp.measuresOptions = foundMeasuresArray.map(function( current ) {
+
+    UserFiltersMoreFiltersMeasureSetUp.measuresOptions = foundMeasuresArray.map(function (current) {
       return current.getAttribute('unitref');
-    }).filter(function( element, index, array ) {
+    }).filter(function (element, index, array) {
       return array.indexOf(element) === index;
     }).sort();
-    
+
     document.getElementById('filters-measures-count').innerText = UserFiltersMoreFiltersMeasureSetUp.measuresOptions.length;
-    
+
     UserFiltersMoreFiltersMeasureSetUp.populate();
     callback();
   },
-  
+
   populate : function( ) {
     var elem = document.getElementById('user-filters-measures');
     elem.innerHTML = '';

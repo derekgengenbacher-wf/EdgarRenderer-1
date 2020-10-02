@@ -12,20 +12,23 @@ var FiltersName = {
     if ( name && typeof name === 'string' ) {
       if ( name.split(':').length > 1 ) {
         
-        var returnedName = document.createElement('div');
         name = name.split(':');
+        var element = document.createElement('p');
+        element.setAttribute('class', 'reboot mb-0');
         
-        var span1 = document.createElement('span');
-        span1.className = 'font-weight-bold';
-        span1.textContent = name[0].toUpperCase();
-        returnedName.appendChild(span1);
-
-        var span2 = document.createElement('span');
-        span2.className = 'ml-1';
-        span2.textContent = name[1].replace(/([A-Z])/g, ' $1').trim();
-        returnedName.appendChild(span2);
-
-        return returnedName.innerHTML;
+        var contentBegin = document.createTextNode(name[0].toUpperCase());
+        var elementBegin = document.createElement('span');
+        elementBegin.setAttribute('class', 'reboot font-weight-bold');
+        elementBegin.appendChild(contentBegin);
+        
+        var contentEnd = document.createTextNode(name[1].replace(/([A-Z])/g, ' $1').trim());
+        var elementEnd = document.createElement('span');
+        elementEnd.setAttribute('class', 'reboot ml-1');
+        elementEnd.appendChild(contentEnd);
+        
+        element.appendChild(elementBegin);
+        element.appendChild(elementEnd);
+        return element;
       }
     }
     return '';
@@ -50,47 +53,34 @@ var FiltersName = {
   },
   
   getDefinition : function( name ) {
-    if ( name && typeof name === 'string' ) {
-      var foundTagInformation = Constants.getMetaTags.filter(function( element ) {
-        if ( element['original-name'] === name.replace(':', '_') ) {
-          return true;
-        }
-        return false;
-      });
-      if ( foundTagInformation && foundTagInformation[0] && foundTagInformation[0]['lang'] ) {
-
-        var containerElem = document.createElement('div');
-
-        Object.keys(foundTagInformation[0]['lang']).forEach(
-            function( current, index ) {
-              if ( foundTagInformation[0]['lang'][current]['role']
-                  && foundTagInformation[0]['lang'][current]['role']['documentation'] ) {
-
-                if ( Object.keys(foundTagInformation[0]['lang']).length === 1 ) {
-                  containerElem.appendChild(document.createTextNode(
-                    foundTagInformation[0]['lang'][current]['role']['documentation']));
-                } else {
-                  
-                  var span = document.createElement('span');
-                  span.className = 'font-weight-bold';
-                  span.textContent = current.toUpperCase();
-                  containerElem.appendChild(span);
-
-                  containerElem.appendChild(document.createTextNode(
-                    ': ' + foundTagInformation[0]['lang'][current]['role']['documentation']));
-                  
-                  if ( index < Object.keys(foundTagInformation[0]['lang']).length ) {
-                    containerElem.appendChild(document.createElement('br'));
-                  }
-                }
+      if ( name && typeof name === 'string' ) {
+          var foundTagInformation = Constants.getMetaTags.filter(function( element ) {
+              if ( element['original-name'] === name.replace(':', '_') ) {
+                  return true;
               }
-              
-            });
-        return containerElem.innerHTML;
+              return false;
+          });
+          if ( foundTagInformation && foundTagInformation[0] && foundTagInformation[0]['lang'] ) {
+              var stringToReturn = '';
+              Object.keys(foundTagInformation[0]['lang']).forEach(
+                  function( current, index ) {
+                      if ( foundTagInformation[0]['lang'][current]['role']
+                          && foundTagInformation[0]['lang'][current]['role']['documentation'] ) {
+
+                          if ( Object.keys(foundTagInformation[0]['lang']).length === 1 ) {
+                              stringToReturn = foundTagInformation[0]['lang'][current]['role']['documentation'];
+                          } else {
+
+                              stringToReturn += foundTagInformation[0]['lang'][current]['role']['documentation'] + ' ';
+                          }
+                      }
+
+                  });
+              return stringToReturn;
+          }
+          return null;
       }
       return null;
-    }
-    return null;
   },
   
   getAllLabelObject : function( name ) {
@@ -154,50 +144,63 @@ var FiltersName = {
         return arrayToReturn;
       }
     }
-    return null;
+    return [ ];
   },
   
-  getLabel : function( name ) {
-    if ( name && typeof name === 'string' ) {
-      var foundTagInformation = Constants.getMetaTags.filter(function( element ) {
-        if ( element['original-name'] === name.replace(':', '_') ) {
-          return true;
-        }
-        return false;
-      });
-      
-      if ( foundTagInformation && foundTagInformation[0] && foundTagInformation[0]['lang'] ) {
-        
-        var containerElem = document.createElement('div');
-        
-        Object.keys(foundTagInformation[0]['lang']).forEach(
-            function( current, index ) {
-              if ( foundTagInformation[0]['lang'][current]['role']
-                  && foundTagInformation[0]['lang'][current]['role']['label'] ) {
-                if ( Object.keys(foundTagInformation[0]['lang']).length === 1 ) {
-                  containerElem.appendChild(document.createTextNode(
-                    foundTagInformation[0]['lang'][current]['role']['label']));
-                } else {
-                  var span = document.createElement('span');
-                  span.className = 'font-weight-bold';
-                  span.textContent = current.toUpperCase();
-                  containerElem.appendChild(span);
-                  containerElem.appendChild(document.createTextNode(
-                    foundTagInformation[0]['lang'][current]['role']['label']));
-                  
-                  if ( index < Object.keys(foundTagInformation[0]['lang']).length ) {
-                    containerElem.appendChild(document.createElement('br'));
-                  }
-                }
+  getLabel : function( name, includePossibleLanguages ) {
+
+      includePossibleLanguages = includePossibleLanguages || false;
+      if ( name && typeof name === 'string' ) {
+          var foundTagInformation = Constants.getMetaTags.filter(function( element ) {
+              if ( element['original-name'] === name.replace(':', '_') ) {
+                  return true;
               }
-              
-            });
-        return containerElem.innerHTML;
-        
+              return false;
+          });
+          if ( foundTagInformation && foundTagInformation[0] && foundTagInformation[0]['lang'] ) {
+              var stringToReturn = '';
+
+              Object.keys(foundTagInformation[0]['lang']).forEach(
+                  function( current, index ) {
+                      if ( foundTagInformation[0]['lang'][current]['role']
+                          && foundTagInformation[0]['lang'][current]['role']['label'] ) {
+                          if ( !includePossibleLanguages ) {
+                              stringToReturn = foundTagInformation[0]['lang'][current]['role']['label'];
+                          }
+
+                          else if ( Object.keys(foundTagInformation[0]['lang']).length === 1 ) {
+                              stringToReturn = foundTagInformation[0]['lang'][current]['role']['label'];
+                          } else {
+                              var element = document.createElement('span');
+
+                              var contentBegin = document.createTextNode(current.toUpperCase());
+                              var elementBegin = document.createElement('span');
+                              elementBegin.setAttribute('class', 'reboot font-weight-bold');
+                              elementBegin.appendChild(contentBegin);
+
+                              var contentEnd = document.createTextNode(': '
+                                  + foundTagInformation[0]['lang'][current]['role']['label']);
+                              var elementEnd = document.createElement('span');
+                              elementEnd.appendChild(contentEnd);
+
+                              element.appendChild(elementBegin);
+                              element.appendChild(elementEnd);
+
+                              if ( index < Object.keys(foundTagInformation[0]['lang']).length ) {
+                                  var br = document.createElement('br');
+                                  element.appendChild(br);
+                              }
+                              stringToReturn += element.innerHTML;
+                          }
+                      }
+
+                  });
+              return stringToReturn;
+
+          }
+          return null;
       }
       return null;
-    }
-    return null;
   },
   
   getTextOnlyLabel : function( name ) {
@@ -215,42 +218,6 @@ var FiltersName = {
           return foundTagInformation[0]['lang'][Object.keys(foundTagInformation[0]['lang'])[0]]['role']['label'];
         }
         
-      }
-      return null;
-    }
-    return null;
-  },
-  
-  getTerseLabel : function( name ) {
-    if ( name && typeof name === 'string' ) {
-      var foundTagInformation = Constants.getMetaTags.filter(function( element ) {
-        if ( element['original-name'] === name.replace(':', '_') ) {
-          return true;
-        }
-        return false;
-      });
-      
-      if ( foundTagInformation && foundTagInformation[0] && foundTagInformation[0]['lang'] ) {
-        
-        var containerElem = document.createElement('div');
-        Object.keys(foundTagInformation[0]['lang']).forEach(
-            function( current, index ) {
-              if ( foundTagInformation[0]['lang'][current]['role']
-                  && foundTagInformation[0]['lang'][current]['role']['terseLabel'] ) {
-                var span = document.createElement('span');
-                span.className = 'font-weight-bold';
-                span.textContent = current.toUpperCase();
-                containerElem.appendChild(span);
-                containerElem.appendChild(document.createTextNode(
-                  foundTagInformation[0]['lang'][current]['role']['terseLabel']));
-                
-                if ( index < Object.keys(foundTagInformation[0]['lang']).length ) {
-                  containerElem.appendChild(document.createElement('br'));
-                }
-              }
-              
-            });
-        return containerElem.innerHTML;
       }
       return null;
     }
@@ -310,6 +277,7 @@ var FiltersName = {
   },
   
   getAuthRefs : function( name ) {
+    
     if ( name && typeof name === 'string' ) {
       var foundTagInformation = Constants.getMetaTags.filter(function( element ) {
         if ( element['original-name'] === name.replace(':', '_') ) {
@@ -320,7 +288,8 @@ var FiltersName = {
       if ( foundTagInformation && foundTagInformation[0] && foundTagInformation[0]['auth_ref'] ) {
         return foundTagInformation[0]['auth_ref'];
       }
-      return null;
+      // return an empty array
+      return [ ];
     }
     return null;
   },
@@ -375,12 +344,16 @@ var FiltersName = {
                   if ( parent ) {
                     parent = FiltersName.getFormattedName(parent.replace('_', ':'));
                   } else {
-                    parent = 'Not Available.';
+                    var element = document.createDocumentFragment();
+                    var text = document.createTextNode('Not Available.');
+                    element.appendChild(text);
+                    parent = element;
                   }
                   
                   returnArray.push({
                     'label' : 'Parent',
-                    'value' : parent
+                    'value' : parent,
+                    'html' : parent ? true : false
                   });
                 }
               });

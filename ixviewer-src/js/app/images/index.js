@@ -13,16 +13,16 @@ var Images = {
     var foundImagesArray = Array.prototype.slice.call(foundImages);
     
     foundImagesArray.forEach(function( current ) {
-      if (current['src'].substr(0,5) !== 'data:') {
-        var imageSRC = current['src'].substr(current['src'].lastIndexOf('/') + 1);
-        current.setAttribute('data-src', HelpersUrl.getFormAbsoluteURL + imageSRC);
-        current.removeAttribute('src');
-        var img = new Image();
-        img.src = current.getAttribute('data-src');
-        img.onload = function( ) {
-          current.setAttribute('src', current.getAttribute('data-src'));
-        };
-      }
+     if (current['src'].substr(0,5) !== 'data:') { // HF: support embedded images (ESEF), e.g. img src='data:..'
+      var imageSRC = current['src'].substr(current['src'].lastIndexOf('/') + 1);
+      current.setAttribute('data-src', HelpersUrl.getFormAbsoluteURL + imageSRC);
+      current.removeAttribute('src');
+      var img = new Image();
+      img.src = current.getAttribute('data-src');
+      img.onload = function( ) {
+        current.setAttribute('src', current.getAttribute('data-src'));
+      };
+     }
     });
   }
 };

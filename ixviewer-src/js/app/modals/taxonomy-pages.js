@@ -10,21 +10,28 @@ var TaxonomyPages = {
   firstPage : function( element, callback ) {
     
     var factValue;
-    if ( element.length ) {
-      factValue = FiltersValue.getFormattedValueForContinuedAt(element, true);
-      element = element[0];
+    var factValueIsHTML = false;
+    if ( element instanceof Array ) {
       
+      factValue = FiltersValue.getFormattedValueForContinuedAt(element);
+      element = element[0];
+      factValueIsHTML = true;
+    } else if ( element.hasAttribute('text-block-taxonomy') || ConstantsFunctions.setModalFactAsTextBlock(element) ) {
+      
+      factValue = FiltersValue.getFormattedValueForTextBlock(element);
+      factValueIsHTML = true;
     } else {
       
       factValue = FiltersValue.getFormattedValue(element, true);
-      
     }
+    
     var possibleLabels = [ {
       'label' : 'Tag',
       'value' : element.getAttribute('name')
     }, {
       'label' : 'Fact',
-      'value' : factValue
+      'value' : factValue,
+      'html' : factValueIsHTML
     }, {
       'label' : 'Fact Language',
       'value' : FiltersOther.getLanguage(element.getAttribute('xml:lang'))
@@ -33,10 +40,12 @@ var TaxonomyPages = {
       'value' : FiltersContextref.getPeriod(element.getAttribute('contextref'))
     }, {
       'label' : 'Axis',
-      'value' : FiltersContextref.getAxis(element.getAttribute('contextref'))
+      'value' : FiltersContextref.getAxis(element.getAttribute('contextref')),
+      'html' : true
     }, {
       'label' : 'Member',
-      'value' : FiltersContextref.getMember(element.getAttribute('contextref'))
+      'value' : FiltersContextref.getMember(element.getAttribute('contextref')),
+      'html' : true
     }, {
       'label' : 'Measure',
       'value' : FiltersUnitref.getMeasure(element.getAttribute('unitref'))
@@ -63,34 +72,57 @@ var TaxonomyPages = {
       'value' : FiltersOther.getFootnote(element.getAttribute('data-original-id'))
     } ];
     
-    var table = document.createElement('table');
+    // please note we are not using document.createDocumentFragment()
+    // here because of an odd issue with IE
+    var elementsToReturn = document.createElement('tbody');
+    elementsToReturn.setAttribute('class', 'reboot');
+    
     possibleLabels.forEach(function( current, index, array ) {
       if ( current['value'] ) {
-        var tr = document.createElement('tr');
-        table.appendChild(tr);
-
-        var th = document.createElement('th');
-        th.textContent = current['label'];
-        tr.appendChild(th);
-
-        var td = document.createElement('td');
-        tr.appendChild(td);
-
-        var div = document.createElement('div');
-        div.innerHTML = current['value'];
-        td.appendChild(div);
-
-        if ( current['label'] !== 'Fact' ) {
-          div.className = 'w-100 word-break';
-        }
+        var trElement = document.createElement('tr');
+        trElement.setAttribute('class', 'reboot');
         
+        var thElement = document.createElement('th');
+        thElement.setAttribute('class', 'reboot');
+        
+        var thContent = document.createTextNode(current['label']);
+        thElement.appendChild(thContent);
+        
+        var tdElement = document.createElement('td');
+        tdElement.setAttribute('class', 'reboot');
+        
+        var divElement = document.createElement('div');
+        divElement.setAttribute('class', 'reboot w-100 word-break');
+        if ( current['html'] ) {
+          
+          if ( current['value'] instanceof Array ) {
+            
+            current.value.forEach(function( currentHTML ) {
+              
+              if ( currentHTML.firstElementChild ) {
+                
+                divElement.appendChild(currentHTML);
+              }
+            });
+            tdElement.appendChild(divElement);
+          } else {
+            
+            tdElement.appendChild(current['value']);
+          }
+        } else {
+          divElement.innerHTML=current['value'];
+          tdElement.appendChild(divElement);
+        }
+        trElement.appendChild(thElement);
+        trElement.appendChild(tdElement);
+        elementsToReturn.append(trElement);
       }
     });
-    return callback(table.innerHTML);
+    return callback(elementsToReturn.firstElementChild ? elementsToReturn : TaxonomyPages.noDataCarousel());
+    
   },
   
   secondPage : function( element, callback ) {
-    
     if ( element.length ) {
       element = element[0];
     }
@@ -104,22 +136,41 @@ var TaxonomyPages = {
       possibleLabels.push(tempObject);
     }
     
-    var table = document.createElement('table');
+    // please note we are not using document.createDocumentFragment()
+    // here because of an odd issue with IE
+    var elementsToReturn = document.createElement('div');
+    
     possibleLabels.forEach(function( current, index, array ) {
       if ( current['value'] ) {
-        var tr = document.createElement('tr');
-        table.appendChild(tr);
-
-        var th = document.createElement('th');
-        th.textContent = current['label'];
-        tr.appendChild(th);
-
-        var td = document.createElement('td');
-        td.textContent = current['value'];
-        tr.appendChild(td);
+        
+        var trElement = document.createElement('tr');
+        trElement.setAttribute('class', 'reboot');
+        
+        var thElement = document.createElement('th');
+        thElement.setAttribute('class', 'reboot');
+        
+        var thContent = document.createTextNode(current['label']);
+        thElement.appendChild(thContent);
+        
+        var tdElement = document.createElement('td');
+        tdElement.setAttribute('class', 'reboot');
+        
+        var divElement = document.createElement('div');
+        divElement.setAttribute('class', 'reboot');
+        
+        var divContent = document.createTextNode(current['value']);
+        divElement.appendChild(divContent);
+        tdElement.appendChild(divElement);
+        
+        trElement.appendChild(thElement);
+        trElement.appendChild(tdElement);
+        
+        elementsToReturn.appendChild(trElement);
+        
       }
     });
-    return callback(table.innerHTML);
+    return callback(elementsToReturn.firstElementChild ? elementsToReturn : TaxonomyPages.noDataCarousel());
+    
   },
   
   thirdPage : function( element, callback ) {
@@ -127,46 +178,50 @@ var TaxonomyPages = {
     if ( element.length ) {
       element = element[0];
     }
-    
     var allAuthRefs = FiltersName.getAuthRefs(element.getAttribute('name')) || [ ];
-    var allAuthRefsViaDimension = FiltersContextref.getAxis(element.getAttribute('contextref'), true);
-    var additionalReferences = [ ];
+    var additionalRefs = [ ];
+    var allAuthRefsViaDimension = FiltersContextref.getAxis(element.getAttribute('contextref'), true) || null;
     if ( allAuthRefsViaDimension ) {
-      allAuthRefsViaDimension = allAuthRefsViaDimension.split(' ');
-      allAuthRefsViaDimension.forEach(function( current, index ) {
+      var allAuthRefsViaDimensionArray = allAuthRefsViaDimension.split(' ');
+      allAuthRefsViaDimensionArray.forEach(function( current, index ) {
         FiltersName.getAuthRefs(current).forEach(function( nestedAuth, nestedIndex ) {
-          allAuthRefs.push(nestedAuth);
+          additionalRefs.push(nestedAuth);
         });
       });
     }
-    var allAuthRefsViaMember = FiltersContextref.getMember(element.getAttribute('contextref'), true);
+    var allAuthRefsViaMember = FiltersContextref.getMember(element.getAttribute('contextref'), true) || null;
     if ( allAuthRefsViaMember ) {
-      allAuthRefsViaMember = allAuthRefsViaMember.split(' ');
-      allAuthRefsViaMember.forEach(function( current, index ) {
+      var allAuthRefsViaMemberArray = allAuthRefsViaMember.split(' ');
+      allAuthRefsViaMemberArray.forEach(function( current, index ) {
         FiltersName.getAuthRefs(current).forEach(function( nestedAuth, nestedIndex ) {
-          allAuthRefs.push(nestedAuth);
+          additionalRefs.push(nestedAuth);
         });
       });
     }
     
-    allAuthRefs = new Set(allAuthRefs);
-
-    var table = document.createElement('table');
+    var allRefs = allAuthRefs.concat(additionalRefs);
+    var uniqueAuthRefs = allRefs.filter(function( element, index ) {
+      return allRefs.indexOf(element) === index;
+    });
     
-    if ( allAuthRefs ) {
-      allAuthRefs.forEach(function( current ) {
+    // please note we are not using document.createDocumentFragment()
+    // here because of an odd issue with IE
+    var elementsToReturn = document.createElement('div');
+
+    if ( uniqueAuthRefs ) {
+      uniqueAuthRefs.forEach(function( current ) {
         var discoveredReference = ConstantsFunctions.getSingleMetaStandardReference(current);
         if ( discoveredReference[0] ) {
           
           var possibleLabels = [ {
-              'label' : 'Footnote',
-              'value' : discoveredReference[0]['Footnote']
+            'label' : 'Footnote',
+            'value' : discoveredReference[0]['Footnote']
           }, {
             'label' : 'Name',
             'value' : discoveredReference[0]['Name']
           }, {
-              'label' : 'Number',
-              'value' : discoveredReference[0]['Number']
+            'label' : 'Number',
+            'value' : discoveredReference[0]['Number']
           }, {
             'label' : 'Paragraph',
             'value' : discoveredReference[0]['Paragraph']
@@ -177,8 +232,8 @@ var TaxonomyPages = {
             'label' : 'Section',
             'value' : discoveredReference[0]['Section']
           }, {
-              'label' : 'Subsection',
-              'value' : discoveredReference[0]['Subsection']
+            'label' : 'Subsection',
+            'value' : discoveredReference[0]['Subsection']
           }, {
             'label' : 'Sub Topic',
             'value' : discoveredReference[0]['SubTopic']
@@ -192,55 +247,74 @@ var TaxonomyPages = {
             'label' : 'Subtopic',
             'value' : discoveredReference[0]['Subtopic']
           }, {
-            'label' : 'URL <small>(Will Leave SEC Website)</small>',
+            'label' : 'URL',
             'type' : 'link',
             'value' : discoveredReference[0]['URI']
           } ];
           
-          // Note: some labels above contain HTML, so label fields need to use .innerHTML
           possibleLabels.forEach(function( current, index, array ) {
-            if ( current['type'] === 'link' && current['value'] ) {
-              var tr = document.createElement('tr');
-              table.appendChild(tr);
-
-              var th = document.createElement('th');
-              th.innerHTML = current['label'];
-              tr.appendChild(th);
-
-              var td = document.createElement('td');
-              tr.appendChild(td);
-
-              var link = document.createElement('a');
-              link.href = current['value'];
-              link.setAttribute('target', '_blank');
-              link.textContent = current['value'];
-              td.appendChild(link);
-
-            } else if ( current['value'] ) {
-              var tr = document.createElement('tr');
-              table.appendChild(tr);
-
-              var th = document.createElement('th');
-              th.innerHTML = current['label'];
-              tr.appendChild(th);
-
-              var td = document.createElement('td');
-              td.textContent = current['value'];
-              tr.appendChild(td);
+            if ( current['value'] ) {
+              
+              var trElement = document.createElement('tr');
+              trElement.setAttribute('class', 'reboot');
+              
+              var thElement = document.createElement('th');
+              thElement.setAttribute('class', 'reboot');
+              var thContent = document.createTextNode(current['label']);
+              thElement.appendChild(thContent);
+              
+              if ( current['type'] === 'link' ) {
+                
+                var additionalSmall = document.createElement('small');
+                var additionalSmallContent = document.createTextNode(' (Will Leave SEC Website)');
+                additionalSmall.appendChild(additionalSmallContent);
+                thElement.appendChild(additionalSmall);
+                
+              }
+              
+              var tdElement = document.createElement('td');
+              tdElement.setAttribute('class', 'reboot');
+              
+              if ( current['type'] === 'link' ) {
+                
+                var aElement = document.createElement('a');
+                aElement.setAttribute('class', 'reboot');
+                aElement.setAttribute('href', current['value']);
+                aElement.setAttribute('target', '_blank');
+                
+                var aContent = document.createTextNode(current['value']);
+                aElement.appendChild(aContent);
+                tdElement.appendChild(aElement);
+                
+              } else {
+                
+                var tdContent = document.createTextNode(current['value']);
+                tdElement.appendChild(tdContent);
+                
+              }
+              
+              trElement.appendChild(thElement);
+              trElement.appendChild(tdElement);
+              elementsToReturn.appendChild(trElement);
             }
             if ( index === (possibleLabels.length - 1) ) {
-              var tr = document.createElement('tr');
-              table.appendChild(tr);
-              var td = document.createElement('td');
-              td.setAttribute('colspan', 3);
-              td.className='blank-table-row';
-              tr.appendChild(td);
+              
+              var trElement = document.createElement('tr');
+              trElement.setAttribute('class', 'reboot');
+              
+              var tdElement = document.createElement('td');
+              tdElement.setAttribute('class', 'reboot blank-table-row');
+              tdElement.setAttribute('colspan', '3');
+              trElement.appendChild(tdElement);
+              elementsToReturn.appendChild(trElement);
+              
             }
           });
         }
       });
     }
-    return callback(table.innerHTML);
+
+    return callback(elementsToReturn.firstElementChild ? elementsToReturn : TaxonomyPages.noDataCarousel());
   },
   
   fourthPage : function( element, callback ) {
@@ -256,32 +330,65 @@ var TaxonomyPages = {
       'value' : FiltersCredit.getBalance(element) || 'N/A'
     });
     
-
-    var table = document.createElement('table');
+    // please note we are not using document.createDocumentFragment()
+    // here because of an odd issue with IE
+    var elementsToReturn = document.createElement('div');
+    
     possibleLabels.forEach(function( current, index, array ) {
-      if ( current['blank'] ) {
-        var tr = document.createElement('tr');
-        table.appendChild(tr);
-
-        var td = document.createElement('td');
-        td.setAttribute('colspan', 3);
-        td.className = 'blank-table-row';
-        tr.appendChild(td);
+      
+      var trElement = document.createElement('tr');
+      trElement.setAttribute('class', 'reboot');
+      
+      if ( current.hasOwnProperty('blank') ) {
+        var tdElement = document.createElement('td');
+        tdElement.setAttribute('class', 'reboot blank-table-row');
+        tdElement.setAttribute('colspan', '3');
+        
+        trElement.appendChild(tdElement);
       }
-      if ( current['value'] ) {
-        var tr = document.createElement('tr');
-        table.appendChild(tr);
-
-        var th = document.createElement('th');
-        th.textContent = current['label'];
-        tr.appendChild(th);
-
-        var td = document.createElement('td');
-        td.innerHTML = current['value'];
-        tr.appendChild(td);
+      
+      if ( current.hasOwnProperty('value') ) {
+        var thElement = document.createElement('th');
+        thElement.setAttribute('class', 'reboot');
+        
+        var thContent = document.createTextNode(current['label']);
+        thElement.appendChild(thContent);
+        
+        var tdElement = document.createElement('td');
+        tdElement.setAttribute('class', 'reboot');
+        if ( current['html'] ) {
+          
+          tdElement.appendChild(current['value']);
+        } else {
+          
+          var tdContent = document.createTextNode(current['value']);
+          tdElement.appendChild(tdContent);
+        }
+        trElement.appendChild(thElement);
+        trElement.appendChild(tdElement);
       }
+      
+      elementsToReturn.appendChild(trElement);
+      
     });
-    return callback(table.innerHTML);
+
+    return callback(elementsToReturn.firstElementChild ? elementsToReturn : TaxonomyPages.noDataCarousel());
+  },
+  
+  noDataCarousel : function( ) {
+    
+    var trElement = document.createElement('tr');
+    trElement.setAttribute('class', 'reboot');
+    
+    var tdElement = document.createElement('td');
+    tdElement.setAttribute('class', 'reboot');
+    
+    var tdContent = document.createTextNode('No Data.');
+    tdElement.appendChild(tdContent);
+    
+    trElement.appendChild(tdElement);
+    
+    return trElement;
   }
 
 };
