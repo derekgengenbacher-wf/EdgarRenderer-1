@@ -53,6 +53,7 @@ RUN cp `find -name \*.woff` /build/edgarrenderer/ixviewer_v2/
 RUN cp `find -name \*.woff2` /build/edgarrenderer/ixviewer_v2/
 RUN cp `find -name \*.ttf` /build/edgarrenderer/ixviewer_v2/
 RUN cp `find -name \*.ico` /build/edgarrenderer/ixviewer_v2/
+RUN cp `find -name \*.map` /build/edgarrenderer/ixviewer_v2/
 
 RUN cp browser-error.html /build/edgarrenderer/ixviewer_v2/
 RUN cp ix.html /build/edgarrenderer/ixviewer_v2/
