@@ -26,42 +26,23 @@
 			return true;
 		}();
 
-		var pathToLibs = './js';
 		var pathToError = '/';
-		if (hostName === 'www-test.sec.gov' || hostName === 'www.sec.gov') {
-			pathToLibs = './ixviewer/js';
-			pathToError = '/ixviewer/';
-		}
 		if (browserAccepted) {
 
 			// css
-			document
-					.write('<link rel="stylesheet" href=' + pathToLibs + '/css/custom-bootstrap.css>');
-			document
-					.write('<link rel="stylesheet" href=' + pathToLibs + '/lib/fontawesome/css/all.min.css>');
-			document
-					.write('<link rel="stylesheet" href=' + pathToLibs + '/css/app.css>');
+			document.write('<link rel="stylesheet" href="./custom-bootstrap.css">');
+			document.write('<link rel="stylesheet" href="./all.min.css">');
+			document.write('<link rel="stylesheet" href="./app.css">');
 
 			// js
-			document
-					.write('<script type="text/javascript" src="' + pathToLibs + '/lib/jquery-3.3.1.slim.min.js"><\/script>');
-			document
-					.write('<script type="text/javascript" src="' + pathToLibs + '/lib/popper.min.js"><\/script>');
-			document
-					.write('<script type="text/javascript" src="' + pathToLibs + '/lib/bootstrap.min.js"><\/script>');
-			document
-					.write('<script type="text/javascript" src="' + pathToLibs + '/lib/moment.js"><\/script>');
-			document
-					.write('<script type="text/javascript" src="' + pathToLibs + '/lib/vanilla-picker.min.js"><\/script>');
-			document
-					.write('<script type="text/javascript" src="' + pathToLibs + '/lib/he.js"><\/script>');
+			document.write('<script type="text/javascript" src="./jquery-3.3.1.slim.min.js"><\/script>');
+			document.write('<script type="text/javascript" src="./popper.min.js"><\/script>');
+			document.write('<script type="text/javascript" src="./bootstrap.min.js"><\/script>');
+			document.write('<script type="text/javascript" src=".moment.js"><\/script>');
+			document.write('<script type="text/javascript" src=".vanilla-picker.min.js"><\/script>');
+			document.write('<script type="text/javascript" src="./he.js"><\/script>');
 
-			var date = new Date();
-			var todaysDate = date.getDate() + '-' + (date.getMonth() + 1) + '-'
-					+ date.getFullYear();
-			document.write('<script type = "text/javascript" defer=true src="'
-					+ pathToLibs + '/production.min.js?d=' + todaysDate
-					+ '"><\/script>');
+			document.write('<script type = "text/javascript" defer=true src="./production.min.js"><\/script>');
 		} else {
 			// user us on a browser that we do not support
 			var currentUrl = window.location.href.split('?')[0];

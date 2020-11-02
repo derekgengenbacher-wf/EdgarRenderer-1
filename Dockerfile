@@ -28,7 +28,6 @@ RUN npm run start
 WORKDIR /build/
 
 RUN mkdir /build/edgarrenderer/
-RUN mkdir /build/edgarrenderer/ixviewer_v1/
 RUN mkdir /build/edgarrenderer/ixviewer_v2/
 
 RUN cp -r /build/conf/ /build/edgarrenderer/conf/
@@ -40,19 +39,6 @@ RUN cp /build/*.py /build/edgarrenderer/
 RUN rm /build/edgarrenderer/include/report.css
 RUN rm /build/edgarrenderer/include/Show.js
 RUN rm /build/edgarrenderer/setup.py
-
-# Assemble ixviewer-v1 files
-WORKDIR /build/ixviewer-v1
-
-RUN cp `find -name \*.css` /build/edgarrenderer/ixviewer_v1/
-RUN cp `find -name \*.js` /build/edgarrenderer/ixviewer_v1/
-RUN cp `find -name \*.map` /build/edgarrenderer/ixviewer_v1/
-RUN cp `find -name \*.png` /build/edgarrenderer/ixviewer_v1/
-
-RUN cp ix.html /build/edgarrenderer/ixviewer_v1/
-RUN cp ix_softlink.html /build/edgarrenderer/ixviewer_v1/
-
-WORKDIR /build/ixviewer/
 
 # Remove .map references in minified code for ixviewer-v2
 RUN sed -i /sourceMappingURL=/d js/lib/bootstrap.min.css
@@ -70,6 +56,8 @@ RUN cp `find -name \*.ico` /build/edgarrenderer/ixviewer_v2/
 RUN cp browser-error.html /build/edgarrenderer/ixviewer_v2/
 RUN cp ix.html /build/edgarrenderer/ixviewer_v2/
 RUN cp js/css/app.css /build/edgarrenderer/ixviewer_v2/
+RUN cp js/css/custom-bootstrap.css /build/edgarrenderer/ixviewer_v2/
+RUN cp js/lib/he.js /build/edgarrenderer/ixviewer_v2/
 RUN cp js/lib/moment.js /build/edgarrenderer/ixviewer_v2/
 
 WORKDIR /build/
