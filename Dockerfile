@@ -40,6 +40,8 @@ RUN rm /build/edgarrenderer/include/report.css
 RUN rm /build/edgarrenderer/include/Show.js
 RUN rm /build/edgarrenderer/setup.py
 
+WORKDIR /build/ixviewer/
+
 # Remove .map references in minified code for ixviewer-v2
 RUN sed -i /sourceMappingURL=/d js/lib/bootstrap.min.js
 RUN sed -i /sourceMappingURL=/d js/lib/vanilla-picker.min.js
