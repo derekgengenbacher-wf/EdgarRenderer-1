@@ -421,22 +421,31 @@ var Pagination = {
     return elementToReturn;
 
   },
-  
+
   setPageSelect : function( ) {
-    var pageSelectHTML = '<option value="null">Select a Page</option>';
-    
-    for ( var i = 0; i < Pagination.getTotalPages; i++ ) {
-      if ( (i + 1) === Pagination.getCurrentPage ) {
-        
-        pageSelectHTML += '<option class="reboot" selected value="' + (i + 1) + '">Page ' + (i + 1) + '</option>';
-        
-      } else {
-        pageSelectHTML += '<option class="reboot" value="' + (i + 1) + '">Page ' + (i + 1) + '</option>';
-        
+
+    var pageSelect = document.getElementById('taxonomies-menu-page-select');
+    pageSelect.innerHTML = '';
+
+    var option = document.createElement('option');
+    option.value = 'null';
+    option.textContent = 'Select a Page';
+    pageSelect.appendChild(option);
+
+    for ( var i = 1; i <= Pagination.getTotalPages; i++ ) {
+      option = document.createElement('option');
+      option.className = 'reboot'
+      option.value = i;
+      option.textContent = 'Page ' + i;
+      if ( i === Pagination.getCurrentPage ) {
+        option.setAttribute('selected', '');
       }
       pageSelect.appendChild(option);
     }
   },
+
+
+
   
   goToPage : function( event, element ) {
     
