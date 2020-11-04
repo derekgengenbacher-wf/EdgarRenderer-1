@@ -35,7 +35,7 @@ var UserFiltersMoreFiltersScaleSetUp = {
     UserFiltersMoreFiltersMeasureSetUp.scaleOptions.forEach(function( current, index ) {
 
       var outerDiv = document.createElement('div');
-      outerDiv.className = 'd-flex justify-content-between align-items-center w-100 px-2';
+      outerDiv.className = 'reboot d-flex justify-content-between align-items-center w-100 px-2';
       
       var innerDiv = document.createElement('div');
       innerDiv.className = 'form-check';
