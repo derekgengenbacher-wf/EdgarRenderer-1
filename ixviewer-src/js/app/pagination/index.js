@@ -434,7 +434,7 @@ var Pagination = {
 
     for ( var i = 1; i <= Pagination.getTotalPages; i++ ) {
       option = document.createElement('option');
-      option.className = 'reboot'
+      option.className = 'reboot';
       option.value = i;
       option.textContent = 'Page ' + i;
       if ( i === Pagination.getCurrentPage ) {
@@ -444,9 +444,6 @@ var Pagination = {
     }
   },
 
-
-
-  
   goToPage : function( event, element ) {
     
     if ( element && element.value && !isNaN(element.value) ) {
