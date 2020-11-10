@@ -97,9 +97,9 @@ var HelpersUrl = {
           }
 
           // The following section of code is a Workiva-based security patch that fixes
-          // vulnerabilities in the ixviewer url. It prohibits any special characters in
-          // the filename string used in the url to load the document. This patch must
-          // remain in place and must not be overwritten.
+          // vulnerabilities in the ixviewer url. This patch prevents the submission of
+          // javascript urls leading to XSS, or other urls outside of the scope of this
+          // generation. This patch must remain in place and must not be overwritten.
           if ( current.match(/^[A-Za-z0-9._-]+\.(xhtml|html|htm)/) ) {
 
             // end of security patch
