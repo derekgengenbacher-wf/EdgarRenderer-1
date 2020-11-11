@@ -8,6 +8,7 @@
 var AjaxMeta = {
   
   init : function( callback ) {
+    var startPerformance = performance.now();
     if ( HelpersUrl.getAllParams ) {
       var xhr = new XMLHttpRequest();
       
@@ -16,6 +17,7 @@ var AjaxMeta = {
           if ( xhr['status'] === 200 ) {
             var response = JSON.parse(event['target']['response']);
             AjaxMeta.setInstance(response, event['target']['responseURL'], function( result ) {
+              var endPerformance = performance.now();
               callback(result);
             });
           } else {
@@ -23,7 +25,7 @@ var AjaxMeta = {
             document.getElementById('xbrl-form-loading').classList.add('d-none');
             
             ErrorsMinor.metaLinksNotFound(event['target']['responseURL']);
-            
+            var endPerformance = performance.now();
             callback(false);
           }
         }
@@ -32,6 +34,7 @@ var AjaxMeta = {
       xhr.open('GET', HelpersUrl.getAllParams['metalinks'], true);
       xhr.send();
     } else {
+      var endPerformance = performance.now();
       callback(false);
     }
   },

@@ -6,27 +6,27 @@
 'use strict';
 
 var UserFiltersMoreFiltersScaleSetUp = {
-  filtersSet : false,
-  
-  scaleOptions : [ ],
-  
-  setScales : function( callback ) {
+  filtersSet: false,
+
+  scaleOptions: [],
+
+  setScales: function (callback) {
     var foundScales = document.getElementById('dynamic-xbrl-form').querySelectorAll('[scale]');
     var foundScalesArray = Array.prototype.slice.call(foundScales);
-    
-    UserFiltersMoreFiltersScaleSetUp.scaleOptions = foundScalesArray.map(function( current ) {
+
+    UserFiltersMoreFiltersScaleSetUp.scaleOptions = foundScalesArray.map(function (current) {
       return current.getAttribute('scale');
-    }).filter(function( element, index, array ) {
+    }).filter(function (element, index, array) {
       return array.indexOf(element) === index;
     }).sort().reverse();
-    
+
     document.getElementById('filters-scales-count').innerText = UserFiltersMoreFiltersScaleSetUp.scaleOptions.length;
-    
+
     UserFiltersMoreFiltersScaleSetUp.populate();
-    
+
     callback();
   },
-  
+
   populate : function( ) {
 
     var elem = document.getElementById('user-filters-scales');
@@ -35,7 +35,7 @@ var UserFiltersMoreFiltersScaleSetUp = {
     UserFiltersMoreFiltersMeasureSetUp.scaleOptions.forEach(function( current, index ) {
 
       var outerDiv = document.createElement('div');
-      outerDiv.className = 'd-flex justify-content-between align-items-center w-100 px-2';
+      outerDiv.className = 'reboot d-flex justify-content-between align-items-center w-100 px-2';
       
       var innerDiv = document.createElement('div');
       innerDiv.className = 'form-check';
