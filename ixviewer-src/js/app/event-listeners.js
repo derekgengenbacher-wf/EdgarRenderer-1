@@ -64,7 +64,7 @@ $(document).ready(function() {
     $('#taxonomy-nested-modal-expand')
         .on('click', function(e) { Modals.expandToggle(e.originalEvent, e.delegateTarget, 'taxonomy-nested-modal', 'taxonomy-nested-modal-expand', 'taxonomy-nested-modal-compress'); })
         .on('keyup', function(e) { Modals.expandToggle(e.originalEvent, e.delegateTarget, 'taxonomy-nested-modal', 'taxonomy-nested-modal-expand', 'taxonomy-nested-modal-compress'); });
-    $('#taxonomy-nested-modal-jump')
+    $('#nested-taxonomy-modal-jump')
         .on('click', function(e) { Pagination.goToTaxonomy(e.originalEvent, e.delegateTarget); })
         .on('keyup', function(e) { Pagination.goToTaxonomy(e.originalEvent, e.delegateTarget); });
 
