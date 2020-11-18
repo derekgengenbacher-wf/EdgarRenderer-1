@@ -257,9 +257,7 @@ var Sections = {
             li.appendChild(icon);
           }
 
-          var text = document.createTextNode(current['shortName']);
-          li.appendChild(text);
-
+          li.textContent = current['shortName'];
           firstListGroup.appendChild(li);
         });
   },
