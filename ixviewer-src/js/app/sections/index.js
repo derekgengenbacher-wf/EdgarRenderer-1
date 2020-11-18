@@ -201,34 +201,40 @@ var Sections = {
 
   populateChildCollapse : function( idToPopulate, groupType ) {
 
-    idToPopulate = idToPopulate.substring(1);
-    var firstListGroup = document.getElementById(idToPopulate).getElementsByClassName('list-group')[0];
+    if (idToPopulate && idToPopulate.startsWith('#')) {
+      var firstListGroup = document.getElementById(idToPopulate.substring(1)).getElementsByClassName('list-group')[0];
+      $(idToPopulate.substring(1)).collapse('show');
+    } else if (idToPopulate && !idToPopulate.startsWith('#')) {
+      var firstListGroup = document.getElementById(idToPopulate).getElementsByClassName('list-group')[0];
+      $('#' + idToPopulate).collapse('show');
+    }
     firstListGroup.innerHTML = '';
+
     var discoveredGroupType = Sections.filterGroupType(groupType);
     discoveredGroupType
-        .forEach(function( current, index ) {
+        .forEach(function (current, index) {
 
           var name = '';
           var contextref = '';
           var baseref = '';
           var sameBaseRef = true;
 
-          if ( current['firstAnchor'] ) {
+          if (current['firstAnchor']) {
 
             name = current['firstAnchor']['name'];
             contextref = current['firstAnchor']['contextRef'];
             baseref = current['firstAnchor']['baseRef'];
-            if ( current['firstAnchor']['baseRef'] ) {
+            if (current['firstAnchor']['baseRef']) {
 
               sameBaseRef = HelpersUrl.getHTMLFileName === current['firstAnchor']['baseRef'];
             }
 
-          } else if ( current['uniqueAnchor'] ) {
+          } else if (current['uniqueAnchor']) {
 
             name = current['uniqueAnchor']['name'];
             contextref = current['uniqueAnchor']['contextRef'];
             baseref = current['uniqueAnchor']['baseRef'];
-            if ( current['uniqueAnchor']['baseRef'] ) {
+            if (current['uniqueAnchor']['baseRef']) {
 
               sameBaseRef = HelpersUrl.getHTMLFileName === current['uniqueAnchor']['baseRef'];
             }
@@ -241,7 +247,7 @@ var Sections = {
           li.setAttribute('selected-taxonomy', 'false');
           li.addEventListener('click', function(e) { Sections.clickEvent(e, this); });
           li.addEventListener('keyup', function(e) { Sections.clickEvent(e, this); });
-          li.className = 'click list-group-item list-group-item-action d-flex align-items-center';
+          li.className = 'reboot click list-group-item list-group-item-action d-flex align-items-center';
           li.tabIndex = 2;
 
           if ( !sameBaseRef ) {
@@ -251,11 +257,11 @@ var Sections = {
             li.appendChild(icon);
           }
 
-          li.textContent = current['shortName'];
-          firstListGroup.appendChild(li);
+          var text = document.createTextNode(current['shortName']);
+          li.appendChild(text);
 
+          firstListGroup.appendChild(li);
         });
-    $('#' + idToPopulate).collapse('show');
   },
 
   emptyChildCollapse : function(idToEmpty) {
