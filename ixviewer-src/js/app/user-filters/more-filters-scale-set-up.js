@@ -38,11 +38,11 @@ var UserFiltersMoreFiltersScaleSetUp = {
       outerDiv.className = 'reboot d-flex justify-content-between align-items-center w-100 px-2';
       
       var innerDiv = document.createElement('div');
-      innerDiv.className = 'form-check';
+      innerDiv.className = 'reboot form-check';
       outerDiv.appendChild(innerDiv);
       
       var input = document.createElement('input');
-      input.className = 'form-check-input';
+      input.className = 'reboot form-check-input';
       input.type = 'checkbox';
       input.tabIndex = 9;
       input.title = 'Select/Deselect this option.';
@@ -50,7 +50,7 @@ var UserFiltersMoreFiltersScaleSetUp = {
       innerDiv.appendChild(input);
 
       var label = document.createElement('label');
-      label.className = 'form-check-label';
+      label.className = 'reboot form-check-label mb-0';
       label.textContent = FiltersScale.getScale(current);
       innerDiv.appendChild(label);
 
